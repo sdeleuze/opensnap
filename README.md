@@ -7,7 +7,8 @@ Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on c
 
 * Server : run "gradle build bootRun" from server directory 
 * Client : open client directory in the Dart Editor and run index.html
-* The application shoudl run in Dartium at the following URL : http://127.0.0.1:3030/client/web/index.html
+* The application should run in Dartium at the following URL : http://127.0.0.1:3030/client/web/index.html
+* Make sure that Chrome does not run at the same time than Dartium, since it could prevent the webcam to work
 
 ## TODO
 
