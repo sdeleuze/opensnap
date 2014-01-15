@@ -1,0 +1,12 @@
+
+<nav class="navbar navbar-inverse" role="navigation">
+      <a class="navbar-brand" href="#">OpenSnap</a>
+      <ul class="nav navbar-nav" ng-if="ctrl.signedInUser != null">
+        <li ng-class="ctrl.photoClass()"><a href="#/photo">Take Photo</a></li>
+        <li ng-class="ctrl.snapsClass()"><a href="#/snaps">My Snaps</a></li>
+      </ul>
+      <div ng-if="ctrl.signedInUser != null">
+        <p class="navbar-text navbar-right">Signed in as {{ctrl.signedInUser.username}}&nbsp;</p>
+        <button type="button" class="btn btn-default navbar-btn navbar-right" ng-click="ctrl.signout()">Sign out</button>
+      </div>
+  </nav>

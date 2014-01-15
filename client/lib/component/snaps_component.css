@@ -1,0 +1,7 @@
+.list-group-item {
+  cursor: pointer;
+}
+
+#photo-group {
+  display: none;
+;}

@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello, World!</title>
+    <title>OpenSnap</title>
+    <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body ng-app>
 
-<div hello>
-<h3>Hello <span ng-cloak>{{ctrl.name}}!</span></h3>
-name: <input type="text" ng-model="ctrl.name" /> <input type="button" id="check" value="Check"/>
-</div>
+  <div>
+   <navbar />
+  </div>
 
-<script type="application/dart" src="helloworld.dart"></script>
+  <div class="container">
+    <ng-view></ng-view>
+  </div>
+
+<script type="application/dart" src="main.dart"></script>
 <script src="packages/browser/dart.js"></script>
 </body>
 </html>

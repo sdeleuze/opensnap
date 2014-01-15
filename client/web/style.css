@@ -1,3 +1,8 @@
+body {
+    background-color: #FED30B;
+}
+
 [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+

@@ -1,15 +1,31 @@
 apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
 sourceCompatibility = 1.7
 version = '1.0'
+
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M7")
+    }
+}
 
 repositories {
     mavenCentral()
     maven {
-        url 'http://repo.spring.io/snapshot'
+        url 'http://repo.spring.io/libs-snapshot'
     }
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT")
-    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT")
+    compile("org.springframework.boot:spring-boot-starter-websocket:0.5.0.M7")
+    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M7")
+    compile("org.springframework:spring-messaging:4.0.0.RELEASE")
 }
+
+

@@ -1,0 +1,18 @@
+<div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="list-group">
+        <a class="list-group-item" ng-repeat="snap in ctrl.snaps" ng-click="ctrl.viewSnap(snap)"> <span class="badge">{{snap.duration}}s</span> View Snap from {{snap.author.username}}</a>
+      </div>
+    </div>
+    <div id="photo-group" class="col-md-7">
+        <img id="photo" />
+        <div id="progress" class="progress progress-striped active">
+          <div class="progress-bar"  role="progressbar" style="width: {{ctrl.progressValue}}%">
+            <span class="sr-only">{{ctrl.progressValue}}% Complete</span>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+

@@ -1,7 +1,11 @@
-name: angular_dart_demo
+name: open_snap
 version: 0.0.1
 dependencies:
   angular: any
   browser: any
   js: any
   unittest: any
+  bootjack: '0.6.3'
+  dquery: '0.5.3+7'
+  stomp: any
+ 
