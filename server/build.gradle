@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 
 buildscript {
@@ -11,7 +11,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M7")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3")
     }
 }
 
@@ -23,9 +23,11 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-websocket:0.5.0.M7")
-    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M7")
-    compile("org.springframework:spring-messaging:4.0.0.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-websocket:1.0.0.RC3")
+    compile("org.springframework.boot:spring-boot-starter-actuator:1.0.0.RC3")
+    compile("org.springframework:spring-messaging:4.0.2.RELEASE")
+    compile("org.springframework:spring-webmvc:4.0.2.RELEASE")
+    compile("org.springframework:spring-websocket:4.0.2.RELEASE")
 }
 
 

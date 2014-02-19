@@ -7,5 +7,5 @@ dependencies:
   unittest: any
   bootjack: '0.6.3'
   dquery: '0.5.3+7'
-  stomp: any
+  stomp: '0.7.1'
  
