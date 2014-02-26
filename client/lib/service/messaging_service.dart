@@ -1,5 +1,6 @@
-import 'dart:html';
 import 'auth_service.dart';
+import "package:stomp/stomp.dart";
+import "package:stomp/websocket.dart" show connect;
 
 class MessagingService {
   
@@ -7,14 +8,14 @@ class MessagingService {
   
   MessagingService(this._authService) {
     
-    // Just to test Websocket connection, but the real target is to use STOMP messaging over Websocket
-    WebSocket ws = new WebSocket("ws://localhost:8080/echo/websocket");
-    ws.onOpen.listen((Event e) {
-      ws.send("toto");
-    });
-    ws.onMessage.listen((MessageEvent e) {
-      print(e.data);
-    });
+    connect("ws://localhost:8080/test").then((StompClient client) {
+      client.subscribeString("0", "/topic/toto",
+          (Map<String, String> headers, String message) {
+        print("Recieve $message");
+      });
+
+    client.sendString("/app/test", "OpenSnap");
+  });
     
   }
 }

@@ -4,16 +4,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import service.DefaultSnapService;
 import service.DefaultUserService;
 import service.SnapService;
 import service.UserService;
-import web.EchoHandler;
-import web.SimpleCORSFilter;
-import web.SnapController;
-import web.UserController;
+import web.*;
 
 import javax.servlet.Filter;
 
@@ -26,12 +22,7 @@ public class Application extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
-    @Bean(name = "/echo")
-    public WebSocketHandler echoHandler() {
-        return new EchoHandler();
+        SpringApplication.run(new Object[]{Application.class, WebSocketConfig.class}, args);
     }
 
     @Bean
@@ -64,4 +55,9 @@ public class Application extends SpringBootServletInitializer {
         return new UserController();
     }
 
+	@Bean
+	public StompController stompController() {
+		return new StompController();
+	}
+	
 }
