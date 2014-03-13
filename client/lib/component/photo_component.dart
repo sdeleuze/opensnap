@@ -23,18 +23,19 @@ class PhotoComponent extends NgShadowRootAware {
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
   
-  QueryService _queryService;
+  UserQueryService _userQueryService;
+  SnapQueryService _snapQueryService;
   AuthService _authService;
   Router _router;
   
   List<User> users;
    
-  PhotoComponent(this._queryService, this._authService, this._router) {
+  PhotoComponent(this._userQueryService, this._snapQueryService, this._authService, this._router) {
     if(_authService.authenticatedUser == null) {
       _router.go('signin', new Map());
       return;
     }
-    _queryService.getAllUsers().then((List<User> us) {
+    _userQueryService.getAllUsers().then((List<User> us) {
       users = us;
     });
   }
@@ -74,8 +75,9 @@ class PhotoComponent extends NgShadowRootAware {
   
   void sendSnap() {
     stream.stop();
-    Snap snap = new Snap(_authService.authenticatedUser, new User(sendTo.value), canvas.toDataUrl('image/png'), int.parse( duration.value));
-    _queryService.createSnap(snap).then((Snap snap) {
+    String data = canvas.toDataUrl('image/png');
+    Snap snap = new Snap(_authService.authenticatedUser, new User(sendTo.value), data, int.parse( duration.value));
+    _snapQueryService.createSnap(snap).then((Snap snap) {
       _router.go('snaps', new Map()); 
     });
   }

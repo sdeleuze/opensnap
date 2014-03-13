@@ -16,16 +16,16 @@ import '../service/auth_service.dart';
 class SigninComponent {
 
   User user;
-  QueryService _queryService;
+  UserQueryService _userQueryService;
   AuthService _eventService;
   Router _router;
   
-  SigninComponent(this._queryService, this._eventService, this._router) {
-    user = new User("", "");
+  SigninComponent(this._userQueryService, this._eventService, this._router) {
+    user = new User("eric", "3r1c");
   }
   
   authenticate() {
-    _queryService.authenticateUser(user).then((bool status) {
+    _userQueryService.authenticateUser(user).then((bool status) {
       if(status) {
         _eventService.signin(user);
         _router.go('photo', new Map());

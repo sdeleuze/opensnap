@@ -4,7 +4,6 @@ import '../lib/component/photo_component.dart';
 import '../lib/component/snaps_component.dart';
 import '../lib/service/query_service.dart';
 import '../lib/service/auth_service.dart';
-import '../lib/service/messaging_service.dart';
 import '../lib/component/navbar_component.dart';
 import '../lib/routing.dart';
 import 'package:di/di.dart';
@@ -13,9 +12,9 @@ import 'package:bootjack/bootjack.dart';
 
 class OpenSnapModule extends Module {
   OpenSnapModule() {
-    type(QueryService);
+    type(UserQueryService);
+    type(SnapQueryService);
     type(AuthService);
-    type(MessagingService);
     type(NavbarComponent);
     type(SigninComponent);
     type(PhotoComponent);

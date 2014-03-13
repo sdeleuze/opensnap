@@ -12,13 +12,14 @@ import service.UserService;
 import web.*;
 
 import javax.servlet.Filter;
+import javax.websocket.ContainerProvider;
 
 @Configuration @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
+		return application.sources(Application.class);
     }
 
     public static void main(String[] args) {
@@ -54,10 +55,5 @@ public class Application extends SpringBootServletInitializer {
     public UserController userController() {
         return new UserController();
     }
-
-	@Bean
-	public StompController stompController() {
-		return new StompController();
-	}
 	
 }

@@ -1,16 +1,9 @@
 library open_snap_routing;
 
-import 'service/messaging_service.dart';
 import 'package:angular/angular.dart';
 
 class OpenSnapRouteInitializer implements RouteInitializer {
   
-  MessagingService _messagingService;
-  
-  OpenSnapRouteInitializer(this._messagingService) {
-    
-  }
-
   init(Router router, ViewFactory view) {
     router.root
       ..addRoute(

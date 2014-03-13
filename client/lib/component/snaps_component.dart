@@ -20,14 +20,14 @@ class SnapsComponent extends NgShadowRootAware {
   DivElement photoGroup;
   DivElement progress;
   
-  QueryService _queryService;
+  SnapQueryService _snapQueryService;
   AuthService _authService;
   Router _router;
   
   List<Snap> snaps;
   int progressValue;
   
-  SnapsComponent(this._queryService, this._authService, this._router) {
+  SnapsComponent(this._snapQueryService, this._authService, this._router) {
     if(_authService.authenticatedUser == null) {
       _router.go('signin', new Map());
       return;
@@ -39,7 +39,7 @@ class SnapsComponent extends NgShadowRootAware {
     photoGroup = shadowRoot.querySelector("#photo-group");
     progress = shadowRoot.querySelector("#progress");
     
-    _queryService.getSnapsFromUsername(_authService.authenticatedUser.username).then((List<Snap> s) {
+    _snapQueryService.getSnapsFromUsername(_authService.authenticatedUser.username).then((List<Snap> s) {
       snaps = s;
     });
   }
@@ -52,7 +52,7 @@ class SnapsComponent extends NgShadowRootAware {
       progressValue = progressValue + 10;
       if(progressValue == 110) {
         // Use the snap id to delete when implemented
-        _queryService.deleteSnap(snap.id);
+        _snapQueryService.deleteSnap(snap.id);
         snaps.remove(snap);
         photoGroup.style.display = 'none';
         t.cancel();

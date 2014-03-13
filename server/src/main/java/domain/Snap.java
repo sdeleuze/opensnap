@@ -1,8 +1,6 @@
 package domain;
 
-import java.util.Date;
-
-/** A snap is a photo + duratio taken by an author, intended to be viewed by a recipient **/
+/** A snap is a photo + duration taken by an author, intended to be viewed by a recipient **/
 public class Snap {
 
     private int id;
