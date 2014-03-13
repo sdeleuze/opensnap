@@ -2,23 +2,18 @@ library open_snap_routing;
 
 import 'package:angular/angular.dart';
 
-class OpenSnapRouteInitializer implements RouteInitializer {
+void OpenSnapRouteInitializer(Router router, ViewFactory views) {
   
-  init(Router router, ViewFactory view) {
-    router.root
-      ..addRoute(
-          name: 'signin',
-          defaultRoute: true,
-          path: '/signin',
-          enter: view('view/signin.html'))
-      ..addRoute(
-          name: 'photo',
-          path: '/photo',
-          enter: view('view/photo.html'))
-      ..addRoute(
-          name: 'snaps',
-          path: '/snaps',
-          enter: view('view/snaps.html'));
-    
-  }
+  views.configure({
+    'signin': ngRoute(
+      path: '/signin',
+      defaultRoute: true,
+      view: 'view/signin.html'),
+    'photo': ngRoute(
+      path: '/photo',
+      view: 'view/photo.html'),
+    'snaps': ngRoute(
+      path: '/snaps',
+      view: 'view/snaps.html')
+  });
 }

@@ -1,11 +1,11 @@
 name: open_snap
 version: 0.0.1
 dependencies:
-  angular: any
+  angular: 0.9.8
   browser: any
   js: any
   unittest: any
-  bootjack: '0.6.3'
-  dquery: '0.5.3+7'
-  stomp: '0.7.1'
+  bootjack: 0.6.3
+  dquery: 0.5.3+7
+  stomp: 0.7.1
  
