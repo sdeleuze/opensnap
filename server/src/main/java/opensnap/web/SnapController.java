@@ -1,16 +1,12 @@
-package web;
+package opensnap.web;
 
-import domain.Snap;
-import domain.SnapPublishedEvent;
+import opensnap.domain.Snap;
+import opensnap.domain.SnapPublishedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import service.SnapService;
+import opensnap.service.SnapService;
 
 import java.util.List;
 
@@ -41,5 +37,11 @@ public class SnapController {
     void delete(@DestinationVariable int id) {
         snapService.delete(id);
     }
+
+	@MessageMapping("/delete/{id}/{username}")
+	void delete(@DestinationVariable int id, @DestinationVariable String username) {
+		snapService.delete(id, username);
+	}
+
 
 }

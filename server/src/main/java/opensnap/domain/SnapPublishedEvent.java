@@ -1,4 +1,4 @@
-package domain;
+package opensnap.domain;
 
 import org.springframework.context.ApplicationEvent;
 

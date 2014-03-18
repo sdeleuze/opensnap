@@ -1,4 +1,4 @@
-/*
+package opensnap.service;/*
  * Copyright 2002-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,30 +14,27 @@
  * limitations under the License.
  */
 
-package web;
-
-import domain.SnapPublishedEvent;
+import opensnap.domain.User;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-/**
- * @author Sebastien Deleuze
- * @since 4.1
- */
-@Component
-public class EventSender implements ApplicationListener<SnapPublishedEvent> {
+@Service
+public class DataInitializer implements InitializingBean {
 
-	private SimpMessagingTemplate template;
+	private UserService userService;
 
 	@Autowired
-	public void setTemplate(SimpMessagingTemplate template) {
-		this.template = template;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 	@Override
-	public void onApplicationEvent(SnapPublishedEvent event) {
-		template.convertAndSendToUser(event.getSnap().getRecipient().getUsername(), "/queue/published", new Integer(event.getSnap().getId()));
+	public void afterPropertiesSet() throws Exception {
+		this.userService.create(new User("eric", "3r1c"));
+		this.userService.create(new User("adeline", "ad3l1n3"));
+		this.userService.create(new User("johanna", "j0hanna"));
+		this.userService.create(new User("michel", "m1ch3l"));
 	}
+
 }

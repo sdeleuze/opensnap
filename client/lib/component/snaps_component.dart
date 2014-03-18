@@ -50,7 +50,7 @@ class SnapsComponent extends NgShadowRootAware {
       new Timer.periodic(new Duration(milliseconds: s.duration * 100), (Timer t) {
         progressValue = progressValue + 10;
         if(progressValue == 110) {
-          _snapService.deleteSnap(s.id);
+          _snapService.deleteSnap(s.id, _authService.authenticatedUser.username);
           snaps.remove(s);
           photoGroup.style.display = 'none';
           t.cancel();

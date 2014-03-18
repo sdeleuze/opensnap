@@ -123,10 +123,10 @@ class SnapService extends MessagingService {
       return snaps;
     });
   }
-    
-  void deleteSnap(int id) {
-    sendJson('/snap/delete/$id');
-  }
+      
+  void deleteSnap(int id, String username) {
+      sendJson('/snap/delete/$id/$username');
+    }
   
   Stream get onSnapPublished => _onPublishedController.stream;
   Stream get onSnapsRetreived => _onSnapsRetreivedController.stream;

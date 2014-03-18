@@ -1,4 +1,4 @@
-package web;
+package opensnap.web;
 
 import java.io.IOException;
 import javax.servlet.Filter;

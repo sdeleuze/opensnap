@@ -1,4 +1,4 @@
-package domain;
+package opensnap.domain;
 
 public class User {
 

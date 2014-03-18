@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:collection/equality.dart';
 
 class User {
   String username;
@@ -18,19 +19,27 @@ class User {
 class Snap {
   int id;
   User author;
-  User recipient;
+  List<User> recipients;
   String photo;
   int duration;
+  Function listEq = const ListEquality().equals;
   
-  Snap(this.author, this.recipient, this.photo, this.duration, [this.id = null]);
+  Snap(this.author, this.recipients, this.photo, this.duration, [this.id = null]);
   
-  factory Snap.fromJsonMap(Map json) => new Snap(new User.fromJsonMap(json['author']), new User.fromJsonMap(json['recipient']), json['photo'], json['duration'], json['id']);
-  Map toJson() => {'id': id, 'author': author, 'recipient': recipient, 'photo': photo, 'duration': duration};
+  factory Snap.fromJsonMap(Map json) {
+    List<User> recipients = new List<User>();
+    for(Map map in json['recipients']) {
+      recipients.add(new User.fromJsonMap(map));  
+    }
+    return new Snap(new User.fromJsonMap(json['author']), recipients, json['photo'], json['duration'], json['id']); 
+  }
+  Map toJson() => {'id': id, 'author': author, 'recipients': recipients, 'photo': photo, 'duration': duration};
   String toJsonString() => JSON.encode(toJson());
   
   bool operator==(other) {
       if (other is! Snap) return false;
       Snap s = other;
-      return (s.id == id && s.author == author && s.recipient == recipient  && s.duration == duration);
+      
+      return (s.id == id && s.author == author && listEq(s.recipients, recipients)  && s.duration == duration);
     }
 }

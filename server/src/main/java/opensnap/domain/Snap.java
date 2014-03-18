@@ -1,12 +1,13 @@
-package domain;
+package opensnap.domain;
 
-/** A snap is a photo + duration taken by an author, intended to be viewed by a recipient **/
+import java.util.List;
+
+/** A snap is a photo + duration taken by an author, intended to be viewed by list of recipients **/
 public class Snap {
 
     private int id;
     private User author;
-    // Manage multiple recipients
-    private User recipient;
+    private List<User> recipients;
     private String photo;
     private int duration;
 
@@ -14,10 +15,10 @@ public class Snap {
 
     }
 
-    public Snap(int id, User author, User recipient, String photo, int duration) {
+    public Snap(int id, User author, List<User> recipients, String photo, int duration) {
         this.id = id;
         this.author = author;
-        this.recipient = recipient;
+        this.recipients = recipients;
         this.photo = photo;
         this.duration = duration;
     }
@@ -30,13 +31,12 @@ public class Snap {
         this.author = author;
     }
 
-    public User getRecipient() {
-        return recipient;
+    public List<User> getRecipients() {
+        return recipients;
     }
 
-    public void setRecipient(User recipient) {
-        this.recipient = recipient;
-
+    public void setRecipient(List<User> recipients) {
+        this.recipients = recipients;
     }
 
     /** Base 64 photo **/
@@ -71,7 +71,7 @@ public class Snap {
         if (duration != snap.duration) return false;
         if (author != null ? !author.equals(snap.author) : snap.author != null) return false;
         if (photo != null ? !photo.equals(snap.photo) : snap.photo != null) return false;
-        if (recipient != null ? !recipient.equals(snap.recipient) : snap.recipient != null) return false;
+        if (recipients != null ? !recipients.equals(snap.recipients) : snap.recipients != null) return false;
 
         return true;
     }
@@ -80,13 +80,13 @@ public class Snap {
     public int hashCode() {
         int result = id;
         result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (recipient != null ? recipient.hashCode() : 0);
+        result = 31 * result + (recipients != null ? recipients.hashCode() : 0);
         result = 31 * result + (photo != null ? photo.hashCode() : 0);
         result = 31 * result + duration;
         return result;
     }
 
 	public Snap withoutPhoto() {
-		return new Snap(this.id, author, recipient, null, duration);
+		return new Snap(this.id, author, recipients, null, duration);
 	}
 }

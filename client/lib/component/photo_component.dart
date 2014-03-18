@@ -76,7 +76,7 @@ class PhotoComponent extends NgShadowRootAware {
   void sendSnap() {
     stream.stop();
     String data = canvas.toDataUrl('image/png');
-    Snap snap = new Snap(_authService.authenticatedUser, new User(sendTo.value), data, int.parse( duration.value));
+    Snap snap = new Snap(_authService.authenticatedUser, [new User(sendTo.value)], data, int.parse( duration.value));
     _snapQueryService.createSnap(snap).then((Snap snap) {
       _router.go('snaps', new Map());
     });
