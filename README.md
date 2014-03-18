@@ -11,6 +11,10 @@ Build and install opensnap branch of sdeleuze/spring-framework:
 * git checkout opensnap
 * ./gradlew build install
 
+This [branch](https://github.com/sdeleuze/spring-framework/commits/opensnap) contains 2 improvements needed to run OpenSnap:
+* [Support receiving fragmented STOMP frames](https://github.com/sdeleuze/spring-framework/commit/5ed94fe373f845ab7dfb24ce9250346629516a61) (should be part of upcoming Spring 4.0.3 release)
+* [Allow to create principal in WebsocketSession based on CONNECT frame](https://github.com/sdeleuze/spring-framework/commit/0e5283cd6cf5e4cbb6334a5134e93e8dc9d86994)
+
 Build and run OpenSnap:
 * git clone https://github.com/sdeleuze/opensnap.git
 * Server : run "gradle build bootRun" from server directory
