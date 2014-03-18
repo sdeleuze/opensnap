@@ -4,6 +4,7 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import '../domain.dart';
 import '../../lib/service/auth_service.dart';
+import '../../lib/service/messaging_service.dart';
 
 @NgComponent(
     selector: 'navbar',
@@ -14,17 +15,24 @@ import '../../lib/service/auth_service.dart';
 class NavbarComponent {
   
   User signedInUser;
-  AuthService _eventService;
+  num snapsCount;
+  AuthService _authService;
+  SnapService _snapService;
   Router _router;
 
-  NavbarComponent(this._eventService, this._router) {
-    _eventService.onSignin.listen((User user) {
+  NavbarComponent(this._authService, this._snapService, this._router) {
+    snapsCount = 0;
+    _authService.onSignin.listen((User user) {
       signedInUser=user;
+      _snapService.getSnapsFromUsername(user.username);
+    });
+    _snapService.onSnapsRetreived.listen((List<Snap> snaps) {
+      snapsCount = snaps.length;
     });
   }
   
   void signout() {
-    _eventService.signout(signedInUser);
+    _authService.signout(signedInUser);
     signedInUser = null;
     _router.go('signin', new Map());
   }

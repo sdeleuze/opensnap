@@ -4,6 +4,7 @@ import domain.Snap;
 import domain.SnapPublishedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Controller
 @MessageMapping("/snap")
-public class SnapController implements ApplicationListener<SnapPublishedEvent> {
+public class SnapController {
 
     @Autowired
     private SnapService snapService;
@@ -26,20 +27,19 @@ public class SnapController implements ApplicationListener<SnapPublishedEvent> {
         return snapService.create(snap);
     }
 
+	@MessageMapping("/{id}")
+	Snap getSnapById(@DestinationVariable int id) {
+		return snapService.getSnapById(id);
+	}
+
 	@MessageMapping
     List<Snap> getSnapsFromRecipient(String username) {
         return snapService.getSnapsFromRecipient(username);
     }
 
-	@MessageMapping("/delete")
-    void delete(int id) {
+	@MessageMapping("/delete/{id}")
+    void delete(@DestinationVariable int id) {
         snapService.delete(id);
     }
-
-    @Override
-    public void onApplicationEvent(SnapPublishedEvent event) {
-        // Will be used to send update notification when using STOMP over Websocket
-    }
-
 
 }

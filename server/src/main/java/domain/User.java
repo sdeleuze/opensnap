@@ -56,4 +56,8 @@ public class User {
         return result;
     }
 
+	public User withoutPassword() {
+		return new User(username, null);
+	}
+
 }

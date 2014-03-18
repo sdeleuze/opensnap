@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@MessageMapping("/user")
+@MessageMapping("/usr")
 public class UserController {
 
     @Autowired

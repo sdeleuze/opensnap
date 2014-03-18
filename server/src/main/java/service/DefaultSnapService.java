@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DefaultSnapService implements SnapService, ApplicationEventPublisherAware {
 
@@ -25,24 +26,20 @@ public class DefaultSnapService implements SnapService, ApplicationEventPublishe
         return snap;
     }
 
-    public List<Snap> getSnapsFromRecipient(String username) {
-        List<Snap> recipientSnaps = new ArrayList<Snap>();
-        for(Snap snap : snaps) {
-            if(snap.getRecipient().getUsername().equals(username))
-                recipientSnaps.add(snap);
-        }
-        return recipientSnaps;
+	@Override
+	public Snap getSnapById(int id) {
+		return snaps.stream().filter((s) -> s.getId() == id).findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("No snap with id " + id + " found!"));
+	}
 
+	public List<Snap> getSnapsFromRecipient(String username) {
+		return snaps.stream().filter(s -> s.getRecipient().getUsername().equals(username))
+				.map((s -> s.withoutPhoto())).collect(Collectors.toList());
     }
 
     public void delete(int id) {
-        for(Snap snap : snaps) {
-            if(snap.getId() == id) {
-                snaps.remove(snap);
-                return;
-            }
-        }
-        throw new IllegalArgumentException(id + " does not exists");
+		if(!snaps.removeIf((s) -> s.getId() == id))
+			throw new IllegalArgumentException(id + " does not exists");
     }
 
     @Override

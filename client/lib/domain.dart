@@ -4,14 +4,14 @@ class User {
   String username;
   String password;
   
-  User(this.username, [this.password = ""]);
+  User([this.username = "", this.password = ""]);
   
   factory User.fromJsonMap(Map json) => new User(json['username'], json['password']);
   Map toJson() => {'username': username, 'password': password};
   String toJsonString() => JSON.encode(toJson());
   
   bool operator ==(User other) {
-    return (other.username == username) && (other.password == password);
+    return (other.username == username);
   }
 }
 
@@ -27,4 +27,10 @@ class Snap {
   factory Snap.fromJsonMap(Map json) => new Snap(new User.fromJsonMap(json['author']), new User.fromJsonMap(json['recipient']), json['photo'], json['duration'], json['id']);
   Map toJson() => {'id': id, 'author': author, 'recipient': recipient, 'photo': photo, 'duration': duration};
   String toJsonString() => JSON.encode(toJson());
+  
+  bool operator==(other) {
+      if (other is! Snap) return false;
+      Snap s = other;
+      return (s.id == id && s.author == author && s.recipient == recipient  && s.duration == duration);
+    }
 }

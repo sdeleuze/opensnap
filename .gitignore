@@ -3,3 +3,8 @@ build
 packages
 *.iml
 *.dart.*
+.idea
+.gradle
+out
+pubspec.lock
+classes

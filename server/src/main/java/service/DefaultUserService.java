@@ -4,6 +4,7 @@ import domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultUserService implements UserService {
 
@@ -22,11 +23,7 @@ public class DefaultUserService implements UserService {
     }
 
     public List<User> getAllUsers() {
-        List<User> usersWithoutPassword = new ArrayList<User>();
-        for(User user : users) {
-            usersWithoutPassword.add(new User(user.getUsername()));
-        }
-        return usersWithoutPassword;
+		return users.stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
     }
 
 }

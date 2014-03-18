@@ -52,8 +52,13 @@ public class Application extends SpringBootServletInitializer {
     }
 
     @Bean
-    public UserController userController() {
-        return new UserController();
-    }
+	public UserController userController() {
+		return new UserController();
+	}
+
+	@Bean
+	public EventSender eventSender() {
+		return new EventSender();
+	}
 	
 }

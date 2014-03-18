@@ -2,7 +2,7 @@ library photo_component;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-import '../service/query_service.dart';
+import '../service/messaging_service.dart';
 import '../service/auth_service.dart';
 import '../domain.dart';
 
@@ -23,8 +23,8 @@ class PhotoComponent extends NgShadowRootAware {
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
   
-  UserQueryService _userQueryService;
-  SnapQueryService _snapQueryService;
+  UserService _userQueryService;
+  SnapService _snapQueryService;
   AuthService _authService;
   Router _router;
   
@@ -78,7 +78,7 @@ class PhotoComponent extends NgShadowRootAware {
     String data = canvas.toDataUrl('image/png');
     Snap snap = new Snap(_authService.authenticatedUser, new User(sendTo.value), data, int.parse( duration.value));
     _snapQueryService.createSnap(snap).then((Snap snap) {
-      _router.go('snaps', new Map()); 
+      _router.go('snaps', new Map());
     });
   }
   

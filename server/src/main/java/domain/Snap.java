@@ -85,4 +85,8 @@ public class Snap {
         result = 31 * result + duration;
         return result;
     }
+
+	public Snap withoutPhoto() {
+		return new Snap(this.id, author, recipient, null, duration);
+	}
 }

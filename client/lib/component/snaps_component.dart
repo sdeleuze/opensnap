@@ -3,7 +3,7 @@ library snaps_component;
 import 'dart:html';
 import 'dart:async';
 import 'package:angular/angular.dart';
-import '../service/query_service.dart';
+import '../service/messaging_service.dart';
 import '../service/auth_service.dart';
 import '../domain.dart';
 
@@ -20,14 +20,14 @@ class SnapsComponent extends NgShadowRootAware {
   DivElement photoGroup;
   DivElement progress;
   
-  SnapQueryService _snapQueryService;
+  SnapService _snapService;
   AuthService _authService;
   Router _router;
   
   List<Snap> snaps;
   int progressValue;
   
-  SnapsComponent(this._snapQueryService, this._authService, this._router) {
+  SnapsComponent(this._snapService, this._authService, this._router) {
     if(_authService.authenticatedUser == null) {
       _router.go('signin', new Map());
       return;
@@ -38,27 +38,33 @@ class SnapsComponent extends NgShadowRootAware {
     photo = shadowRoot.querySelector("#photo");
     photoGroup = shadowRoot.querySelector("#photo-group");
     progress = shadowRoot.querySelector("#progress");
-    
-    _snapQueryService.getSnapsFromUsername(_authService.authenticatedUser.username).then((List<Snap> s) {
-      snaps = s;
+    _updateSnaps();
+  }
+  
+  void viewSnap(Snap partialSnap) {
+    // Retreive full snap with photo
+    _snapService.getSnapById(partialSnap.id).then((Snap s) {
+      photo.src = s.photo;
+      progressValue=0;
+      photoGroup.style.display = 'block';
+      new Timer.periodic(new Duration(milliseconds: s.duration * 100), (Timer t) {
+        progressValue = progressValue + 10;
+        if(progressValue == 110) {
+          _snapService.deleteSnap(s.id);
+          snaps.remove(s);
+          photoGroup.style.display = 'none';
+          t.cancel();
+        }
+      });
     });
   }
   
-  void viewSnap(Snap snap) {
-    photo.src = snap.photo;
-    progressValue=0;
-    photoGroup.style.display = 'block';
-    new Timer.periodic(new Duration(milliseconds: snap.duration * 100), (Timer t) {
-      progressValue = progressValue + 10;
-      if(progressValue == 110) {
-        // Use the snap id to delete when implemented
-        _snapQueryService.deleteSnap(snap.id);
-        snaps.remove(snap);
-        photoGroup.style.display = 'none';
-        t.cancel();
-      }
-    });
-    
+  void _updateSnaps() {
+    if(_authService.authenticatedUser != null) {
+      _snapService.getSnapsFromUsername(_authService.authenticatedUser.username).then((List<Snap> s) {
+        snaps = s;
+      });
+    }
   }
   
 }
