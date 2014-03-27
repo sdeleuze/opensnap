@@ -5,22 +5,29 @@ Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on c
 
 ## How to run it ?
 
-Build and install opensnap branch of sdeleuze/spring-framework:
-* git clone https://github.com/sdeleuze/spring-framework.git
-* cd spring-framework
-* git checkout opensnap
-* ./gradlew build install
-
-This [branch](https://github.com/sdeleuze/spring-framework/commits/opensnap) contains 2 improvements needed to run OpenSnap:
-* [Support receiving fragmented STOMP frames](https://github.com/sdeleuze/spring-framework/commit/5ed94fe373f845ab7dfb24ce9250346629516a61) (should be part of upcoming Spring 4.0.3 release)
-* [Allow to create principal in WebsocketSession based on CONNECT frame](https://github.com/sdeleuze/spring-framework/commit/0e5283cd6cf5e4cbb6334a5134e93e8dc9d86994)
+Prerequisites:
+* [Java 8](https://jdk8.java.net/download.html)
+* [Gradle 1.11+](http://www.gradle.org/)
+* [Dart 1.2+](https://www.dartlang.org/)
 
 Build and run OpenSnap:
 * git clone https://github.com/sdeleuze/opensnap.git
-* Server : run "gradle build bootRun" from server directory
-* Client : open client directory in the Dart Editor and run index.html
-* The application should run in Dartium at the following URL : http://127.0.0.1:3030/client/web/index.html
+* cd opensnap-client
+* pub get
+* cd ../opensnap-server
+* gradle -q symlink (Run once, it creates a symlink from src/main/webapp to Dart web directory)
+* gradle build bootRun
+* Run Dartium browser (<dart-sdk>/chromium/Chromium) and open the following URL: http://127.0.0.1:8080/opensnap/index.html
+
+Notes:
 * Make sure that Chrome does not run at the same time than Dartium, since it could prevent the webcam to work
+* The gradle command create a symbolic link, it may fails under Windows (untested)
+* If you want to run the Javascript version:
+ * Set dartClientDir = 'build/web' in opensnap-server/build.gradle
+ * opensnap-server/gradle -q symlink
+ * opensnap-client/pub build
+ * Open http://127.0.0.1:8080/opensnap/index.html in Chrome (other browser not supported yet)
+
 
 ## TODO
 

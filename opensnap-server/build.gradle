@@ -1,0 +1,91 @@
+import java.nio.file.*;
+
+ext {
+    javaVersion = '1.8';
+    springVersion = '4.0.3.RELEASE'
+    springSecurityVersion = '3.2.3.RELEASE'
+    dartClientDir = 'build/web' // Could be 'web' (live coding in Dart Editor) or 'build/web' (after running pub build)
+}
+
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/libs-snapshot' }
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC5'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+war {
+    baseName = 'opensnap'
+    version =  '0.2'
+}
+
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/libs-snapshot' }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'http://repo.spring.io/libs-snapshot'
+    }
+}
+
+configurations {
+    providedRuntime
+    compile.exclude module: 'spring-boot-starter-tomcat'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework:spring-messaging:' + springVersion
+    compile 'org.springframework:spring-webmvc:' + springVersion
+    compile 'org.springframework:spring-websocket:' + springVersion
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+
+    compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
+    compile 'org.springframework.security:spring-security-config:' + springSecurityVersion
+    compile('org.springframework.security:spring-security-web:' + springSecurityVersion) {
+        exclude(module: 'spring-jdbc')
+    }
+
+    // Uncomment in order to run OpenSnap as an Executable JAR on Jetty
+    /*
+    compile 'org.eclipse.jetty:jetty-webapp:9.1.2.v20140210'
+    compile 'org.eclipse.jetty.websocket:websocket-server:9.1.2.v20140210'
+    */
+
+    // Uncomment in order to run OpenSnap as an Executable JAR on Tomcat
+    compile 'org.apache.tomcat.embed:tomcat-embed-websocket:7.0.52'
+    compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.52'
+    compile 'org.apache.tomcat.embed:tomcat-embed-core:7.0.52'
+    compile 'org.apache.tomcat.embed:tomcat-embed-el:7.0.52'
+}
+
+task symlink << {
+    // Create symlink in order to avoid cross domain issues
+    // Won't be need when https://code.google.com/p/dart/issues/detail?id=16840 will be fixed
+    FileSystem fs = FileSystems.getDefault()
+    Path webapp = fs.getPath('src/main/webapp')
+    Path webappClient = fs.getPath('src/main/webapp/opensnap')
+    if(!webapp.toFile().exists()) webapp.toFile().mkdir();
+    if(webappClient.toFile().exists()) webappClient.toFile().delete()
+    Path dartOutput = fs.getPath(fs.getPath('../opensnap-client/' + dartClientDir).toFile().getCanonicalPath())
+    Files.createSymbolicLink(webappClient, dartOutput)
+}
+
+

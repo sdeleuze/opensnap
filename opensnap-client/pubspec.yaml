@@ -1,0 +1,13 @@
+name: opensnap
+version: 0.2.0
+dependencies:
+  angular: 0.9.10
+  browser: any
+  js: any
+  unittest: any
+  bootjack: 0.6.3
+  dquery: '0.5.3+7'
+  stomp:
+    path: ../../stomp
+  collection: any
+ 
