@@ -1,4 +1,4 @@
-package opensnap.config;/*
+/*
  * Copyright 2002-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,8 @@ package opensnap.config;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package opensnap.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -33,6 +35,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/queue", "/topic");
+		//config.setApplicationDestinationPrefixes("/app").enableStompBrokerRelay("/queue", "/topic");
 	}
 
 	@Override

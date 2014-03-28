@@ -4,7 +4,7 @@ ext {
     javaVersion = '1.8';
     springVersion = '4.0.3.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
-    dartClientDir = 'build/web' // Could be 'web' (live coding in Dart Editor) or 'build/web' (after running pub build)
+    dartClientDir = 'web' // Could be 'web' (live coding in Dart Editor) or 'build/web' (after running pub build)
 }
 
 buildscript {
@@ -55,6 +55,7 @@ dependencies {
     compile 'org.springframework:spring-messaging:' + springVersion
     compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-websocket:' + springVersion
+    compile 'org.projectreactor:reactor-tcp:1.0.1.RELEASE'
     providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
 
     compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
