@@ -15,7 +15,7 @@ import java.util.List;
 @MessageMapping("/snap")
 public class SnapController {
 
-    private final SnapService snapService;
+	private final SnapService snapService;
 	private final SimpMessagingTemplate template;
 
 	@Autowired
@@ -25,7 +25,7 @@ public class SnapController {
 	}
 
 	@MessageMapping("/create")
-    Snap create(Snap snap) {
+	Snap create(Snap snap) {
 		Snap newSnap = snapService.create(snap);
 		Runnable notifyClients = () -> {
 			for(User user : snap.getRecipients()) {
@@ -33,8 +33,8 @@ public class SnapController {
 			}
 		};
 		notifyClients.run();
-        return newSnap;
-    }
+		return newSnap;
+	}
 
 	@MessageMapping("/{id}")
 	Snap getSnapById(@DestinationVariable int id) {
@@ -42,14 +42,14 @@ public class SnapController {
 	}
 
 	@MessageMapping
-    List<Snap> getSnapsFromRecipient(String username) {
-        return snapService.getSnapsFromRecipient(username);
-    }
+	List<Snap> getSnapsFromRecipient(String username) {
+		return snapService.getSnapsFromRecipient(username);
+	}
 
 	@MessageMapping("/delete/{id}")
-    void delete(@DestinationVariable int id) {
-        snapService.delete(id);
-    }
+	void delete(@DestinationVariable int id) {
+		snapService.delete(id);
+	}
 
 	@MessageMapping("/delete/{id}/{username}")
 	void delete(@DestinationVariable int id, @DestinationVariable String username) {

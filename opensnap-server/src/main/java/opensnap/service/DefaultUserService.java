@@ -10,11 +10,11 @@ import java.util.List;
 @Service
 public class DefaultUserService implements UserService {
 
-    private List<User> users;
+	private List<User> users;
 
-    public DefaultUserService() {
-        users = new ArrayList<User>();
-    }
+	public DefaultUserService() {
+		users = new ArrayList<User>();
+	}
 
 	@Override
 	public User create(User user) {
@@ -26,13 +26,13 @@ public class DefaultUserService implements UserService {
 
 	@Override
 	public Boolean authenticate(User user) {
-        return users.contains(user);
-    }
+		return users.contains(user);
+	}
 
 	@Override
-    public List<User> getAllUsers() {
+	public List<User> getAllUsers() {
 		return users;
-    }
+	}
 
 	@Override
 	public User getByUsername(String username) {

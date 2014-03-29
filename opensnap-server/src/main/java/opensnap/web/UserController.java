@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @MessageMapping("/usr")
 public class UserController {
 
-    private final UserService userService;
+	private final UserService userService;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -21,13 +21,13 @@ public class UserController {
 	}
 
 	@MessageMapping("/auth")
-    Boolean authenticate(User user) {
-        return userService.authenticate(user);
-    }
+	Boolean authenticate(User user) {
+		return userService.authenticate(user);
+	}
 
 	@MessageMapping
-    List<User> getUsers() {
-        return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
-    }
+	List<User> getUsers() {
+		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
+	}
 
 }
