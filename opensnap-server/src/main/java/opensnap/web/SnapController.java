@@ -15,7 +15,7 @@ import opensnap.service.SnapService;
 import java.util.List;
 
 @Controller
-public class SnapController {
+public class SnapController extends AbstractStompController {
 
 	private final SnapService snapService;
 

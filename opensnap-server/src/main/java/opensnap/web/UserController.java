@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class UserController {
+public class UserController  extends AbstractStompController {
 
 	private final UserService userService;
 

@@ -10,4 +10,5 @@ dependencies:
   stomp:
     git: git://github.com/sdeleuze/stomp.git
   collection: any
+  logging_handlers: any
  

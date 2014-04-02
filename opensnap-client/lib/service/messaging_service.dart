@@ -8,10 +8,15 @@ class MessagingService {
   
   MessagingService(this.url);
   
+  String _id() => (_connexionId++).toString();
+  
   Future<StompClient> _connectIfNeeded() {
     if(_stompClient == null || _stompClient.isDisconnected) {
       return connect(url).then((StompClient client) {
         _stompClient = client;
+        _stompClient.subscribeString(_id(), "/user/queue/error", (Map<String, String> headers, String message) {
+          error(message);
+        });
       });
     }
     return new Future<StompClient>.value(_stompClient);
@@ -20,8 +25,8 @@ class MessagingService {
   Future sendJsonMessage(String sendDestination, String subscribeDestination, var object, [var convert = null]) {
     return this._connectIfNeeded().then((_) {
       var completer = new Completer();
-      String id = (_connexionId++).toString();
-      _stompClient.subscribeJson(id, subscribeDestination, (Map<String, String> headers, var message) {
+      String id = _id();
+      _stompClient.subscribeJson(_id(), subscribeDestination, (Map<String, String> headers, var message) {
         if(convert == null) {
           completer.complete(message);
         } else {
@@ -38,8 +43,7 @@ class MessagingService {
   Future sendJsonSubscribe(String destination, [var convert = null]) {
     return this._connectIfNeeded().then((_) {
         var completer = new Completer();
-        String id = (_connexionId++).toString();
-        _stompClient.subscribeJson(id, destination, (Map<String, String> headers, var message) {
+        _stompClient.subscribeJson(_id(), destination, (Map<String, String> headers, var message) {
           if(convert == null) {
             completer.complete(message);
           } else {
@@ -72,9 +76,8 @@ class SnapService extends MessagingService {
   SnapService(this._authService) : super("ws://$SERVER_HOST/websocket") {
     _authService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) return this._connectIfNeeded().then((_) {
-          String id = (_connexionId++).toString();
-          _stompClient.subscribeString(id, "/user/queue/snap-received", (Map<String, String> headers, String id) {
-            _evenController.add(new SnapEvent(SnapEvent.RECEIVED, int.parse(id)));
+          _stompClient.subscribeString(_id(), "/user/queue/snap-received", (Map<String, String> headers, String snapId) {
+            _evenController.add(new SnapEvent(SnapEvent.RECEIVED, int.parse(snapId)));
           });
         });  
     });
