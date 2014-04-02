@@ -1,5 +1,7 @@
 package opensnap.service;
 
+import opensnap.Queue;
+import opensnap.Topic;
 import opensnap.domain.Snap;
 
 import opensnap.domain.User;
@@ -29,8 +31,9 @@ public class DefaultSnapService implements SnapService {
 	public Snap create(Snap snap) {
 		snap.setId(snapCounter.getAndIncrement());
 		snaps.add(snap);
+		template.convertAndSend(Topic.SNAP_CREATED, new Integer(snap.getId()));
 		for(User user : snap.getRecipients()) {
-			template.convertAndSendToUser(user.getUsername(), "/queue/snap-received", new Integer(snap.getId()));
+			template.convertAndSendToUser(user.getUsername(), Queue.SNAP_RECEIVED, new Integer(snap.getId()));
 		}
 		return snap;
 	}

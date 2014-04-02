@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-package opensnap.web;
+package opensnap;
 
-import opensnap.Queue;
-import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
-import org.springframework.messaging.simp.annotation.SendToUser;
-
-public abstract class AbstractStompController {
-
-	@MessageExceptionHandler
-	@SendToUser(Queue.ERROR)
-	public String handleException(Throwable exception) {
-		return exception.getMessage();
-	}
-
+public interface Topic {
+	final static String USER_AUTHENTICATED = "/topic/user-authenticated";
+	final static String SNAP_CREATED = "/topic/snap-created";
 }

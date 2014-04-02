@@ -3,15 +3,29 @@ part of opensnap;
 class User {
   String username;
   String password;
+  List<String> roles;
   
-  User([this.username = "", this.password = ""]);
+  User([this.username = "", this.password = "", List roles]) {
+    if (roles == null) {
+      this.roles = new List();
+    } else {
+      this.roles = roles;
+    }
+  }
   
-  factory User.fromJsonMap(Map json) => new User(json['username'], json['password']);
-  Map toJson() => {'username': username, 'password': password};
+  factory User.fromJsonMap(Map json) {
+    List<String> roles = new List<String>();
+    for(String role in json['roles']) {
+      roles.add(role);  
+    }
+    return new User(json['username'], json['password'], roles);
+  }
+  
+  Map toJson() => {'username': username, 'password': password, 'roles': roles};
   String toJsonString() => JSON.encode(toJson());
   
-  bool operator ==(User other) {
-    return (other.username == username);
+  bool operator == (User other) {
+    return (other.username == username) && listEq(other.roles, roles);
   }
 }
 
@@ -31,7 +45,6 @@ class Snap {
   List<User> recipients;
   String photo;
   int duration;
-  Function listEq = const ListEquality().equals;
   
   Snap(this.author, this.recipients, this.photo, this.duration, [this.id = null]);
   
@@ -45,10 +58,9 @@ class Snap {
   Map toJson() => {'id': id, 'author': author, 'recipients': recipients, 'photo': photo, 'duration': duration};
   String toJsonString() => JSON.encode(toJson());
   
-  bool operator==(other) {
+  bool operator == (other) {
       if (other is! Snap) return false;
       Snap s = other;
-      
       return (s.id == id && s.author == author && listEq(s.recipients, recipients)  && s.duration == duration);
     }
 }

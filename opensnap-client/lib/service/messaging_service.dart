@@ -26,14 +26,14 @@ class MessagingService {
     return this._connectIfNeeded().then((_) {
       var completer = new Completer();
       String id = _id();
-      _stompClient.subscribeJson(_id(), subscribeDestination, (Map<String, String> headers, var message) {
+      _stompClient.subscribeJson(id, subscribeDestination, (var headers, var message) {
         if(convert == null) {
           completer.complete(message);
         } else {
           completer.complete(convert(message));
         }
         _stompClient.unsubscribe(id);
-      });
+      }, matcher: ALL);
       var json = (object == null) ? {} : (object is String || object is int) ? object : object.toJson();
       _stompClient.sendJson(sendDestination, json);
       return completer.future;
@@ -43,24 +43,29 @@ class MessagingService {
   Future sendJsonSubscribe(String destination, [var convert = null]) {
     return this._connectIfNeeded().then((_) {
         var completer = new Completer();
-        _stompClient.subscribeJson(_id(), destination, (Map<String, String> headers, var message) {
+        _stompClient.subscribeJson(_id(), destination, (var headers, var message) {
           if(convert == null) {
             completer.complete(message);
           } else {
             completer.complete(convert(message));
           }
-        });
+        }, matcher: ALL);
         return completer.future;
       });
     }
+  
 }
 
 class UserService extends MessagingService {
   
   UserService() : super("ws://$SERVER_HOST/websocket");
+  
+  Future<User> getAuthenticatedUser() {
+    return sendJsonSubscribe("/app/usr/authenticated", (_) => new User.fromJsonMap(_));
+  }
     
   Future<List<User>> getAllUsers() {
-    return sendJsonSubscribe("/app/usr");
+    return sendJsonSubscribe("/app/usr/all");
   }
   
 }
@@ -78,7 +83,7 @@ class SnapService extends MessagingService {
       if(event.type == UserEvent.LOGIN) return this._connectIfNeeded().then((_) {
           _stompClient.subscribeString(_id(), "/user/queue/snap-received", (Map<String, String> headers, String snapId) {
             _evenController.add(new SnapEvent(SnapEvent.RECEIVED, int.parse(snapId)));
-          });
+          }, matcher: ALL);
         });  
     });
   }
@@ -91,8 +96,8 @@ class SnapService extends MessagingService {
       return sendJsonSubscribe("/app/snap/id/$id", (_) => new Snap.fromJsonMap(_));
     }
     
-  Future<List<Snap>> getSnapsFromUsername(String username) {
-    return sendJsonSubscribe("/app/snap/username/$username", (_) {
+  Future<List<Snap>> getSnaps() {
+    return sendJsonSubscribe("/app/snap/user", (_) {
       List<Snap> snaps = new List<Snap>();
       for(Map map in _) {
         snaps.add(new Snap.fromJsonMap(map));  
@@ -102,8 +107,8 @@ class SnapService extends MessagingService {
     });
   }
       
-  void deleteSnap(int id, String username) {
-    sendJsonSubscribe('/app/snap/delete/$id/$username');
+  void deleteSnap(int id) {
+    sendJsonSubscribe('/snap/delete-for-authenticated-user/$id');
     _evenController.add(new SnapEvent(SnapEvent.DELETED, id));
   }
 }

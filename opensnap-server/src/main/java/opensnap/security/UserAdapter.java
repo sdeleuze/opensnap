@@ -21,30 +21,31 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
+import java.security.Principal;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
-public class UserDetailsAdapter implements UserDetails {
+public class UserAdapter implements UserDetails, Principal {
 
 	private User user;
 
-	public UserDetailsAdapter(User user) {
+	public UserAdapter(User user) {
 		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("USER"));
+		return this.user.getRoles().stream().map((r -> new SimpleGrantedAuthority(r))).collect(Collectors.toList());
 	}
 
 	@Override
 	public String getPassword() {
-		return user.getPassword();
+		return this.user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return user.getUsername();
+		return this.user.getUsername();
 	}
 
 	@Override
@@ -66,4 +67,10 @@ public class UserDetailsAdapter implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	@Override
+	public String getName() {
+		return this.user.getUsername();
+	}
+
 }

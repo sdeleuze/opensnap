@@ -24,19 +24,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDetailsDerviceAdapter implements UserDetailsService {
+public class UserDetailsServiceAdapter implements UserDetailsService {
 
 	private UserService userService;
 
 	@Autowired
-	public UserDetailsDerviceAdapter(UserService userService) {
+	public UserDetailsServiceAdapter(UserService userService) {
 		this.userService = userService;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			return new UserDetailsAdapter(userService.getByUsername(username));
+			return new UserAdapter(userService.getByUsername(username));
 		} catch(Exception e) {
 			throw new UsernameNotFoundException("Username " + username + " not found!", e);
 		}

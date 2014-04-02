@@ -1,12 +1,15 @@
 package opensnap.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import opensnap.domain.User;
 import opensnap.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +23,13 @@ public class UserController  extends AbstractStompController {
 		this.userService = userService;
 	}
 
-	@SubscribeMapping("/usr")
-	List<User> getUsers() {
+	@SubscribeMapping("/usr/authenticated")
+	User getAuthenticatedUser(Principal principal) {
+		return userService.getByUsername(principal.getName()).withoutPassword();
+	}
+
+	@SubscribeMapping("/usr/all")
+	List<User> getAllUsers() {
 		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
 	}
 

@@ -16,6 +16,8 @@
 
 package opensnap.config;
 
+import opensnap.security.SecurityChannelInterceptor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,13 +31,13 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private UserDetailsService userDetailsService;
 	private AuthenticationSuccessHandler authenticationSuccessHandler;
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	private LogoutSuccessHandler logoutSuccessHandler;
+	private UserDetailsService userDetailsService;
 
 	@Autowired
 	public void setUserDetailsService(UserDetailsService userDetailsService) {
@@ -87,5 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
+
+
 
 }

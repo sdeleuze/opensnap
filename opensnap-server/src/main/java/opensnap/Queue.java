@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package opensnap.web;
+package opensnap;
 
-import opensnap.Queue;
-import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
-import org.springframework.messaging.simp.annotation.SendToUser;
-
-public abstract class AbstractStompController {
-
-	@MessageExceptionHandler
-	@SendToUser(Queue.ERROR)
-	public String handleException(Throwable exception) {
-		return exception.getMessage();
-	}
-
+public interface Queue {
+	final static String SNAP_RECEIVED = "/queue/snap-received";
+	final static String SNAP_CREATED = "/queue/snap-created";
+	final static String ERROR = "/queue/error";
 }

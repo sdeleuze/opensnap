@@ -1,0 +1,3 @@
+spring:
+  resources:
+    cache-period: 0

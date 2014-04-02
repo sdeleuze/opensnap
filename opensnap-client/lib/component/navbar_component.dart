@@ -19,7 +19,7 @@ class NavbarComponent {
     _authService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) {
         signedInUser=event.user;
-        _snapService.getSnapsFromUsername(signedInUser.username);
+        _snapService.getSnaps();
       }
     });
     _snapService.onEvent.listen((SnapEvent event) {
@@ -56,5 +56,9 @@ class NavbarComponent {
   String snapsClass() {
     if(window.location.hash == '#/snaps') return 'active'; else return '';
   }
+  
+  String adminClass() {
+      if(window.location.hash == '#/admin') return 'active'; else return '';
+    }
 
 }

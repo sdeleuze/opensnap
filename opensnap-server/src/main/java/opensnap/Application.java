@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
-
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "opensnap")
 public class Application extends SpringBootServletInitializer {
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(new Object[]{Application.class}, args);
@@ -33,5 +33,5 @@ public class Application extends SpringBootServletInitializer {
 	public ContainerConfig containerConfig() {
 		return new ContainerConfig();
 	}
-	
+
 }

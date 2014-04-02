@@ -13,6 +13,7 @@ class OpenSnapModule extends Module {
     type(PhotoComponent);
     type(SnapsComponent);
     type(NotifyComponent);
+    type(AdminComponent);
     type(RouteInitializerFn, implementedBy: Routes);
     factory(NgRoutingUsePushState,
         (_) => new NgRoutingUsePushState.value(false));

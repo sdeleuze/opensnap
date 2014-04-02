@@ -17,7 +17,10 @@ class Routes {
         view: 'view/photo.html'),
       'snaps': ngRoute(
         path: '/snaps',
-        view: 'view/snaps.html')
+        view: 'view/snaps.html'),
+      'admin': ngRoute(
+        path: '/admin',
+        view: 'view/admin.html')
     });
   }
   

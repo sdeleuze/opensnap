@@ -1,9 +1,14 @@
 package opensnap.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class User {
 
 	private String username;
 	private String password;
+	private List<String> roles;
 
 
 	public User() {
@@ -17,6 +22,12 @@ public class User {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+
+	public User(String username, String password, List<String> roles) {
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
 	}
 
 	public String getPassword() {
@@ -34,6 +45,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 	@Override
@@ -57,7 +76,7 @@ public class User {
 	}
 
 	public User withoutPassword() {
-		return new User(username, null);
+		return new User(username, null, roles);
 	}
 
 }

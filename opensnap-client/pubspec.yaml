@@ -7,8 +7,7 @@ dependencies:
   unittest: any
   bootjack: 0.6.3
   dquery: '0.5.3+7'
-  stomp:
-    git: git://github.com/sdeleuze/stomp.git
+  stomp: 0.7.2
   collection: any
   logging_handlers: any
  
