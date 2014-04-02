@@ -9,11 +9,10 @@ ext {
 
 buildscript {
     repositories {
-        maven { url 'http://repo.spring.io/libs-snapshot' }
-        mavenLocal()
+        mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC5'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RELEASE'
     }
 }
 
@@ -25,23 +24,8 @@ apply plugin: 'spring-boot'
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
-war {
-    baseName = 'opensnap'
-    version =  '0.2'
-}
-
-buildscript {
-    repositories {
-        maven { url 'http://repo.spring.io/libs-snapshot' }
-    }
-}
-
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven {
-        url 'http://repo.spring.io/libs-snapshot'
-    }
 }
 
 configurations {

@@ -2,6 +2,9 @@ package opensnap.service;
 
 import opensnap.domain.Snap;
 
+import opensnap.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +17,21 @@ public class DefaultSnapService implements SnapService {
 
 	private List<Snap> snaps;
 	AtomicInteger snapCounter = new AtomicInteger(1);
+	private final SimpMessagingTemplate template;
 
-	public DefaultSnapService() {
-		snaps = new ArrayList<Snap>();
+	@Autowired
+	public DefaultSnapService(SimpMessagingTemplate template) {
+		this.snaps = new ArrayList<Snap>();
+		this.template = template;
 	}
 
 	@Override
 	public Snap create(Snap snap) {
 		snap.setId(snapCounter.getAndIncrement());
 		snaps.add(snap);
+		for(User user : snap.getRecipients()) {
+			template.convertAndSendToUser(user.getUsername(), "/queue/snap-received", new Integer(snap.getId()));
+		}
 		return snap;
 	}
 

@@ -5,53 +5,48 @@ import opensnap.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import opensnap.service.SnapService;
 
 import java.util.List;
 
 @Controller
-@MessageMapping("/snap")
 public class SnapController {
 
 	private final SnapService snapService;
-	private final SimpMessagingTemplate template;
 
 	@Autowired
-	public SnapController(SnapService snapService, SimpMessagingTemplate template) {
+	public SnapController(SnapService snapService) {
 		this.snapService = snapService;
-		this.template = template;
 	}
 
-	@MessageMapping("/create")
+	@MessageMapping("/snap/create")
+	@SendToUser("/queue/snap-created")
 	Snap create(Snap snap) {
 		Snap newSnap = snapService.create(snap);
-		Runnable notifyClients = () -> {
-			for(User user : snap.getRecipients()) {
-				template.convertAndSendToUser(user.getUsername(), "/queue/snap/published", new Integer(snap.getId()));
-			}
-		};
-		notifyClients.run();
 		return newSnap;
 	}
 
-	@MessageMapping("/{id}")
+	@SubscribeMapping("/snap/id/{id}")
 	Snap getSnapById(@DestinationVariable int id) {
 		return snapService.getById(id);
 	}
 
-	@MessageMapping
-	List<Snap> getSnapsFromRecipient(String username) {
+	@SubscribeMapping("/snap/username/{username}")
+	List<Snap> getSnapsFromRecipient(@DestinationVariable String username) {
 		return snapService.getSnapsFromRecipient(username);
 	}
 
-	@MessageMapping("/delete/{id}")
+	@SubscribeMapping("/snap/delete/{id}")
 	void delete(@DestinationVariable int id) {
 		snapService.delete(id);
 	}
 
-	@MessageMapping("/delete/{id}/{username}")
+	@SubscribeMapping("/snap/delete/{id}/{username}")
 	void delete(@DestinationVariable int id, @DestinationVariable String username) {
 		snapService.delete(id, username);
 	}
