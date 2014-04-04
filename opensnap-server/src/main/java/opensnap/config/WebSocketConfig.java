@@ -16,7 +16,10 @@
 
 package opensnap.config;
 
+import opensnap.security.SecurityChannelInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -27,9 +30,22 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+	private SecurityChannelInterceptor interceptor;
+
+	@Autowired
+	public void setInterceptor(SecurityChannelInterceptor interceptor) {
+		this.interceptor = interceptor;
+	}
+
 	@Override
 	public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-		registration.setMessageSizeLimit(1024*1024);
+		registration.setMessageSizeLimit(1024 * 1024);
+	}
+
+	@Override
+	public void configureClientInboundChannel(ChannelRegistration registration) {
+		this.interceptor.loadConfiguration("security.yml");
+		registration.setInterceptors(this.interceptor);
 	}
 
 	@Override

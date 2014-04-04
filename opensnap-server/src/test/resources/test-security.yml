@@ -1,0 +1,7 @@
+app:
+  'admin*': 'ADMIN'
+  '*': 'USER'
+topic:
+  user: 'USER'
+  admin: 'ADMIN'
+  'user-admin': 'USER,ADMIN'

@@ -1,0 +1,8 @@
+'app*': 'USER'
+queue:
+  'snap-received': 'USER'
+  'snap-created': 'ADMIN'
+  error: 'USER'
+topic:
+  'user-authenticated': 'USER'
+  'snap-created': 'USER'
