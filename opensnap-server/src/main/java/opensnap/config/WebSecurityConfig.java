@@ -64,13 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()  // Refactor login form
 
-				// See https://jira.springsource.org/browse/SPR-11496
-				.headers().addHeaderWriter(
-				new XFrameOptionsHeaderWriter(
-						XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)
-		).and()
 				.formLogin()
-					.loginPage("/opensnap/index.html")
+					.loginPage("/index.html")
 					.loginProcessingUrl("/login")
 					.successHandler(authenticationSuccessHandler)
 					.failureHandler(authenticationFailureHandler)
@@ -81,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
 				.authorizeRequests()
-					.antMatchers("/opensnap/**").permitAll()
+					.antMatchers("/**").permitAll()
 					.anyRequest().authenticated();
 	}
 

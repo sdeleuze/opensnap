@@ -1,3 +1,5 @@
-spring:
-  resources:
-    cache-period: 0
+client:
+  # Use directly dart files modified in Dart Editor
+  path: '../opensnap-client/web'
+  # Use directly build directory, need to run pub build before, useful for using the JS version
+  #path: '../opensnap-client/build'

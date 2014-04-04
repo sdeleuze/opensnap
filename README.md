@@ -15,18 +15,15 @@ Build and run OpenSnap:
 * cd opensnap-client
 * pub get
 * cd ../opensnap-server
-* gradle -q symlink (Run once, it creates a symlink from src/main/webapp to Dart web directory)
 * gradle build bootRun
-* Run Dartium browser (<dart-sdk>/chromium/Chromium) and open the following URL: http://127.0.0.1:8080/opensnap/index.html
+* Run Dartium browser (<dart-sdk>/chromium/Chromium) and open the following URL: http://127.0.0.1:8080/index.html
 
 Notes:
 * Make sure that Chrome does not run at the same time than Dartium, since it could prevent the webcam to work
-* The gradle command create a symbolic link, it may fails under Windows (untested)
 * If you want to run the Javascript version:
- * Set dartClientDir = 'build/web' in opensnap-server/build.gradle
- * opensnap-server/gradle -q symlink
+ * Set client.path = '../opensnap-client/build' in opensnap-server/src/main/resources/application.yml
  * opensnap-client/pub build
- * Open http://127.0.0.1:8080/opensnap/index.html in Chrome (other browser not supported yet)
+ * Open http://127.0.0.1:8080/index.html in Chrome (other browser not supported yet)
 
 
 ## TODO

@@ -20,7 +20,10 @@ part "service/messaging_service.dart";
 part "domain.dart";
 part "routing.dart";
 
-const String SERVER_HOST = "127.0.0.1:8080";
+//const String REST_URL = "https://127.0.0.1:8443";
+//const String WEBSOCKET_URL = "wss://127.0.0.1:8443/websocket";
+const String REST_URL = "http://127.0.0.1:8080";
+const String WEBSOCKET_URL = "ws://127.0.0.1:8080/websocket";
 Function listEq = const ListEquality().equals;
 
 

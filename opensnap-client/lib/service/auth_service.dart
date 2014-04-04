@@ -11,7 +11,7 @@ class AuthService {
   AuthService(this._http, this._userService);
   
   Future<bool> signin(User user) {
-    return _http.post('http://$SERVER_HOST/login', 'username=${user.username}&password=${user.password}',
+    return _http.post('$REST_URL/login', 'username=${user.username}&password=${user.password}',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded'}
     ).then((HttpResponse response) {
       return _userService.getAuthenticatedUser().then((User u) {
@@ -24,7 +24,7 @@ class AuthService {
   }
   
   Future<bool> signout() {
-    return _http.post('http://$SERVER_HOST/logout', '').then((HttpResponse response) {
+    return _http.post('$REST_URL/logout', '').then((HttpResponse response) {
       _eventController.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
       _authenticatedUser = null;
       return true;

@@ -58,7 +58,7 @@ class MessagingService {
 
 class UserService extends MessagingService {
   
-  UserService() : super("ws://$SERVER_HOST/websocket");
+  UserService() : super(WEBSOCKET_URL);
   
   Future<User> getAuthenticatedUser() {
     return sendJsonSubscribe("/app/usr/authenticated", (_) => new User.fromJsonMap(_));
@@ -78,7 +78,7 @@ class SnapService extends MessagingService {
 
   AuthService _authService;
   
-  SnapService(this._authService) : super("ws://$SERVER_HOST/websocket") {
+  SnapService(this._authService) : super(WEBSOCKET_URL) {
     _authService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) return this._connectIfNeeded().then((_) {
           _stompClient.subscribeString(_id(), "/user/queue/snap-received", (Map<String, String> headers, String snapId) {

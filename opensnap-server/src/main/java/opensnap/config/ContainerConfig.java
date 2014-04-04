@@ -16,7 +16,6 @@
 
 package opensnap.config;
 
-import org.apache.catalina.core.StandardContext;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -33,6 +32,8 @@ public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 
 	void customizeTomcat(TomcatEmbeddedServletContainerFactory factory) {
 		// Just for dev mode, in order to access to Dart packages symlinks
-		factory.addContextCustomizers((context) -> ((StandardContext)context).setAllowLinking(true));
+		factory.addContextCustomizers((context) -> {
+			context.addMimeMapping("dart", "application/dart");
+		});
 	}
 }

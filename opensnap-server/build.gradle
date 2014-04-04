@@ -1,10 +1,8 @@
-import java.nio.file.*;
-
 ext {
     javaVersion = '1.8';
     springVersion = '4.0.3.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
-    dartClientDir = 'web' // Could be 'web' (live coding in Dart Editor) or 'build/web' (after running pub build)
+    tomcatVersion = '7.0.53'
 }
 
 buildscript {
@@ -48,33 +46,15 @@ dependencies {
         exclude(module: 'spring-jdbc')
     }
 
-    // Uncomment in order to run OpenSnap as an Executable JAR on Jetty
-    /*
-    compile 'org.eclipse.jetty:jetty-webapp:9.1.2.v20140210'
-    compile 'org.eclipse.jetty.websocket:websocket-server:9.1.2.v20140210'
-    */
-
     // Uncomment in order to run OpenSnap as an Executable JAR on Tomcat
-    compile 'org.apache.tomcat.embed:tomcat-embed-websocket:7.0.52'
-    compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.52'
-    compile 'org.apache.tomcat.embed:tomcat-embed-core:7.0.52'
-    compile 'org.apache.tomcat.embed:tomcat-embed-el:7.0.52'
+    compile 'org.apache.tomcat.embed:tomcat-embed-websocket:' + tomcatVersion
+    compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:' + tomcatVersion
+    compile 'org.apache.tomcat.embed:tomcat-embed-core:' + tomcatVersion
+    compile 'org.apache.tomcat.embed:tomcat-embed-el:' + tomcatVersion
 
     testCompile 'org.testng:testng:6.8.8'
     testCompile 'org.easytesting:fest-assert-core:2.0M10'
     testCompile 'org.mockito:mockito-core:1.9.5'
-}
-
-task symlink << {
-    // Create symlink in order to avoid cross domain issues
-    // Won't be need when https://code.google.com/p/dart/issues/detail?id=16840 will be fixed
-    FileSystem fs = FileSystems.getDefault()
-    Path webapp = fs.getPath('src/main/webapp')
-    Path webappClient = fs.getPath('src/main/webapp/opensnap')
-    if(!webapp.toFile().exists()) webapp.toFile().mkdir();
-    if(webappClient.toFile().exists()) webappClient.toFile().delete()
-    Path dartOutput = fs.getPath(fs.getPath('../opensnap-client/' + dartClientDir).toFile().getCanonicalPath())
-    Files.createSymbolicLink(webappClient, dartOutput)
 }
 
 
