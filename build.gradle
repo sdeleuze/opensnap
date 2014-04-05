@@ -1,0 +1,37 @@
+defaultTasks 'clean', 'build'
+
+task clean(dependsOn: [':opensnap-client:clean', ':opensnap-server:clean', 'cleanBuildDir']) << {
+
+}
+
+task build(dependsOn: ['clientBuild', 'serverBuild', 'copyWarTask']) << {
+	
+}
+
+task clientBuild(dependsOn: ':opensnap-client:build') << {
+	
+}
+
+task serverBuild(dependsOn: [':opensnap-server:build', 'clientBuild']) << {
+	
+}
+
+
+task run() << {
+	javaexec {
+		main = '-jar'
+		args 'build/opensnap.war'
+	}
+} 
+
+task copyWarTask(type: Copy, dependsOn: 'serverBuild') {
+    from('opensnap-server/build/libs') {
+    	include '**/*.war'
+    	rename 'opensnap-(.*).war', 'opensnap.war'
+    }
+    into 'build'
+}
+
+task cleanBuildDir(type: Delete) {
+    delete 'build'
+}

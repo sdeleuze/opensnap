@@ -9,22 +9,17 @@ Prerequisites:
 * [Java 8](https://jdk8.java.net/download.html)
 * [Gradle 1.11+](http://www.gradle.org/)
 * [Dart 1.2+](https://www.dartlang.org/)
+* $PATH should contains dart/dart-sdk/bin and gradle/bin
 
 Build and run OpenSnap:
 * git clone https://github.com/sdeleuze/opensnap.git
-* cd opensnap-client
-* pub get
-* cd ../opensnap-server
-* gradle build bootRun
-* Run Dartium browser (<dart-sdk>/chromium/Chromium) and open the following URL: http://127.0.0.1:8080/index.html
+* gradle build run
+* Open the following URL in your browser: http://127.0.0.1:8080/index.html
+	* For Dart version, run Dartium browser (<dart-sdk>/chromium/Chromium)
+	* For Javascript version, run your usual browser (only Chrome supported for now)
 
 Notes:
 * Make sure that Chrome does not run at the same time than Dartium, since it could prevent the webcam to work
-* If you want to run the Javascript version:
- * Set client.path = '../opensnap-client/build' in opensnap-server/src/main/resources/application.yml
- * opensnap-client/pub build
- * Open http://127.0.0.1:8080/index.html in Chrome (other browser not supported yet)
-
 
 ## TODO
 

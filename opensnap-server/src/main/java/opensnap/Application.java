@@ -6,6 +6,7 @@ import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -27,6 +28,11 @@ public class Application extends SpringBootServletInitializer {
 		SpringApplication.run(new Object[]{Application.class}, args);
 	}
 
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return super.configure(application);
+	}
+
 	@Bean
 	public FilterRegistrationBean corsFilter() {
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
@@ -43,7 +49,7 @@ public class Application extends SpringBootServletInitializer {
 	@Bean
 	public EmbeddedServletContainerFactory servletContainer() {
 		TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-		tomcat.addAdditionalTomcatConnectors(createSslConnector());
+		//tomcat.addAdditionalTomcatConnectors(createSslConnector());
 		return tomcat;
 	}
 

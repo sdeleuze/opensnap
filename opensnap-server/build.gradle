@@ -22,6 +22,11 @@ apply plugin: 'spring-boot'
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
+war {
+    baseName = 'opensnap'
+    from '../opensnap-client/build/web'
+}
+
 repositories {
     mavenCentral()
 }

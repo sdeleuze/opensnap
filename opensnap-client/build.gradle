@@ -1,0 +1,9 @@
+task clean(type: Delete) {
+    delete 'build'
+}
+
+
+task build(type: Exec) {
+    executable 'pub'
+    args 'build'
+}

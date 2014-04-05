@@ -3,18 +3,26 @@ part of opensnap;
 class MessagingService {
 
   StompClient _stompClient;
-  String url;
   int _connexionId = 0;
   
-  MessagingService(this.url);
+  MessagingService();
   
-  String _id() => (_connexionId++).toString();
+  String get _id => (_connexionId++).toString();
+  String get url {
+    String url = window.location.origin;
+    if(url.startsWith("https")) {
+      url = url.replaceFirst("https", "wss");
+    } else {
+      url = url.replaceFirst("http", "ws");
+    }
+    return "$url/websocket";
+  }
   
   Future<StompClient> _connectIfNeeded() {
     if(_stompClient == null || _stompClient.isDisconnected) {
       return connect(url).then((StompClient client) {
         _stompClient = client;
-        _stompClient.subscribeString(_id(), "/user/queue/error", (Map<String, String> headers, String message) {
+        _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
           error(message);
         });
       });
@@ -25,7 +33,7 @@ class MessagingService {
   Future sendJsonMessage(String sendDestination, String subscribeDestination, var object, [var convert = null]) {
     return this._connectIfNeeded().then((_) {
       var completer = new Completer();
-      String id = _id();
+      String id = _id;
       _stompClient.subscribeJson(id, subscribeDestination, (var headers, var message) {
         if(convert == null) {
           completer.complete(message);
@@ -43,7 +51,7 @@ class MessagingService {
   Future sendJsonSubscribe(String destination, [var convert = null]) {
     return this._connectIfNeeded().then((_) {
         var completer = new Completer();
-        _stompClient.subscribeJson(_id(), destination, (var headers, var message) {
+        _stompClient.subscribeJson(_id, destination, (var headers, var message) {
           if(convert == null) {
             completer.complete(message);
           } else {
@@ -57,8 +65,6 @@ class MessagingService {
 }
 
 class UserService extends MessagingService {
-  
-  UserService() : super(WEBSOCKET_URL);
   
   Future<User> getAuthenticatedUser() {
     return sendJsonSubscribe("/app/usr/authenticated", (_) => new User.fromJsonMap(_));
@@ -78,10 +84,10 @@ class SnapService extends MessagingService {
 
   AuthService _authService;
   
-  SnapService(this._authService) : super(WEBSOCKET_URL) {
+  SnapService(this._authService) {
     _authService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) return this._connectIfNeeded().then((_) {
-          _stompClient.subscribeString(_id(), "/user/queue/snap-received", (Map<String, String> headers, String snapId) {
+          _stompClient.subscribeString(_id, "/user/queue/snap-received", (Map<String, String> headers, String snapId) {
             _evenController.add(new SnapEvent(SnapEvent.RECEIVED, int.parse(snapId)));
           }, matcher: ALL);
         });  

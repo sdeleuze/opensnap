@@ -18,6 +18,7 @@ package opensnap.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -26,6 +27,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 
 @Configuration
+@Profile("default")
 class ClientResourcesConfig extends WebMvcConfigurerAdapter {
 
 	@Value("${client.path}")
