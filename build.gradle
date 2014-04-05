@@ -35,3 +35,7 @@ task copyWarTask(type: Copy, dependsOn: 'serverBuild') {
 task cleanBuildDir(type: Delete) {
     delete 'build'
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}

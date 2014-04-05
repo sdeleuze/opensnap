@@ -7,13 +7,13 @@ Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on c
 
 Prerequisites:
 * [Java 8](https://jdk8.java.net/download.html)
-* [Gradle 1.11+](http://www.gradle.org/)
+* [Gradle](http://www.gradle.org/)
 * [Dart 1.2+](https://www.dartlang.org/)
 * $PATH should contains dart/dart-sdk/bin and gradle/bin
 
 Build and run OpenSnap:
 * git clone https://github.com/sdeleuze/opensnap.git
-* gradle build run
+* ./gradlew build run
 * Open the following URL in your browser: http://127.0.0.1:8080/index.html
 	* For Dart version, run Dartium browser (<dart-sdk>/chromium/Chromium)
 	* For Javascript version, run your usual browser (only Chrome supported for now)
