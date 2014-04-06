@@ -57,6 +57,7 @@ public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 		if(https) {
 			enableHttps(factory);
 		}
+		enableCompression(factory);
 	}
 
 	public void enableHttps(TomcatEmbeddedServletContainerFactory factory) {
@@ -83,6 +84,17 @@ public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 				connector.setAttribute("clientAuth", "false");
 				connector.setAttribute("sslProtocol", "TLS");
 				connector.setAttribute("SSLEnabled", true);
+			}
+		});
+	}
+
+	public void enableCompression(TomcatEmbeddedServletContainerFactory factory) {
+		factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
+			@Override
+			public void customize(Connector connector) {
+				connector.setProperty("compression", "on");
+				connector.setProperty("compressionMinSize", "2048");
+				connector.setProperty("compressableMimeType", "text/html,text/css,application/javascript,application/dart");
 			}
 		});
 	}

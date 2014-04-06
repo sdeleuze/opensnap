@@ -2,7 +2,7 @@ ext {
     javaVersion = '1.8';
     springVersion = '4.0.3.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
-    tomcatVersion = '7.0.53'
+    tomcatVersion = '8.0.5'
 }
 
 buildscript {
