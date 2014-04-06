@@ -30,7 +30,7 @@ import java.nio.file.FileSystems;
 @Profile("default")
 class ClientResourcesConfig extends WebMvcConfigurerAdapter {
 
-	@Value("${client.path}")
+	@Value("${opensnap.client-path:}")
 	private String relativePath;
 
 	@Override

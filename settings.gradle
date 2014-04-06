@@ -1,1 +1,3 @@
+rootProject.name = 'opensnap'
+
 include 'opensnap-client', 'opensnap-server'

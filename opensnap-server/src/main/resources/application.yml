@@ -1,5 +1,22 @@
-client:
-  # Use directly dart files modified in Dart Editor
-  path: '../opensnap-client/web'
-  # Use directly build directory, need to run pub build before, useful for using the JS version
-  #path: '../opensnap-client/build'
+spring:
+  resources:
+    cache-period: 0
+---
+spring:
+  profiles: default
+opensnap:
+  client-path: '../opensnap-client/web/'
+    # Use directly build directory, need to run pub build before, useful for using the JS version
+    #client-path: '../opensnap-client/build'
+---
+spring:
+  profiles: local
+opensnap:
+  https: false
+server:
+  port: 8080
+---
+spring:
+  profiles: cloud
+opensnap:
+  https: true

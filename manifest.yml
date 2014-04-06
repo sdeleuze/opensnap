@@ -3,4 +3,4 @@ instances: 1
 buildpack: https://github.com/sdeleuze/java-buildpack.git
 applications:
 - name: opensnap
-  path: ./build/opensnap.war
+  path: ./build/opensnap.jar

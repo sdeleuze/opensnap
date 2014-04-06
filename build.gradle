@@ -4,15 +4,7 @@ task clean(dependsOn: [':opensnap-client:clean', ':opensnap-server:clean', 'clea
 
 }
 
-task build(dependsOn: ['clientBuild', 'serverBuild', 'copyWarTask']) << {
-	
-}
-
-task clientBuild(dependsOn: ':opensnap-client:build') << {
-	
-}
-
-task serverBuild(dependsOn: [':opensnap-server:build', 'clientBuild']) << {
+task build(dependsOn: [':opensnap-client:build', ':opensnap-server:build', 'copyWarTask']) << {
 	
 }
 
@@ -20,14 +12,15 @@ task serverBuild(dependsOn: [':opensnap-server:build', 'clientBuild']) << {
 task run() << {
 	javaexec {
 		main = '-jar'
-		args 'build/opensnap.war'
+		args '-Dspring.profiles.active=local'
+		args 'build/opensnap.jar'
 	}
 } 
 
-task copyWarTask(type: Copy, dependsOn: 'serverBuild') {
+task copyWarTask(type: Copy, dependsOn: ':opensnap-server:build') {
     from('opensnap-server/build/libs') {
     	include '**/*.war'
-    	rename 'opensnap-(.*).war', 'opensnap.war'
+    	rename 'opensnap-(.*).war', 'opensnap.jar'
     }
     into 'build'
 }
