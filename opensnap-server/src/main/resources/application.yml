@@ -8,8 +8,8 @@ spring:
   profiles: default
 opensnap:
   client-path: '../opensnap-client/web/'
-    # Use directly build directory, need to run pub build before, useful for using the JS version
-    #client-path: '../opensnap-client/build'
+  # Use directly build directory, need to run pub build before, useful for using the JS version
+  #client-path: '../opensnap-client/build/web'
 ---
 spring:
   profiles: local

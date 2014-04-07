@@ -4,6 +4,7 @@ class MessagingService {
 
   StompClient _stompClient;
   int _connexionId = 0;
+  Logger _logger = new Logger('MessagingService');
   
   MessagingService();
   
@@ -26,7 +27,7 @@ class MessagingService {
       return connect(url).then((StompClient client) {
         _stompClient = client;
         _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
-          error(message);
+          _logger.fine(message);
         });
       });
     }

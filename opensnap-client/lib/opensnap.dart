@@ -7,7 +7,7 @@ import "package:stomp/stomp.dart";
 import "package:stomp/websocket.dart" show connect;
 import 'dart:convert';
 import 'package:collection/equality.dart';
-import 'package:logging_handlers/browser_logging_handlers.dart';
+import 'package:logging/logging.dart';
 
 part "component/navbar_component.dart";
 part "component/notify_component.dart";
@@ -21,5 +21,6 @@ part "domain.dart";
 part "routing.dart";
 
 Function listEq = const ListEquality().equals;
+
 
 

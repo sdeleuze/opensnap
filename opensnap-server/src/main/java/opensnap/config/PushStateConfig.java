@@ -16,34 +16,26 @@
 
 package opensnap.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-
 @Configuration
-@Profile("default")
-class ClientResourcesConfig extends WebMvcConfigurerAdapter {
-
-	@Value("${opensnap.client-path:}")
-	private String relativePath;
+public class PushStateConfig extends WebMvcConfigurerAdapter {
 
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		try {
-			FileSystem fs = FileSystems.getDefault();
-			String path = fs.getPath(relativePath).toFile().getCanonicalPath();
-			registry.addResourceHandler("/**")
-					.addResourceLocations("file:" + path + "/")
-					.setCachePeriod(0);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void addViewControllers(ViewControllerRegistry registry) {
+		// For pushstate
+		registry.addViewController("/signin").setViewName("forward:/index.html");
+		registry.addViewController("/photo").setViewName("forward:/index.html");
+		registry.addViewController("/snaps").setViewName("forward:/index.html");
+		registry.addViewController("/admin").setViewName("forward:/index.html");
+		registry.addViewController("/logout").setViewName("forward:/index.html");
+	}
 
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
 	}
 }

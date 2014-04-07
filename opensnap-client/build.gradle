@@ -19,7 +19,17 @@ task pubClean(type: Delete) {
 task pubBuild(type: Exec) {
     executable 'pub'
     args 'build'
+    args '--mode=debug'
+}
+
+task copyDartFiles(type: Copy, dependsOn: 'pubBuild') {
+    from('web') {
+        include 'main.dart'
+        include 'packages/**'
+    }
+    into 'build/web'
 }
 
 jar.dependsOn pubBuild
+//jar.dependsOn copyDartFiles
 clean.dependsOn pubClean

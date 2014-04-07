@@ -1,27 +1,24 @@
 part of opensnap;
+  
+  void opensnapRouteInitializer(Router router, RouteViewFactory view)  {
 
-class Routes {
-  
-  Routes() {
-    
-  }
-  
-  void call(Router router, RouteViewFactory views)  {
-    views.configure({
-      'signin': ngRoute(
+    router.root
+      ..addRoute(
+        name: 'signin',
         path: '/signin',
-        defaultRoute: true,
-        view: 'view/signin.html'),
-      'photo': ngRoute(
-        path: '/photo',
-        view: 'view/photo.html'),
-      'snaps': ngRoute(
-        path: '/snaps',
-        view: 'view/snaps.html'),
-      'admin': ngRoute(
-        path: '/admin',
-        view: 'view/admin.html')
-    });
+        enter: view('view/signin.html'),
+        defaultRoute: true)
+      ..addRoute(
+          name: 'photo',
+          path: '/photo',
+          enter: view('view/photo.html'))
+      ..addRoute(
+          name: 'snaps',
+          path: '/snaps',
+          enter: view('view/snaps.html'))
+      ..addRoute(
+          name: 'admin',
+          path: '/admin',
+          enter: view('view/admin.html'));
+ 
   }
-  
-}
