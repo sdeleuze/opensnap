@@ -15,6 +15,9 @@ class MessagingService {
     } else {
       url = url.replaceFirst("http", "ws");
     }
+    if(url.contains("cfapps.io")) {
+      url="$url:4443";
+    }
     return "$url/websocket";
   }
   

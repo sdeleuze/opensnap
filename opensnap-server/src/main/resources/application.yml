@@ -1,6 +1,8 @@
 spring:
   resources:
     cache-period: 0
+  jmx:
+    enabled: false
 ---
 spring:
   profiles: default
