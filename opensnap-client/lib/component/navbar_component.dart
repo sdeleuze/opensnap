@@ -25,7 +25,7 @@ class NavbarComponent {
     _snapService.onEvent.listen((SnapEvent event) {
       switch(event.type) {
         case SnapEvent.RETREIVED:
-          List<Snap> snaps = event.value;
+          List<Snap> snaps = event.snaps;
           snapsCount = snaps.length;
           return;
         case SnapEvent.RECEIVED:
@@ -37,6 +37,21 @@ class NavbarComponent {
       }
     });
   }
+  
+  void goToSnaps(MouseEvent e) {
+    _router.go('snaps', new Map());
+    e.preventDefault();
+  }
+  
+  void goToPhoto(MouseEvent e) {
+      _router.go('photo', new Map());
+      e.preventDefault();
+    }
+  
+  void goToAdmin(MouseEvent e) {
+      _router.go('admin', new Map());
+      e.preventDefault();
+    }
   
   void signout() {
     _authService.signout().then((bool status) {

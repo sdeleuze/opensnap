@@ -1,0 +1,33 @@
+body {
+    background-color: #FED30B;
+    padding-top: 70px;
+}
+
+a:link {color:#f0ad4e;}
+a:visited {color:#f0ad4e;}
+a:hover {color:#f0ad4e;}
+a:active {color:#f0ad4e;}
+
+[ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.navbar-fixed-top {
+  border-top: 3px solid #f0ad4e;
+}
+
+.introduction {
+  padding: 20px;
+  margin-bottom: 10px;
+  border-left: 3px solid #333333;
+  background-color: #f7f7f9;
+}
+
+.introduction h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+
+
+

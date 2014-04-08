@@ -89,4 +89,8 @@ public class Snap {
 	public Snap withoutPhoto() {
 		return new Snap(this.id, author, recipients, null, duration);
 	}
+
+	public Snap withoutPhotoAndRecipients() {
+		return new Snap(this.id, author, null, null, duration);
+	}
 }

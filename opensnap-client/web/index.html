@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>OpenSnap</title>
-    <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="packages/shadow_dom/shadow_dom.min.js"></script>
 </head>
 <body ng-app>
@@ -16,9 +17,9 @@
     <notify />
   </div>
 
-  <div class="container">
-    <ng-view></ng-view>
-  </div>
+  
+  <ng-view></ng-view>
+  
 
 <script type="application/dart" src="main.dart"></script>
 <script src="packages/browser/dart.js"></script>

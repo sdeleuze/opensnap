@@ -1,38 +1,47 @@
-
 <form class="form-horizontal" ng-submit="">
   <fieldset>
   <div class="form-group">
-    <div id="photo-component" class="container" ng-click="ctrl.takePicture()">
-      <video id="video" autoplay="true"></video>
+    <div id="photo-component" ng-click="ctrl.takePicture()">
+      <div ng-if="ctrl.isUploading" class="pending col-xs-offset-4 col-xs-4">
+        <progressbar animate="false" class="progress-striped active" max="100" value="100" type="danger"><i>Uploading your photo ...</i></progressbar>
+      </div>
+      
+      <video id="video" autoplay="true" class="col-xs-offset-2 col-xs-8"></video>
       <canvas id="canvas"></canvas>
-      <img src="" id="photo" alt="photo">
+      <img src="" id="photo" class="col-xs-offset-2 col-xs-8" alt="photo">
     </div>
   </div>
     
     <div class="form-group">
-      <label for="duration" class="control-label">Duration</label>
-      <select id="duration" class="form-control">
-            <option value="1">1s</option>
-            <option value="2">2s</option>
-            <option value="3">3s</option>
-            <option value="4">4s</option>
-            <option value="5">5s</option>
-            <option value="6">6s</option>
-            <option value="7">7s</option>
-            <option value="8">8s</option>
-            <option value="9">9s</option>
-            <option value="10">10s</option>
-      </select>
+      <label for="duration" class="col-xs-offset-1 col-xs-2 control-label">Duration</label>
+      <div class="col-xs-6 col-md-3">
+        <select id="duration" class="form-control">
+              <option value="1">1s</option>
+              <option value="2">2s</option>
+              <option value="3">3s</option>
+              <option value="4">4s</option>
+              <option value="5">5s</option>
+              <option value="6">6s</option>
+              <option value="7">7s</option>
+              <option value="8">8s</option>
+              <option value="9">9s</option>
+              <option value="10">10s</option>
+        </select>
+      </div>
     </div>
     <div class="form-group">
-      <label for="sendto" class="control-label">To</label>
-      <select id="sendto" class="form-control">
-        <option ng-repeat="user in ctrl.users">{{user.username}}</option>
-      </select>
+      <label for="sendto" class="col-xs-offset-1 col-xs-2 control-label">To</label>
+      <div class="col-xs-6 col-md-3">
+        <select id="sendto" class="form-control">
+          <option ng-repeat="user in ctrl.users">{{user.username}}</option>
+        </select>
+      </div>
     </div>
     <div class="form-group">
-        <button id="take-photo" class="btn" class="col-sm-6" ng-click="ctrl.takePicture()">Take photo</button>
-        <button id="send" class="btn" type="submit" class="col-sm-6" disabled="disabled" ng-click="ctrl.sendSnap()">Send</button>
+      <div class="col-xs-offset-1 col-xs-7">
+        <button id="take-photo" class="btn" ng-click="ctrl.takePicture()">Take photo</button>
+        <button id="send" class="btn" type="submit" disabled="disabled" ng-click="ctrl.sendSnap()">Send</button>
+      </div>
     </div>
   </fieldset>
 </form>

@@ -31,9 +31,9 @@ public class DefaultSnapService implements SnapService {
 	public Snap create(Snap snap) {
 		snap.setId(snapCounter.getAndIncrement());
 		snaps.add(snap);
-		template.convertAndSend(Topic.SNAP_CREATED, new Integer(snap.getId()));
+		template.convertAndSend(Topic.SNAP_CREATED, snap.withoutPhoto());
 		for(User user : snap.getRecipients()) {
-			template.convertAndSendToUser(user.getUsername(), Queue.SNAP_RECEIVED, new Integer(snap.getId()));
+			template.convertAndSendToUser(user.getUsername(), Queue.SNAP_RECEIVED, snap.withoutPhotoAndRecipients());
 		}
 		return snap;
 	}

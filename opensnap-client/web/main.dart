@@ -1,15 +1,25 @@
 import 'package:angular/angular.dart';
 import 'package:di/di.dart';
-import 'package:bootjack/bootjack.dart';
+import 'package:angular_ui/angular_ui.dart';
 import 'package:logging/logging.dart';
 import 'package:opensnap/opensnap.dart';
 import 'dart:html';
 
-@MirrorsUsed(targets: const['opensnap'], override: '*')
+@MirrorsUsed(targets: const['angular',
+                            'angular.core',
+                            'angular.core.dom',
+                            'angular.filter',
+                            'angular.perf',
+                            'angular.directive',
+                            'angular.routing',
+                            'angular.core.parser',
+                            NodeTreeSanitizer,
+                            'angular_ui','opensnap'], override: '*')
 import 'dart:mirrors';
 
 class OpenSnapModule extends Module {
   OpenSnapModule() {
+    install(new AngularUIModule());
     type(UserService);
     type(AuthService);
     type(SnapService);
@@ -24,15 +34,11 @@ class OpenSnapModule extends Module {
 }
 
 main() {
-  Logger.root.level = Level.ALL;
+  Logger.root.level = Level.INFO;
   Logger.root.onRecord.listen((LogRecord r) {
     window.console.log('${r.loggerName}(${r.level}): ${r.message}');
   });
   
   ngBootstrap(module: new OpenSnapModule());
   
-  Dropdown.use();
-  Button.use();
-  
- 
 }

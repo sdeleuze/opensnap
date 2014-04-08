@@ -7,7 +7,7 @@ part of opensnap;
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )
-class SnapsComponent extends NgShadowRootAware {
+class SnapsComponent {
   
   ImageElement photo;
   DivElement photoGroup;
@@ -16,38 +16,46 @@ class SnapsComponent extends NgShadowRootAware {
   SnapService _snapService;
   AuthService _authService;
   Router _router;
-  
-  List<Snap> snaps;
+
+  List<Snap> snaps = new List();
   int progressValue;
+  int maxValue;
+  
+  bool displayPhoto = false;
+  String imgData = "";
+  
+  bool get hasSnaps => this.snaps.isEmpty;
+  bool get hasImgData => this.imgData.isEmpty;
   
   SnapsComponent(this._snapService, this._authService, this._router) {
     if(_authService.authenticatedUser == null) {
       _router.go('signin', new Map());
       return;
     }
-  }
-  
-  void onShadowRoot(ShadowRoot shadowRoot) {
-    photo = shadowRoot.querySelector("#photo");
-    photoGroup = shadowRoot.querySelector("#photo-group");
-    progress = shadowRoot.querySelector("#progress");
     _updateSnaps();
+    _snapService.onEvent.listen((SnapEvent event) {
+      if(event.type == SnapEvent.RECEIVED) {
+        this.snaps.add(event.snap);
+      }
+    });
   }
   
   void viewSnap(Snap partialSnap) {
     // Retreive full snap with photo
     _snapService.getSnapById(partialSnap.id).then((Snap s) {
-      photo.src = s.photo;
-      progressValue=0;
-      photoGroup.style.display = 'block';
-      new Timer.periodic(new Duration(milliseconds: s.duration * 100), (Timer t) {
-        progressValue = progressValue + 10;
-        if(progressValue == 110) {
-          _snapService.deleteSnap(s.id);
+      imgData = s.photo;
+      maxValue = s.duration * 1000;
+      progressValue=10;
+      displayPhoto = true;
+      new Timer.periodic(new Duration(milliseconds: 10), (Timer t) {
+        if(progressValue > s.duration * 1000) {
+          _snapService.deleteSnap(s);
           snaps.remove(s);
-          photoGroup.style.display = 'none';
+          displayPhoto = false;
+          imgData = "";
           t.cancel();
         }
+        progressValue = progressValue + 10;
       });
     });
   }

@@ -1,16 +1,23 @@
-<form class="form-horizontal" ng-submit="ctrl.authenticate()">
-  <fieldset>
-    <legend>Welcome to OpenSnap!</legend>
-    
-    <div class="form-group">
-      <input type="text" ng-model="ctrl.user.username" class="form-control" placeholder="Username" />
-    </div>
-    <div class="form-group">
-      <input type="password" ng-model="ctrl.user.password" class="form-control" placeholder="Password" />
-    </div>
-    <div class="form-group">
-      <button id="login" class="btn" type="submit">Login</button> <span>Please use eric / 3r1c (USER) or michel / m1ch3l (ADMIN)</span>
-    </div>
-    
-  </fieldset>
-</form>
+<div class="introduction col-xs-offset-2 col-xs-8 col-md-4">
+  <h4>What is OpenSnap?</h4>
+  <p>OpenSnap is a <a href="http://www.snapchat.com/">SnapChat</a> HTML5 clone designed to demonstrate how you can build Rich Internet Application based on <a href="http://projects.spring.io/spring-framework/">Spring</a>, <a href="https://angulardart.org/">AngularDart</a> and Websocket.</p>
+  <p>Please use eric / 3r1c (USER) or michel / m1ch3l (ADMIN) test accounts for now.</p>
+</div>
+
+<div class="col-xs-offset-1 col-xs-11 col-md-5">
+  <form class="form-horizontal" ng-submit="ctrl.authenticate()">
+    <h4>Please authenticate</h4>
+    <fieldset>    
+      <div class="form-group">
+        <input id="inputUsername" type="text" ng-model="ctrl.user.username" class="form-control" placeholder="Username" />
+      </div>
+      <div class="form-group">
+          <input id="inputPassword" type="password" ng-model="ctrl.user.password" class="form-control" placeholder="Password" />
+      </div>
+       <div class="form-group">
+          <button id="login" class="btn col-xs-offset-1 col-xs-2" type="submit">Login</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

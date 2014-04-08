@@ -50,6 +50,7 @@ class Snap {
   
   factory Snap.fromJsonMap(Map json) {
     List<User> recipients = new List<User>();
+    if(json['recipients'] !=null)
     for(Map map in json['recipients']) {
       recipients.add(new User.fromJsonMap(map));  
     }
@@ -71,7 +72,9 @@ class SnapEvent {
   static const String DELETED = "deleted";
   
   String type;
-  var value;
+  Snap snap;
+  List<Snap> snaps;
   
-  SnapEvent(this.type, this.value);
+  SnapEvent(this.type, this.snap);
+  SnapEvent.fromSnaps(this.type, this.snaps);
 }

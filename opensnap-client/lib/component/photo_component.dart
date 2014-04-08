@@ -23,6 +23,7 @@ class PhotoComponent extends NgShadowRootAware {
   Router _router;
   
   List<User> users;
+  bool isUploading = false;
    
   PhotoComponent(this._userQueryService, this._snapQueryService, this._authService, this._router) {
     if(_authService.authenticatedUser == null) {
@@ -48,12 +49,9 @@ class PhotoComponent extends NgShadowRootAware {
         stream = s;
         video.src = Url.createObjectUrlFromStream(s);
         video.onCanPlay.listen((e) {
-          video.width = video.videoWidth;
-          video.height = video.videoHeight;
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
         });
-        
     });
       
   }
@@ -71,7 +69,9 @@ class PhotoComponent extends NgShadowRootAware {
     //stream.stop();
     String data = canvas.toDataUrl('image/png');
     Snap snap = new Snap(_authService.authenticatedUser, [new User(sendTo.value)], data, int.parse( duration.value));
+    isUploading = true;
     _snapQueryService.createSnap(snap).then((Snap snap) {
+      isUploading = false;
       _router.go('snaps', new Map());
     });
   }

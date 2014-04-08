@@ -26,6 +26,7 @@ public class PushStateConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("forward:/index.html");
 		// For pushstate
 		registry.addViewController("/signin").setViewName("forward:/index.html");
 		registry.addViewController("/photo").setViewName("forward:/index.html");

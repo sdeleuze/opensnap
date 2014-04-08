@@ -1,12 +1,11 @@
-<nav class="navbar navbar-inverse" role="navigation">
-  <a class="navbar-brand" href="#">OpenSnap</a>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <a ng-if="ctrl.signedInUser == null" class="navbar-brand">OpenSnap</a>
   <ul class="nav navbar-nav" ng-if="ctrl.signedInUser != null">
-    <li ng-class="ctrl.snapsClass()"><a href="#/snaps">Snaps ({{ctrl.snapsCount}})</a></li>
-    <li ng-class="ctrl.photoClass()"><a href="#/photo">Take Photo</a></li>
-    <li ng-class="ctrl.adminClass()" ng-if="ctrl.signedInUser.roles.contains('ADMIN')"><a href="#/admin">Admin</a></li>
+    <li ng-class="ctrl.snapsClass()"><a href="#" ng-click="ctrl.goToSnaps($event)">Snaps ({{ctrl.snapsCount}})</a></li>
+    <li ng-class="ctrl.photoClass()"><a href="#" ng-click="ctrl.goToPhoto($event)">Take Photo</a></li>
+    <li ng-class="ctrl.adminClass()" ng-if="ctrl.signedInUser.roles.contains('ADMIN')"><a href="#" ng-click="ctrl.goToAdmin($event)">Admin</a></li>
   </ul>
-  <div ng-if="ctrl.signedInUser != null">
-    <p class="navbar-text navbar-right">Signed in as {{ctrl.signedInUser.username}}&nbsp;</p>
-    <button type="button" class="btn btn-default navbar-btn navbar-right" ng-click="ctrl.signout()">Sign out</button>
-  </div>
+  <ul class="nav navbar-nav navbar-right" ng-if="ctrl.signedInUser != null">
+    <li><a href="#" ng-click="ctrl.signout()">Logout {{ctrl.signedInUser.username}} &nbsp;</a></li>
+  </ul>
 </nav>

@@ -1,18 +1,14 @@
-<div>
-  <div class="row">
-    <div class="col-md-5">
-      <div class="list-group">
-        <a class="list-group-item" ng-repeat="snap in ctrl.snaps" ng-click="ctrl.viewSnap(snap)"> <span class="badge">{{snap.duration}}s</span> View Snap from {{snap.author.username}}</a>
-      </div>
-    </div>
-    <div id="photo-group" class="col-md-7">
-        <img id="photo" />
-        <div id="progress" class="progress progress-striped active">
-          <div class="progress-bar"  role="progressbar" style="width: {{ctrl.progressValue}}%">
-            <span class="sr-only">{{ctrl.progressValue}}% Complete</span>
-          </div>
-        </div>
-    </div>
+<div ng-if="!ctrl.displayPhoto" class="list-group col-xs-offset-1 col-xs-5">
+  <span ng-if="ctrl.hasSnaps">No Snap received yet!</span>
+  <a class="list-group-item" ng-repeat="snap in ctrl.snaps" ng-click="ctrl.viewSnap(snap)">
+  <span class="badge">{{snap.duration}}s</span> View Snap {{snap.id}} from {{snap.author.username}}</a>
+</div>
+<div ng-if="ctrl.displayPhoto" class="col-xs-12">
+  <div class="col-xs-12">
+    <progressbar animate="false" type="danger" max="ctrl.maxValue" value="ctrl.progressValue" />
+  </div>
+  <div>
+    <img id="photo" ng-if="!ctrl.hasImgData" src="{{ctrl.imgData}}" class="col-xs-12 col-md-offset-2 col-md-8"/>
   </div>
 </div>
 

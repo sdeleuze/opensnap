@@ -91,8 +91,8 @@ class SnapService extends MessagingService {
   SnapService(this._authService) {
     _authService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) return this._connectIfNeeded().then((_) {
-          _stompClient.subscribeString(_id, "/user/queue/snap-received", (Map<String, String> headers, String snapId) {
-            _evenController.add(new SnapEvent(SnapEvent.RECEIVED, int.parse(snapId)));
+          _stompClient.subscribeJson(_id, "/user/queue/snap-received", (var headers, var message) {
+            _evenController.add(new SnapEvent(SnapEvent.RECEIVED, new Snap.fromJsonMap(message)));
           }, matcher: ALL);
         });  
     });
@@ -112,13 +112,13 @@ class SnapService extends MessagingService {
       for(Map map in _) {
         snaps.add(new Snap.fromJsonMap(map));  
       }
-      _evenController.add(new SnapEvent(SnapEvent.RETREIVED, snaps));
+      _evenController.add(new SnapEvent.fromSnaps(SnapEvent.RETREIVED, snaps));
       return snaps;
     });
   }
       
-  void deleteSnap(int id) {
-    sendJsonSubscribe('/snap/delete-for-authenticated-user/$id');
-    _evenController.add(new SnapEvent(SnapEvent.DELETED, id));
+  void deleteSnap(Snap snap) {
+    sendJsonSubscribe('/app/snap/delete-for-authenticated-user/${snap.id}');
+    _evenController.add(new SnapEvent(SnapEvent.DELETED, snap));
   }
 }
