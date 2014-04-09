@@ -26,9 +26,7 @@ public class SnapController extends AbstractStompController {
 
 	@MessageMapping("/snap/create")
 	@SendToUser(Queue.SNAP_CREATED)
-	Snap create(Snap snap, Principal principal) {
-		Assert.isTrue(snap.getAuthor().getUsername().equals( principal.getName()),
-				"Snap author must be the authenticated user");
+	Snap create(Snap snap) {
 		Snap newSnap = snapService.create(snap);
 		return newSnap;
 	}
