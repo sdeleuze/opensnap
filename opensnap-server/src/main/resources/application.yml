@@ -6,16 +6,31 @@ spring:
 management:
   security:
     role: ADMIN
+broker:
+  enabled: ${BROKER_ENABLED:false}
+  host: ${BROKER_HOST:127.0.0.1}
+  port: ${BROKER_PORT:61613}
+  login: ${BROKER_LOGIN:guest}
+  password: ${BROKER_PASSWORD:guest}
+  virtual-host: ${BROKER_VIRTUAL_HOST:}
 ---
 spring:
   profiles: default
-opensnap:
-  client-path: '../opensnap-client/web/'
+client:
+  path: '../opensnap-client/web/'
   # Use directly build directory, need to run pub build before, useful for using the JS version
-  #client-path: '../opensnap-client/build/web'
+  #path: '../opensnap-client/build/web'
+---
+spring:
+  profiles: local
+broker:
+  enabled: false
 ---
 spring:
   profiles: cloud
-#opensnap:
-  #broker: rabbit
+broker:
+  enabled: false
+
+
+
 

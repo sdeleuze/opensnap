@@ -18,9 +18,11 @@ package opensnap.config;
 
 import opensnap.security.SecurityChannelInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.config.StompBrokerRelayRegistration;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -31,6 +33,25 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	private SecurityChannelInterceptor interceptor;
+
+	@Value("${broker.enabled}")
+	private boolean brokerEnabled;
+
+	@Value("${broker.login}")
+	private String brokerLogin;
+
+	@Value("${broker.password}")
+	private String brokerPassword;
+
+	@Value("${broker.host}")
+	private String brokerHost;
+
+	@Value("${broker.port}")
+	private int brokerPort;
+
+	@Value("${broker.virtual-host}")
+	private String brokerVirtualHost;
+
 
 	@Autowired
 	public void setInterceptor(SecurityChannelInterceptor interceptor) {
@@ -45,13 +66,27 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		this.interceptor.loadConfiguration("security.yml");
-		registration.setInterceptors(this.interceptor);
+		registration.setInterceptors(this.interceptor).taskExecutor().corePoolSize(1).maxPoolSize(1);
+	}
+
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.taskExecutor().corePoolSize(1).maxPoolSize(1);
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/queue", "/topic");
-		//config.setApplicationDestinationPrefixes("/app").enableStompBrokerRelay("/queue", "/topic");
+		config.setApplicationDestinationPrefixes("/app");
+		if(brokerEnabled) {
+			StompBrokerRelayRegistration brokerRegistration = config.enableStompBrokerRelay("/queue", "/topic").setSystemLogin(brokerLogin)
+					.setSystemPasscode(brokerPassword).setClientLogin(brokerLogin)
+				  .setClientPasscode(brokerPassword).setRelayHost(brokerHost).setRelayPort(brokerPort);
+			if(!brokerVirtualHost.equals("")) {
+				brokerRegistration.setVirtualHost(brokerVirtualHost);
+			}
+		} else {
+			config.enableSimpleBroker("/queue", "/topic");
+		}
 	}
 
 	@Override

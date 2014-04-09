@@ -87,7 +87,7 @@ public class SecurityChannelInterceptor extends ChannelInterceptorAdapter {
 				}
 			} else {
 				Assert.isInstanceOf(Map.class, value);
-				if(browseMap((Map)value, destinationRoot + key + "/", destination, userRoles)) {
+				if(browseMap((Map<String, Object>)value, destinationRoot + key + "/", destination, userRoles)) {
 					return true;
 				}
 			}

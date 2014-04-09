@@ -5,8 +5,7 @@ dependencies:
   browser: any
   js: any
   unittest: any
-  angular_ui:
-    git: https://github.com/akserg/angular.dart.ui.git
+  angular_ui: '>=0.2.2 <0.3.0'
   stomp: 0.7.2
   collection: any
   logging: any
