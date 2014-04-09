@@ -3,6 +3,9 @@ spring:
     cache-period: 0
   jmx:
     enabled: false
+management:
+  security:
+    role: ADMIN
 ---
 spring:
   profiles: default

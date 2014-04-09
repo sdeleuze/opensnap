@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
 				.authorizeRequests()
-					.antMatchers("/**").permitAll()
+					.antMatchers("/packages/**", "/css/**", "/fonts/**", "/index.html", "/main.dart", "/view/*").permitAll()
 					.anyRequest().authenticated();
 	}
 

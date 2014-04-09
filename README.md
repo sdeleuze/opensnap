@@ -30,6 +30,7 @@ You should :
  * import OpenSnap as a Gradle project
  * Open OpenSnap module settings and set Java project level to Java 8
  * Enable Dart on opensnap-client module (Preferences -> Dart -> Enable Dart for this project + check opensnap-client module).
+ * Ensure that working directory is set to the absolute path of opensnap/opensnap-server and not only opensnap in run application property.
 
 To run server side, just run or debug Application class main method.
 For client side, be sure to use http://127.0.0.1:8080 URL in order to avoid cross domain issues

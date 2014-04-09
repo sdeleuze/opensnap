@@ -52,7 +52,7 @@ dependencies {
         exclude(module: 'spring-jdbc')
     }
 
-    // Uncomment in order to run OpenSnap as an Executable JAR on Tomcat
+    // Comment these lines in order to run OpenSnap as a WAR
     compile 'org.apache.tomcat.embed:tomcat-embed-websocket:' + tomcatVersion
     compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:' + tomcatVersion
     compile 'org.apache.tomcat.embed:tomcat-embed-core:' + tomcatVersion

@@ -16,6 +16,7 @@ task pubClean(type: Delete) {
     delete 'build'
 }
 
+// We build in debug mode in order to have .dart files copied to build directory by pub
 task pubBuild(type: Exec) {
     executable 'pub'
     args 'build'
@@ -31,5 +32,6 @@ task copyDartFiles(type: Copy, dependsOn: 'pubBuild') {
 }
 
 jar.dependsOn pubBuild
+// Not enababled since we use pub build --mode debug
 //jar.dependsOn copyDartFiles
 clean.dependsOn pubClean
