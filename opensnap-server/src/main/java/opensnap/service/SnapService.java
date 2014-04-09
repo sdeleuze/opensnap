@@ -1,7 +1,6 @@
 package opensnap.service;
 
 import opensnap.domain.Snap;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 

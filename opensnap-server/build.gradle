@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE'
     }
 }
 
@@ -33,6 +33,7 @@ repositories {
 configurations {
     providedRuntime
     compile.exclude module: 'spring-boot-starter-tomcat'
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 dependencies {
