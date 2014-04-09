@@ -4,3 +4,5 @@ buildpack: https://github.com/sdeleuze/java-buildpack.git
 applications:
 - name: opensnap
   path: ./build/opensnap.jar
+env:
+  SPRING_PROFILES_ACTIVE: cloud

@@ -12,13 +12,7 @@ opensnap:
   #client-path: '../opensnap-client/build/web'
 ---
 spring:
-  profiles: local
-opensnap:
-  https: false
-server:
-  port: 8080
----
-spring:
   profiles: cloud
-opensnap:
-  https: true
+#opensnap:
+  #broker: rabbit
+

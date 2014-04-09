@@ -35,12 +35,6 @@ import java.nio.channels.ReadableByteChannel;
 @Configuration
 public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 
-	@Value("${server.port:8080}")
-	private int port;
-
-	@Value("${opensnap.https:false}")
-	private boolean https;
-
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 
@@ -54,41 +48,6 @@ public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 		factory.addContextCustomizers((context) -> {
 			context.addMimeMapping("dart", "application/dart");
 		});
-		if(https) {
-			enableHttps(factory);
-		}
-		enableCompression(factory);
-	}
-
-	public void enableHttps(TomcatEmbeddedServletContainerFactory factory) {
-		factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
-			@Override
-			public void customize(Connector connector) {
-				connector.setPort(port);
-				connector.setSecure(true);
-				connector.setScheme("https");
-				connector.setAttribute("keyAlias", "tomcat");
-				connector.setAttribute("keystorePass", "opensnap");
-				try {
-					ClassPathResource keystoreResource = new ClassPathResource("keystore");
-					ReadableByteChannel source = Channels.newChannel(keystoreResource.getInputStream());
-					File keystoreFile = File.createTempFile("tomcat", ".keystore");
-					FileChannel destination = new FileOutputStream(keystoreFile).getChannel();
-					destination.transferFrom(source, 0, keystoreResource.contentLength());
-					destination.close();
-
-					connector.setAttribute("keystoreFile", keystoreFile.getAbsolutePath());
-				} catch (IOException e) {
-					throw new IllegalStateException("Cannot load keystore", e);
-				}
-				connector.setAttribute("clientAuth", "false");
-				connector.setAttribute("sslProtocol", "TLS");
-				connector.setAttribute("SSLEnabled", true);
-			}
-		});
-	}
-
-	public void enableCompression(TomcatEmbeddedServletContainerFactory factory) {
 		factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
 			@Override
 			public void customize(Connector connector) {

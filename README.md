@@ -3,11 +3,6 @@
 Sample fullstack (client + server) Dart project.
 Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on client side
 
-## How to use it ?
-
-An OpenSnap instance is deployed on CloudFoundry: https://opensnap.cfapps.io/
-It currently works only with Chrome (desktop and mobile).
-
 ## How to run it ?
 
 Prerequisites:
@@ -31,4 +26,10 @@ Notes:
 Feel free to send pull requests !
 
 My reference development environnement is IntelliJ IDEA 13.1 + its Dart plugin.
-You should import OpenSnap as a Gradle project, and enable Dart on opensnap-client module (Preferences -> Dart -> Enable Dart for this project + check opensnap-client module).
+You should :
+ * import OpenSnap as a Gradle project
+ * Open OpenSnap module settings and set Java project level to Java 8
+ * Enable Dart on opensnap-client module (Preferences -> Dart -> Enable Dart for this project + check opensnap-client module).
+
+To run server side, just run or debug Application class main method.
+For client side, be sure to use http://127.0.0.1:8080 URL in order to avoid cross domain issues
