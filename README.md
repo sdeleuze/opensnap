@@ -3,6 +3,11 @@
 Sample fullstack (client + server) Dart project.
 Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on client side
 
+## How to use it ?
+
+An OpenSnap instance is deployed on CloudFoundry: https://opensnap.cfapps.io/
+It currently works only with Chrome (desktop and mobile).
+
 ## How to run it ?
 
 Prerequisites:
@@ -21,11 +26,9 @@ Build and run OpenSnap:
 Notes:
 * Make sure that Chrome does not run at the same time than Dartium, since it could prevent the webcam to work
 
-## TODO
+## How to contribute ?
 
-* Use SockJS instead of plain Websocket
-* Implement persistence
-* Test and fix CSS on mobile
-* Improve UI
-* ...
+Feel free to send pull requests !
 
+My reference development environnement is IntelliJ IDEA 13.1 + its Dart plugin.
+You should import OpenSnap as a Gradle project, and enable Dart on opensnap-client module (Preferences -> Dart -> Enable Dart for this project + check opensnap-client module).

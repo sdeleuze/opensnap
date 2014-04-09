@@ -16,7 +16,7 @@ class NotifyComponent {
     notifications = new List<Notification>();
     _snapService.onEvent.listen((SnapEvent event) {
       if(event.type == SnapEvent.RECEIVED) {
-        Notification notification = new Notification("New snap ${event.snap.id} published!");
+        Notification notification = new Notification("New snap ${event.snap.id} received!");
         notifications.add(notification);
         new Timer(new Duration(seconds:5), () => notifications.remove(notification));
       }
