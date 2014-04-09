@@ -27,6 +27,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -58,8 +59,7 @@ public class SecurityChannelInterceptor extends ChannelInterceptorAdapter {
 		if((destination == null) || isAllowed(destination, authentication.getName())) {
 			return message;
 		}
-		logger.warn("Message to destination {} not allowed for user {}", destination, authentication.getName());
-		return null;
+		throw new AccessDeniedException("Message to destination " + destination + " not allowed for user " + authentication.getName());
 
 	}
 
@@ -87,7 +87,7 @@ public class SecurityChannelInterceptor extends ChannelInterceptorAdapter {
 				}
 			} else {
 				Assert.isInstanceOf(Map.class, value);
-				if(browseMap((Map<String, Object>)value, destinationRoot + key + "/", destination, userRoles)) {
+				if(browseMap((Map)value, destinationRoot + key + "/", destination, userRoles)) {
 					return true;
 				}
 			}

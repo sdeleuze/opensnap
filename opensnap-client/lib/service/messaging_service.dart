@@ -24,14 +24,25 @@ class MessagingService {
   
   Future<StompClient> _connectIfNeeded() {
     if(_stompClient == null || _stompClient.isDisconnected) {
-      return connect(url).then((StompClient client) {
+      return connect(url, onError: onError, onFault: onFault).then((StompClient client) {
         _stompClient = client;
         _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
-          _logger.fine(message);
+          window.alert(message);
         });
       });
     }
     return new Future<StompClient>.value(_stompClient);
+  }
+  
+  onError(StompClient client, String message, String detail, Map<String, String> headers) {
+    window.alert(message);
+    _logger.fine(message, detail);
+    
+  }
+  
+  onFault(StompClient client, error, stackTrace) {
+    window.alert(error);
+    _logger.finer("Unknown error", error, stackTrace);
   }
   
   Future sendJsonMessage(String sendDestination, String subscribeDestination, var object, [var convert = null]) {
