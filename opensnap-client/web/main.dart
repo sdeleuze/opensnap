@@ -20,6 +20,7 @@ import 'dart:mirrors';
 class OpenSnapModule extends Module {
   OpenSnapModule() {
     install(new AngularUIModule());
+    type(StompClientService);
     type(UserService);
     type(AuthService);
     type(SnapService);

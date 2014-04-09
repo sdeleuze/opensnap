@@ -17,6 +17,7 @@ part "component/snaps_component.dart";
 part "component/admin_component.dart";
 part "service/auth_service.dart";
 part "service/messaging_service.dart";
+part "service/stomp_client_service.dart";
 part "domain.dart";
 part "routing.dart";
 
