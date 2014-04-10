@@ -1,6 +1,7 @@
 package opensnap.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import opensnap.domain.User;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@MessageMapping("/usr")
 public class UserController  extends AbstractStompController {
 
 	private final UserService userService;
@@ -20,12 +22,12 @@ public class UserController  extends AbstractStompController {
 		this.userService = userService;
 	}
 
-	@SubscribeMapping("/usr/authenticated")
+	@SubscribeMapping("/authenticated")
 	User getAuthenticatedUser(Principal principal) {
 		return userService.getByUsername(principal.getName()).withoutPassword();
 	}
 
-	@SubscribeMapping("/usr/all")
+	@SubscribeMapping("/all")
 	List<User> getAllUsers() {
 		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
 	}

@@ -78,9 +78,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.setApplicationDestinationPrefixes("/app");
 		if(brokerEnabled) {
-			StompBrokerRelayRegistration brokerRegistration = config.enableStompBrokerRelay("/queue", "/topic").setSystemLogin(brokerLogin)
-					.setSystemPasscode(brokerPassword).setClientLogin(brokerLogin)
-				  .setClientPasscode(brokerPassword).setRelayHost(brokerHost).setRelayPort(brokerPort);
+			StompBrokerRelayRegistration brokerRegistration = config.enableStompBrokerRelay("/queue", "/topic")
+					.setSystemLogin(brokerLogin).setSystemPasscode(brokerPassword).setClientLogin(brokerLogin)
+				  	.setClientPasscode(brokerPassword).setRelayHost(brokerHost).setRelayPort(brokerPort);
 			if(!brokerVirtualHost.equals("")) {
 				brokerRegistration.setVirtualHost(brokerVirtualHost);
 			}
