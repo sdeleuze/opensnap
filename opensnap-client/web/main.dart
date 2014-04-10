@@ -20,7 +20,6 @@ import 'dart:mirrors';
 class OpenSnapModule extends Module {
   OpenSnapModule() {
     install(new AngularUIModule());
-    type(StompClientService);
     type(UserService);
     type(AuthService);
     type(SnapService);
@@ -40,6 +39,12 @@ main() {
     window.console.log('${r.loggerName}(${r.level}): ${r.message}');
   });
   
-  ngBootstrap(module: new OpenSnapModule());
+  Injector i = ngBootstrap(module: new OpenSnapModule());
+  AuthService a = i.get(AuthService);
+  a.authenticatedUser = new User("toto", "toto");
+  a.eventController.add(new UserEvent(UserEvent.LOGIN, new User("toto", "toto")));
+  
+  Router router = i.get(Router);
+  router.go('photo', new Map());
   
 }

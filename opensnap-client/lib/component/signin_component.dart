@@ -24,6 +24,7 @@ class SigninComponent {
   }
 
   submit() {
+    
     if (isNewUser) _signup();
     else _authenticate();
   }
