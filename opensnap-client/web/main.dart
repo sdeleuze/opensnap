@@ -22,7 +22,6 @@ class OpenSnapModule extends Module {
     install(new AngularUIModule());
     type(StompClientService);
     type(UserService);
-    type(AuthService);
     type(SnapService);
     type(NavbarComponent);
     type(SigninComponent);

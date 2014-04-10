@@ -12,3 +12,4 @@ queue:
 topic:
   'user-authenticated': 'USER'
   'snap-created': 'USER'
+  'user-created': 'USER'

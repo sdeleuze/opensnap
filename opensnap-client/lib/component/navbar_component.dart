@@ -10,13 +10,13 @@ class NavbarComponent {
   
   User signedInUser;
   num snapsCount;
-  AuthService _authService;
+  UserService _userService;
   SnapService _snapService;
   Router _router;
 
-  NavbarComponent(this._authService, this._snapService, this._router) {
+  NavbarComponent(this._userService, this._snapService, this._router) {
     snapsCount = 0;
-    _authService.onEvent.listen((UserEvent event) {
+    _userService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) {
         signedInUser=event.user;
         _snapService.getSnaps();
@@ -54,7 +54,7 @@ class NavbarComponent {
     }
   
   void signout() {
-    _authService.signout().then((_) {
+    _userService.signout().then((_) {
       signedInUser = null;
       _router.go('signin', new Map());
     }).catchError((_) => window.alert('Error during logout'));

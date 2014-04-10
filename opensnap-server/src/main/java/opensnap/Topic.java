@@ -18,5 +18,6 @@ package opensnap;
 
 public interface Topic {
 	final static String USER_AUTHENTICATED = "/topic/user-authenticated";
+	final static String USER_CREATED = "/topic/user-created";
 	final static String SNAP_CREATED = "/topic/snap-created";
 }

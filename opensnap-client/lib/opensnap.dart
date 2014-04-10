@@ -15,7 +15,6 @@ part "component/photo_component.dart";
 part "component/signin_component.dart";
 part "component/snaps_component.dart";
 part "component/admin_component.dart";
-part "service/auth_service.dart";
 part "service/snap_service.dart";
 part "service/user_service.dart";
 part "service/stomp_client_service.dart";

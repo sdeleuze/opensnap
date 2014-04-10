@@ -39,7 +39,7 @@ public class UserController  extends AbstractStompController {
 
 	@SubscribeMapping("/all")
 	Set<User> getAllUsers() {
-		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toSet());
+		return userService.getAllUsers().stream().map((u -> u.withoutPasswordAndRoles())).collect(Collectors.toSet());
 	}
 
 }

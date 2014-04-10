@@ -20,6 +20,8 @@ client:
   path: '../opensnap-client/web/'
   # Use directly build directory, need to run pub build before, useful for using the JS version
   #path: '../opensnap-client/build/web'
+broker:
+  enabled: false
 ---
 spring:
   profiles: local

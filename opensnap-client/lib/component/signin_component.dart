@@ -11,14 +11,13 @@ class SigninComponent {
 
   User user;
   String passwordToVerify;
-  AuthService _authService;
   UserService _userService;
   Router _router;
   bool isNewUser = false;
   
-  SigninComponent(this._authService, this._userService, this._router) {
+  SigninComponent(this._userService, this._router) {
     user = new User();
-    if(this._authService.authenticatedUser != null) {
+    if(_userService.isAuthenticated) {
       _router.go('snaps', new Map());
     }
   }
@@ -35,12 +34,12 @@ class SigninComponent {
     }
     this._userService.signup(user).then((_) {
       isNewUser = false;
-      _authenticate();
+      return _authenticate();
     }).catchError((_) => window.alert('Error during signup!'));
   }
 
-  _authenticate() {
-    _authService.signin(user)
+  Future _authenticate() {
+    return _userService.signin(user)
         .then((bool status) => _router.go('photo', new Map())
     ).catchError((_) => window.alert('Error during login'));
   }

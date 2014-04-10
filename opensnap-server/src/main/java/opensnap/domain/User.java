@@ -77,4 +77,8 @@ public class User {
 		return new User(username, null, roles);
 	}
 
+	public User withoutPasswordAndRoles() {
+		return new User(username, null, null);
+	}
+
 }

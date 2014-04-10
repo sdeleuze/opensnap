@@ -3,14 +3,14 @@ part of opensnap;
 class SnapService {
   
   StompClientService _client;
+  UserService _userService;
   StreamController _evenController = new StreamController.broadcast();
-  AuthService _authService;
   
   Stream get onEvent => _evenController.stream;
    
-  SnapService(this._client, this._authService) {
+  SnapService(this._client, this._userService) {
     _client.onEvent.listen((StompClientEvent event) {
-      if(event.type == StompClientEvent.CONNECTED) return _client._connectIfNeeded().then((_) {
+      if(event.type == StompClientEvent.CONNECTED && _userService.isAuthenticated) return _client._connectIfNeeded().then((_) {
         _client.subscribeJson("/user/queue/snap-received", (var headers, var message) {
             _evenController.add(new SnapEvent(SnapEvent.RECEIVED, new Snap.fromJsonMap(message)));
           });

@@ -14,7 +14,7 @@ class SnapsComponent {
   DivElement progress;
   
   SnapService _snapService;
-  AuthService _authService;
+  UserService _userService;
   Router _router;
 
   List<Snap> snaps = new List();
@@ -27,8 +27,8 @@ class SnapsComponent {
   bool get hasSnaps => this.snaps.isEmpty;
   bool get hasImgData => this.imgData.isEmpty;
   
-  SnapsComponent(this._snapService, this._authService, this._router) {
-    if(_authService.authenticatedUser == null) {
+  SnapsComponent(this._snapService, this._userService, this._router) {
+    if(!_userService.isAuthenticated) {
       _router.go('signin', new Map());
       return;
     }
@@ -61,7 +61,7 @@ class SnapsComponent {
   }
   
   void _updateSnaps() {
-    if(_authService.authenticatedUser != null) {
+    if(_userService.authenticatedUser != null) {
       _snapService.getSnaps().then((List<Snap> s) {
         snaps = s;
       });

@@ -88,7 +88,7 @@ class StompClientService {
     
     String subscribeJson(String destination, void onMessage(Map<String, String> headers, message)) {
       String id = _id;
-      _stompClient.subscribeJson(id, "/user/queue/snap-received", onMessage, matcher: ALL);
+      _stompClient.subscribeJson(id, destination, onMessage, matcher: ALL);
       return id;
     }
     

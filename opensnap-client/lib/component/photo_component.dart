@@ -17,21 +17,25 @@ class PhotoComponent extends NgShadowRootAware {
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
   
-  UserService _userQueryService;
-  SnapService _snapQueryService;
-  AuthService _authService;
+  UserService _userService;
+  SnapService _snapService;
   Router _router;
   
   List<User> users;
   bool isUploading = false;
    
-  PhotoComponent(this._userQueryService, this._snapQueryService, this._authService, this._router) {
-    if(_authService.authenticatedUser == null) {
+  PhotoComponent(this._userService, this._snapService, this._router) {
+    if(!_userService.isAuthenticated) {
       _router.go('signin', new Map());
       return;
     }
-    _userQueryService.getAllUsers().then((List<User> us) {
+    _userService.getAllUsers().then((List<User> us) {
       users = us;
+      _userService.onEvent.listen((UserEvent e) {
+        if(e.type == UserEvent.CREATED) { 
+          users.add(e.user);
+        }
+      });
     });
   }
   
@@ -68,9 +72,9 @@ class PhotoComponent extends NgShadowRootAware {
   void sendSnap() {
     //stream.stop();
     String data = canvas.toDataUrl('image/png');
-    Snap snap = new Snap(_authService.authenticatedUser, [new User(sendTo.value)], data, int.parse( duration.value));
+    Snap snap = new Snap(_userService.authenticatedUser, [new User(sendTo.value)], data, int.parse( duration.value));
     isUploading = true;
-    _snapQueryService.createSnap(snap).then((Snap snap) {
+    _snapService.createSnap(snap).then((Snap snap) {
       isUploading = false;
       _router.go('snaps', new Map());
     });

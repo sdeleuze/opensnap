@@ -15,8 +15,10 @@ class User {
   
   factory User.fromJsonMap(Map json) {
     List<String> roles = new List<String>();
-    for(String role in json['roles']) {
-      roles.add(role);  
+    if(json['roles'] != null) {
+      for(String role in json['roles']) {
+        roles.add(role);  
+      }
     }
     return new User(json['username'], json['password'], roles);
   }
@@ -30,8 +32,9 @@ class User {
 }
 
 class UserEvent {
-  static const String LOGIN = "retreived";
-  static const String LOGOUT = "received";
+  static const String LOGIN = "login";
+  static const String LOGOUT = "logout";
+  static const String CREATED = "created";
   
   String type;
   User user;
@@ -50,9 +53,10 @@ class Snap {
   
   factory Snap.fromJsonMap(Map json) {
     List<User> recipients = new List<User>();
-    if(json['recipients'] !=null)
-    for(Map map in json['recipients']) {
-      recipients.add(new User.fromJsonMap(map));  
+    if(json['recipients'] != null) {
+      for(Map map in json['recipients']) {
+        recipients.add(new User.fromJsonMap(map));  
+      }
     }
     return new Snap(new User.fromJsonMap(json['author']), recipients, json['photo'], json['duration'], json['id']); 
   }
