@@ -9,8 +9,8 @@ class SnapService {
   Stream get onEvent => _evenController.stream;
    
   SnapService(this._client, this._authService) {
-    _authService.onEvent.listen((UserEvent event) {
-      if(event.type == UserEvent.LOGIN) return _client._connectIfNeeded().then((_) {
+    _client.onEvent.listen((StompClientEvent event) {
+      if(event.type == StompClientEvent.CONNECTED) return _client._connectIfNeeded().then((_) {
         _client.subscribeJson("/user/queue/snap-received", (var headers, var message) {
             _evenController.add(new SnapEvent(SnapEvent.RECEIVED, new Snap.fromJsonMap(message)));
           });

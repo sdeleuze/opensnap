@@ -3,6 +3,8 @@ part of opensnap;
 class StompClientService {
   StompClient _stompClient;
   int _connexionId = 0;
+  Stream get onEvent => _eventController.stream;
+  StreamController _eventController = new StreamController.broadcast();
   
   Logger _logger = new Logger('StompClientService');
   
@@ -23,14 +25,22 @@ class StompClientService {
   
   Future<StompClient> _connectIfNeeded() {
       if(_stompClient == null || _stompClient.isDisconnected) {
-        return connect(url, onError: onError, onFault: onFault).then((StompClient client) {
-          _stompClient = client;
-          _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
-            window.alert(message);
-          });
-        });
+        return connect(url, onConnect: onConnect, onDisconnect: onDisconnect, onError: onError, onFault: onFault);
       }
       return new Future<StompClient>.value(_stompClient);
+    }
+  
+    onConnect(StompClient client, Map<String, String> headers) {
+      _stompClient = client;
+      _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
+        window.alert(message);
+      });
+      _eventController.add(new StompClientEvent(StompClientEvent.CONNECTED));
+    }
+    
+    onDisconnect(StompClient client) {
+      _logger.info("Websocket connection has been closed.");
+      _eventController.add(new StompClientEvent(StompClientEvent.DISCONNECTED));
     }
     
     onError(StompClient client, String message, String detail, Map<String, String> headers) {
@@ -94,6 +104,14 @@ class StompClientService {
         return f;
       }
     }
-       
-    
+}
+
+class StompClientEvent {
+  static const String CONNECTED = "connected";
+  static const String DISCONNECTED = "disconnected";
+  
+  String type;
+  
+  StompClientEvent(this.type);
+
 }
