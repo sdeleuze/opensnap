@@ -62,7 +62,7 @@ public class DefaultSnapService implements SnapService {
 
 	@Override
 	public void delete(int id, String username) {
-		Snap snap = null;
+		Snap snap;
 		synchronized (snaps) {
 			snap = snaps.stream().filter(s -> s.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException(id + " does not exists"));
 		}
