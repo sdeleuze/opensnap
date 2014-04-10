@@ -2,12 +2,12 @@ package opensnap.service;
 
 import opensnap.domain.User;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserService {
 	User create(User user);
 	User signup(User user);
 	Boolean authenticate(User user);
 	User getByUsername(String username);
-	Set<User> getAllUsers();
+	List<User> getAllUsers();
 }

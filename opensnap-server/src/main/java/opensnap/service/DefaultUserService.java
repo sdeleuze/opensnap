@@ -11,12 +11,12 @@ import java.util.*;
 @Service
 public class DefaultUserService implements UserService {
 
-	private Set<User> users;
+	private List<User> users;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public DefaultUserService(PasswordEncoder passwordEncoder) {
-		users = Collections.synchronizedSet(new LinkedHashSet<User>());
+		users = Collections.synchronizedList(new ArrayList<User>());
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -42,7 +42,7 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Override
-	public Set<User> getAllUsers() {
+	public List<User> getAllUsers() {
 		return users;
 	}
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import opensnap.service.SnapService;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @MessageMapping("/snap")
@@ -36,7 +36,7 @@ public class SnapController extends AbstractStompController {
 	}
 
 	@SubscribeMapping("/user")
-	Set<Snap> getSnapsFromAuthenticatedUser(Principal principal) {
+	List<Snap> getSnapsFromAuthenticatedUser(Principal principal) {
 		return snapService.getSnapsFromRecipient(principal.getName());
 	}
 

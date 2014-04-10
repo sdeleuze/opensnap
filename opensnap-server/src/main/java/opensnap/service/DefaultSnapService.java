@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class DefaultSnapService implements SnapService {
 
-	private Set<Snap> snaps;
+	private List<Snap> snaps;
 	AtomicInteger snapCounter = new AtomicInteger(1);
 	private final SimpMessagingTemplate template;
 
 	@Autowired
 	public DefaultSnapService(SimpMessagingTemplate template) {
-		this.snaps = Collections.synchronizedSet(new LinkedHashSet<Snap>());
+		this.snaps = Collections.synchronizedList(new ArrayList<Snap>());
 		this.template = template;
 	}
 
@@ -46,10 +46,10 @@ public class DefaultSnapService implements SnapService {
 	}
 
 	@Override
-	public Set<Snap> getSnapsFromRecipient(String username) {
+	public List<Snap> getSnapsFromRecipient(String username) {
 		synchronized (snaps) {
 			return snaps.stream().filter(s -> s.getRecipients().stream().anyMatch(u -> u.getUsername().equals(username)))
-					.map((s -> s.withoutPhoto())).collect(Collectors.toSet());
+					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
 		}
 	}
 
