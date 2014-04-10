@@ -34,17 +34,17 @@ class StompClientService {
     }
     
     onError(StompClient client, String message, String detail, Map<String, String> headers) {
-      window.alert(message);
+      window.alert("Error: $message");
       _logger.fine(message, detail);
       
     }
     
     onFault(StompClient client, error, stackTrace) {
-      window.alert(error);
+      window.alert("Unknown error: $error");
       _logger.finer("Unknown error", error, stackTrace);
     }
     
-    Future sendJsonMessage(String sendDestination, String subscribeDestination, var object, [var convert = null]) {
+    Future sendJsonMessage(String sendDestination, var object, String subscribeDestination, [var convert = null]) {
         return _connectIfNeeded().then((_) {
           var completer = new Completer();
           String id = _id;
@@ -85,5 +85,15 @@ class StompClientService {
     unsubscribe(String id) {
       _stompClient.unsubscribe(id);
     }
+    
+    Future disconnect() {
+      if(_stompClient == null || _stompClient.isDisconnected) {
+        return new Future.value();
+      } else {
+        Future f = _stompClient.disconnect();
+        return f;
+      }
+    }
+       
     
 }

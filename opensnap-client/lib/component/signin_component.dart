@@ -10,22 +10,45 @@ part of opensnap;
 class SigninComponent {
 
   User user;
+  String passwordToVerify;
   AuthService _authService;
+  UserService _userService;
   Router _router;
+  bool isNewUser = false;
   
-  SigninComponent(this._authService, this._router) {
+  SigninComponent(this._authService, this._userService, this._router) {
     user = new User();
     if(this._authService.authenticatedUser != null) {
       _router.go('snaps', new Map());
     }
   }
-  
-  authenticate() {
-    _authService.signin(user).then((bool status) {
-      if(status) {
-        _router.go('photo', new Map());
-      }
-      else window.alert('Error during login');
-    });
+
+  submit() {
+    if (isNewUser) _signup();
+    else _authenticate();
   }
+
+  _signup() {
+    if(user.password != passwordToVerify) {
+      window.alert("Password mismatch");
+      return;
+    }
+    this._userService.signup(user).then((_) {
+      isNewUser = false;
+      _authenticate();
+    }).catchError((_) => window.alert('Error during signup!'));
+  }
+
+  _authenticate() {
+    _authService.signin(user)
+        .then((bool status) => _router.go('photo', new Map())
+    ).catchError((_) => window.alert('Error during login'));
+  }
+
+  signupMode(MouseEvent e) {
+    isNewUser = true;
+    e.preventDefault();
+  }
+
+
 }

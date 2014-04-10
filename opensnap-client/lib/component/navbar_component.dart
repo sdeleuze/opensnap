@@ -54,13 +54,10 @@ class NavbarComponent {
     }
   
   void signout() {
-    _authService.signout().then((bool status) {
-      if(status) {
-            signedInUser = null;
-            _router.go('signin', new Map());
-      }
-      else window.alert('Error during logout');
-    });
+    _authService.signout().then((_) {
+      signedInUser = null;
+      _router.go('signin', new Map());
+    }).catchError((_) => window.alert('Error during logout'));
     
   }
   

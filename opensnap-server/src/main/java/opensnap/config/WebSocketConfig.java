@@ -69,6 +69,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registration.setInterceptors(this.interceptor).taskExecutor().corePoolSize(1).maxPoolSize(1);
 	}
 
+
+
 	@Override
 	public void configureClientOutboundChannel(ChannelRegistration registration) {
 		registration.taskExecutor().corePoolSize(1).maxPoolSize(1);
@@ -91,7 +93,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/websocket");
+		registry.addEndpoint("/websocket").setHandshakeHandler(new CustomHandshakeHandler());
 	}
 
 }

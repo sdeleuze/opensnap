@@ -1,7 +1,11 @@
 app:
+  usr:
+    signup: 'ANONYMOUS'
   '*': 'USER'
 user:
   queue:
+    'error': 'ANONYMOUS,USER'
+    'user-created': 'ANONYMOUS'
     '*': 'USER'
 queue:
   'snap-created': 'ADMIN'

@@ -7,28 +7,30 @@ class AuthService {
   UserService _userService;
   StreamController _eventController = new StreamController.broadcast();
   User _authenticatedUser;
+  StompClientService _stompClient;
   
-  AuthService(this._http, this._userService);
+  AuthService(this._http, this._userService, this._stompClient);
   
-  Future<bool> signin(User user) {
-    return _http.post('${window.location.origin}/login', 'username=${user.username}&password=${user.password}',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded'}
-    ).then((HttpResponse response) {
-      return _userService.getAuthenticatedUser().then((User u) {
-        _eventController.add(new UserEvent(UserEvent.LOGIN, u));
-        _authenticatedUser = u;
-        return true;
-      });
-       
-    }, onError: (_)  => false);
+  Future signin(User user) {
+    return _stompClient.disconnect().then((_) {
+      return _http.post('${window.location.origin}/login', 'username=${user.username}&password=${user.password}',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded'}).then((HttpResponse response) {
+          return _userService.getAuthenticatedUser().then((User u) {
+            _eventController.add(new UserEvent(UserEvent.LOGIN, u));
+            _authenticatedUser = u;
+          });
+        });
+    });
   }
   
-  Future<bool> signout() {
+  Future signout() {
     return _http.post('${window.location.origin}//logout', '').then((HttpResponse response) {
       _eventController.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
       _authenticatedUser = null;
       return true;
-    }, onError: (_) => false);
+    }).then((_) {
+      _stompClient.disconnect();
+    });
   }
   
   User get authenticatedUser => _authenticatedUser;

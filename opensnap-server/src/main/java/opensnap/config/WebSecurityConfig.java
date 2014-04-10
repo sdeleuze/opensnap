@@ -18,7 +18,9 @@ package opensnap.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	private LogoutSuccessHandler logoutSuccessHandler;
 	private UserDetailsService userDetailsService;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public void setUserDetailsService(UserDetailsService userDetailsService) {
@@ -56,6 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		this.logoutSuccessHandler = logoutSuccessHandler;
 	}
 
+	@Autowired
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -75,12 +83,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 					.antMatchers("/packages/**", "/css/**", "/fonts/**", "/index.html",
 							"/main.dart", "/main.dart.js", "main.dart.js.map", "main.dart.precompiled.js", "/view/*").permitAll()
+					.antMatchers("/websocket").permitAll()
 					.anyRequest().authenticated();
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 
+	@Override
+	public void setAuthenticationConfiguration(AuthenticationConfiguration authenticationConfiguration) {
+		super.setAuthenticationConfiguration(authenticationConfiguration);
+	}
 }

@@ -1,22 +1,5 @@
 part of opensnap;
 
-
-class UserService {
-  
-  StompClientService _client;
-  
-  UserService(this._client);
-  
-  Future<User> getAuthenticatedUser() {
-    return _client.sendJsonSubscribe("/app/usr/authenticated", (_) => new User.fromJsonMap(_));
-  }
-    
-  Future<List<User>> getAllUsers() {
-    return _client.sendJsonSubscribe("/app/usr/all");
-  }
-  
-}
-
 class SnapService {
   
   StompClientService _client;
@@ -36,7 +19,7 @@ class SnapService {
   }
   
   Future<Snap> createSnap(Snap snap) {
-    return _client.sendJsonMessage("/app/snap/create", "/user/queue/snap-created",snap, (_) => new Snap.fromJsonMap(_));
+    return _client.sendJsonMessage("/app/snap/create",snap, "/user/queue/snap-created", (_) => new Snap.fromJsonMap(_));
   }
   
   Future<Snap> getSnapById(int id) {
