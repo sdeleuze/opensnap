@@ -9,4 +9,5 @@ dependencies:
   stomp: 0.7.2
   collection: any
   logging: any
+  route_hierarchical: '>=0.4.17 <0.5.0'
  

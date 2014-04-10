@@ -31,8 +31,6 @@ class OpenSnapModule extends Module {
     type(NotifyComponent);
     type(AdminComponent);
     value(RouteInitializerFn, opensnapRouteInitializer);
-    factory(NgRoutingUsePushState,
-        (_) => new NgRoutingUsePushState.value(false));
   }
 }
 
