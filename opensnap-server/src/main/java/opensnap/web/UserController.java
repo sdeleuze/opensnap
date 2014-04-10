@@ -8,7 +8,7 @@ import opensnap.domain.User;
 import opensnap.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,8 +28,8 @@ public class UserController  extends AbstractStompController {
 	}
 
 	@SubscribeMapping("/all")
-	List<User> getAllUsers() {
-		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toList());
+	Set<User> getAllUsers() {
+		return userService.getAllUsers().stream().map((u -> u.withoutPassword())).collect(Collectors.toSet());
 	}
 
 }

@@ -9,22 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
 public class DefaultSnapService implements SnapService {
 
-	private List<Snap> snaps;
+	private Set<Snap> snaps;
 	AtomicInteger snapCounter = new AtomicInteger(1);
 	private final SimpMessagingTemplate template;
 
 	@Autowired
 	public DefaultSnapService(SimpMessagingTemplate template) {
-		this.snaps = Collections.synchronizedList(new ArrayList<Snap>());
+		this.snaps = Collections.synchronizedSet(new LinkedHashSet<Snap>());
 		this.template = template;
 	}
 
@@ -48,10 +46,10 @@ public class DefaultSnapService implements SnapService {
 	}
 
 	@Override
-	public List<Snap> getSnapsFromRecipient(String username) {
+	public Set<Snap> getSnapsFromRecipient(String username) {
 		synchronized (snaps) {
 			return snaps.stream().filter(s -> s.getRecipients().stream().anyMatch(u -> u.getUsername().equals(username)))
-					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+					.map((s -> s.withoutPhoto())).collect(Collectors.toSet());
 		}
 	}
 

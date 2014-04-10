@@ -4,17 +4,15 @@ import opensnap.domain.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DefaultUserService implements UserService {
 
-	private List<User> users;
+	private Set<User> users;
 
 	public DefaultUserService() {
-		users = Collections.synchronizedList(new ArrayList<User>());
+		users = Collections.synchronizedSet(new LinkedHashSet<User>());
 	}
 
 	@Override
@@ -31,7 +29,7 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public Set<User> getAllUsers() {
 		return users;
 	}
 
