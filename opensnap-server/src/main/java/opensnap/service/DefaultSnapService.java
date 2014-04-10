@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class DefaultSnapService implements SnapService {
 
 	@Autowired
 	public DefaultSnapService(SimpMessagingTemplate template) {
-		this.snaps = new ArrayList<Snap>();
+		this.snaps = Collections.synchronizedList(new ArrayList<Snap>());
 		this.template = template;
 	}
 
@@ -40,14 +41,18 @@ public class DefaultSnapService implements SnapService {
 
 	@Override
 	public Snap getById(int id) {
-		return snaps.stream().filter((s) -> s.getId() == id).findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("No snap with id " + id + " found!"));
+		synchronized (snaps) {
+			return snaps.stream().filter((s) -> s.getId() == id).findFirst()
+					.orElseThrow(() -> new IllegalArgumentException("No snap with id " + id + " found!"));
+		}
 	}
 
 	@Override
 	public List<Snap> getSnapsFromRecipient(String username) {
-		return snaps.stream().filter(s -> s.getRecipients().stream().anyMatch(u -> u.getUsername().equals(username)))
-				.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+		synchronized (snaps) {
+			return snaps.stream().filter(s -> s.getRecipients().stream().anyMatch(u -> u.getUsername().equals(username)))
+					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+		}
 	}
 
 	@Override
@@ -57,7 +62,10 @@ public class DefaultSnapService implements SnapService {
 
 	@Override
 	public void delete(int id, String username) {
-		Snap snap = snaps.stream().filter(s -> s.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException(id + " does not exists"));
+		Snap snap = null;
+		synchronized (snaps) {
+			snap = snaps.stream().filter(s -> s.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException(id + " does not exists"));
+		}
 		snap.getRecipients().removeIf(u -> u.getUsername().equals(username));
 		if(snap.getRecipients().isEmpty()) snaps.remove(snap);
 	}
