@@ -5,16 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:opensnap/opensnap.dart';
 import 'dart:html';
 
-@MirrorsUsed(targets: const['angular',
-                            'angular.core',
-                            'angular.core.dom',
-                            'angular.filter',
-                            'angular.perf',
-                            'angular.directive',
-                            'angular.routing',
-                            'angular.core.parser',
-                            NodeTreeSanitizer,
-                            'angular_ui','opensnap'], override: '*')
+@MirrorsUsed(targets: const['opensnap'], override: '*')
 import 'dart:mirrors';
 
 class OpenSnapModule extends Module {
@@ -26,7 +17,7 @@ class OpenSnapModule extends Module {
     type(NavbarComponent);
     type(SigninComponent);
     type(PhotoComponent);
-    type(SnapsComponent);
+    type(ReceivedSnapsComponent);
     type(NotifyComponent);
     type(AdminComponent);
     value(RouteInitializerFn, opensnapRouteInitializer);

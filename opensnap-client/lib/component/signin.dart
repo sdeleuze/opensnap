@@ -2,8 +2,8 @@ part of opensnap;
 
 @NgComponent(
     selector: 'signin',
-    templateUrl: 'packages/opensnap/component/signin_component.html',
-    cssUrl: 'packages/opensnap/component/signin_component.css',
+    templateUrl: 'packages/opensnap/component/signin.html',
+    cssUrl: 'packages/opensnap/component/signin.css',
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )

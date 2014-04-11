@@ -54,6 +54,14 @@ public class DefaultSnapService implements SnapService {
 	}
 
 	@Override
+	public List<Snap> getSnapsFromAuthor(String username) {
+		synchronized (snaps) {
+			return snaps.stream().filter(s -> s.getAuthor().getUsername().equals(username))
+					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+		}
+	}
+
+	@Override
 	public void delete(int id) {
 		if(!snaps.removeIf((s) -> s.getId() == id)) throw new IllegalArgumentException(id + " does not exists");
 	}

@@ -31,17 +31,6 @@ class User {
   }
 }
 
-class UserEvent {
-  static const String LOGIN = "login";
-  static const String LOGOUT = "logout";
-  static const String CREATED = "created";
-  
-  String type;
-  User user;
-  
-  UserEvent(this.type, this.user);
-}
-
 class Snap {
   int id;
   User author;
@@ -66,19 +55,6 @@ class Snap {
   bool operator == (other) {
       if (other is! Snap) return false;
       Snap s = other;
-      return (s.id == id && s.author == author && listEq(s.recipients, recipients)  && s.duration == duration);
+      return (s.id == id && s.author == author  && s.duration == duration);
     }
-}
-
-class SnapEvent {
-  static const String RETREIVED = "retreived";
-  static const String RECEIVED = "received";
-  static const String DELETED = "deleted";
-  
-  String type;
-  Snap snap;
-  List<Snap> snaps;
-  
-  SnapEvent(this.type, this.snap);
-  SnapEvent.fromSnaps(this.type, this.snaps);
 }

@@ -1,29 +1,29 @@
 part of opensnap;
 
 class StompClientService {
+  
+  Stream get onEvent => _eventController.stream;
+  String get url {
+        String url = window.location.origin;
+        if(url.startsWith("https")) {
+          url = url.replaceFirst("https", "wss");
+        } else {
+          url = url.replaceFirst("http", "ws");
+        }
+        if(url.contains("cfapps.io")) {
+          url="$url:4443";
+        }
+        return "$url/websocket";
+      }
+  
   StompClient _stompClient;
   int _connexionId = 0;
-  Stream get onEvent => _eventController.stream;
   StreamController _eventController = new StreamController.broadcast();
   Logger _logger = new Logger('StompClientService');
-  Router _router;
-  
-  StompClientService(this._router);
-  
+  Router _router;  
   String get _id => (_connexionId++).toString();
   
-  String get url {
-    String url = window.location.origin;
-    if(url.startsWith("https")) {
-      url = url.replaceFirst("https", "wss");
-    } else {
-      url = url.replaceFirst("http", "ws");
-    }
-    if(url.contains("cfapps.io")) {
-      url="$url:4443";
-    }
-    return "$url/websocket";
-  }
+  StompClientService(this._router);
   
   Future<StompClient> _connectIfNeeded() {
       if(_stompClient == null || _stompClient.isDisconnected) {
@@ -107,14 +107,4 @@ class StompClientService {
         return f;
       }
     }
-}
-
-class StompClientEvent {
-  static const String CONNECTED = "connected";
-  static const String DISCONNECTED = "disconnected";
-  
-  String type;
-  
-  StompClientEvent(this.type);
-
 }

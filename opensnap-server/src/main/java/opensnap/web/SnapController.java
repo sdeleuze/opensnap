@@ -35,9 +35,14 @@ public class SnapController extends AbstractStompController {
 		return snapService.getById(id);
 	}
 
-	@SubscribeMapping("/user")
-	List<Snap> getSnapsFromAuthenticatedUser(Principal principal) {
+	@SubscribeMapping("/received")
+	List<Snap> getReceivedSnaps(Principal principal) {
 		return snapService.getSnapsFromRecipient(principal.getName());
+	}
+
+	@SubscribeMapping("/sent")
+	List<Snap> getSentSnaps(Principal principal) {
+		return snapService.getSnapsFromAuthor(principal.getName());
 	}
 
 	@SubscribeMapping("/delete/{id}")

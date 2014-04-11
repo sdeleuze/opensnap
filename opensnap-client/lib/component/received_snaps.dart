@@ -1,13 +1,13 @@
 part of opensnap;
 
 @NgComponent(
-    selector: 'snaps',
-    templateUrl: 'packages/opensnap/component/snaps_component.html',
-    cssUrl: 'packages/opensnap/component/snaps_component.css',
+    selector: 'received-snaps',
+    templateUrl: 'packages/opensnap/component/received_snaps.html',
+    cssUrl: 'packages/opensnap/component/received_snaps.css',
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )
-class SnapsComponent {
+class ReceivedSnapsComponent {
   
   ImageElement photo;
   DivElement photoGroup;
@@ -17,27 +17,21 @@ class SnapsComponent {
   UserService _userService;
   Router _router;
 
-  List<Snap> snaps = new List();
   int progressValue;
   int maxValue;
   
   bool displayPhoto = false;
   String imgData = "";
   
-  bool get hasSnaps => this.snaps.isEmpty;
+  bool get hasSnaps => this._snapService.snapsReceived.isEmpty;
+  List<Snap> get snaps => this._snapService.snapsReceived;
   bool get hasImgData => this.imgData.isEmpty;
   
-  SnapsComponent(this._snapService, this._userService, this._router) {
+  ReceivedSnapsComponent(this._snapService, this._userService, this._router) {
     if(!_userService.isAuthenticated) {
       _router.go('signin', new Map());
       return;
     }
-    _updateSnaps();
-    _snapService.onEvent.listen((SnapEvent event) {
-      if(event.type == SnapEvent.RECEIVED) {
-        this.snaps.add(event.snap);
-      }
-    });
   }
   
   void viewSnap(Snap partialSnap) {
@@ -58,14 +52,6 @@ class SnapsComponent {
         progressValue = progressValue + 10;
       });
     });
-  }
-  
-  void _updateSnaps() {
-    if(_userService.authenticatedUser != null) {
-      _snapService.getSnaps().then((List<Snap> s) {
-        snaps = s;
-      });
-    }
   }
   
 }

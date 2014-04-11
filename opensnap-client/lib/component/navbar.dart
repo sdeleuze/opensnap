@@ -2,7 +2,7 @@ part of opensnap;
 
 @NgComponent(
     selector: 'navbar',
-    templateUrl: 'packages/opensnap/component/navbar_component.html',
+    templateUrl: 'packages/opensnap/component/navbar.html',
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )
@@ -12,6 +12,7 @@ class NavbarComponent {
   num snapsCount;
   UserService _userService;
   SnapService _snapService;
+  List<Snap> get snaps => _snapService.snapsReceived;
   Router _router;
 
   NavbarComponent(this._userService, this._snapService, this._router) {
@@ -19,23 +20,8 @@ class NavbarComponent {
     _userService.onEvent.listen((UserEvent event) {
       if(event.type == UserEvent.LOGIN) {
         signedInUser=event.user;
-        _snapService.getSnaps();
       } else if(event.type == UserEvent.LOGOUT) {
         signedInUser = null;
-      }
-    });
-    _snapService.onEvent.listen((SnapEvent event) {
-      switch(event.type) {
-        case SnapEvent.RETREIVED:
-          List<Snap> snaps = event.snaps;
-          snapsCount = snaps.length;
-          return;
-        case SnapEvent.RECEIVED:
-          snapsCount++;
-          return;
-        case SnapEvent.DELETED:
-          snapsCount--;
-          return;
       }
     });
   }

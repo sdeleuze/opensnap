@@ -2,8 +2,8 @@ part of opensnap;
 
 @NgComponent(
     selector: 'photo',
-    templateUrl: 'packages/opensnap/component/photo_component.html',
-    cssUrl: 'packages/opensnap/component/photo_component.css',
+    templateUrl: 'packages/opensnap/component/photo.html',
+    cssUrl: 'packages/opensnap/component/photo.css',
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )
@@ -18,10 +18,10 @@ class PhotoComponent extends NgShadowRootAware {
   SelectElement sendTo, duration;
   
   UserService _userService;
+  List<User> get users => _userService.users;
   SnapService _snapService;
   Router _router;
   
-  List<User> users;
   bool isUploading = false;
    
   PhotoComponent(this._userService, this._snapService, this._router) {
@@ -29,14 +29,6 @@ class PhotoComponent extends NgShadowRootAware {
       _router.go('signin', new Map());
       return;
     }
-    _userService.getAllUsers().then((List<User> us) {
-      users = us;
-    });
-    _userService.onEvent.listen((UserEvent e) {
-      if(e.type == UserEvent.CREATED) {
-          users.add(e.user);
-        }
-      });
   }
   
   void onShadowRoot(ShadowRoot shadowRoot) {
