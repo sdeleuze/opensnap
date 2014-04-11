@@ -17,7 +17,8 @@ class OpenSnapModule extends Module {
     type(NavbarComponent);
     type(SigninComponent);
     type(PhotoComponent);
-    type(ReceivedSnapsComponent);
+    type(SnapsReceivedComponent);
+    type(SnapsSentComponent);
     type(NotifyComponent);
     type(AdminComponent);
     value(RouteInitializerFn, opensnapRouteInitializer);

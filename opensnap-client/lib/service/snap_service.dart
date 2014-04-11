@@ -4,6 +4,7 @@ class SnapService {
   
   Stream get onEvent => _eventController.stream;
   int get createdSnapCount => _createdSnapCount;
+  List<Snap> get snapsSent => _snapsSent;
   List<Snap> get snapsReceived => _snapsReceived;
   
   StompClientService _client;
@@ -11,6 +12,7 @@ class SnapService {
   StreamController _eventController = new StreamController.broadcast();
   int _createdSnapCount = 0;
   List<Snap> _snapsReceived = new List();
+  List<Snap> _snapsSent = new List();
    
   SnapService(this._client, this._userService) {
     _userService.onEvent.listen((UserEvent event) {
@@ -24,8 +26,16 @@ class SnapService {
           _createdSnapCount++;
           _eventController.add(new SnapEvent(SnapEvent.CREATED, new Snap.fromJsonMap(message)));
         });
+        _client.subscribeJson("/user/queue/snap-deleted", (var headers, var message) {
+          Snap snap = new Snap.fromJsonMap(message);
+          _snapsSent.remove(snap);
+          _eventController.add(new SnapEvent(SnapEvent.DELETED, snap));
+        });
         getReceivedSnaps().then((List<Snap> snaps) {
           _snapsReceived = snaps;
+        });
+        getSentSnaps().then((List<Snap> snaps) {
+          _snapsSent = snaps;
         });
       });
     });
@@ -33,6 +43,7 @@ class SnapService {
   
   Future<Snap> createSnap(Snap snap) {
     return _client.sendJsonMessage("/app/snap/create",snap, "/user/queue/snap-created", (_) => new Snap.fromJsonMap(_)).then((Snap snap) {
+      _snapsSent.add(snap);
       _eventController.add(new SnapEvent(SnapEvent.SENT, snap));
     });
   }
@@ -50,10 +61,19 @@ class SnapService {
       return snaps;
     });
   }
+  
+  Future<List<Snap>> getSentSnaps() {
+      return _client.sendJsonSubscribe("/app/snap/sent", (_) {
+        List<Snap> snaps = new List<Snap>();
+        for(Map map in _) {
+          snaps.add(new Snap.fromJsonMap(map));  
+        }
+        return snaps;
+      });
+    }
       
   void deleteSnap(Snap snap) {
     _client.sendJsonSubscribe('/app/snap/delete-for-authenticated-user/${snap.id}');
     _snapsReceived.remove(snap);
-    _eventController.add(new SnapEvent(SnapEvent.DELETED, snap));
   }
 }

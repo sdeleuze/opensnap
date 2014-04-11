@@ -68,7 +68,7 @@ class PhotoComponent extends NgShadowRootAware {
     isUploading = true;
     _snapService.createSnap(snap).then((Snap snap) {
       isUploading = false;
-      _router.go('snaps', new Map());
+      _router.go('sent', new Map());
     });
   }
   

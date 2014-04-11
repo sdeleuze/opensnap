@@ -19,6 +19,7 @@ package opensnap;
 public interface Queue {
 	final static String SNAP_RECEIVED = "/queue/snap-received";
 	final static String SNAP_CREATED = "/queue/snap-created";
+	final static String SNAP_DELETED = "/queue/snap-deleted";
 	final static String USER_CREATED = "/queue/user-created";
 	final static String ERROR = "/queue/error";
 }

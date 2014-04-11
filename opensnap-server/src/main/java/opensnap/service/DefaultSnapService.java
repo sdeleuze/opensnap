@@ -49,15 +49,14 @@ public class DefaultSnapService implements SnapService {
 	public List<Snap> getSnapsFromRecipient(String username) {
 		synchronized (snaps) {
 			return snaps.stream().filter(s -> s.getRecipients().stream().anyMatch(u -> u.getUsername().equals(username)))
-					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+					.collect(Collectors.toList());
 		}
 	}
 
 	@Override
 	public List<Snap> getSnapsFromAuthor(String username) {
 		synchronized (snaps) {
-			return snaps.stream().filter(s -> s.getAuthor().getUsername().equals(username))
-					.map((s -> s.withoutPhoto())).collect(Collectors.toList());
+			return snaps.stream().filter(s -> s.getAuthor().getUsername().equals(username)).collect(Collectors.toList());
 		}
 	}
 
@@ -73,7 +72,10 @@ public class DefaultSnapService implements SnapService {
 			snap = snaps.stream().filter(s -> s.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException(id + " does not exists"));
 		}
 		snap.getRecipients().removeIf(u -> u.getUsername().equals(username));
-		if(snap.getRecipients().isEmpty()) snaps.remove(snap);
+		if(snap.getRecipients().isEmpty()) {
+			snaps.remove(snap);
+			this.template.convertAndSendToUser(snap.getAuthor().getUsername(), Queue.SNAP_DELETED, snap);
+		}
 	}
 
 }

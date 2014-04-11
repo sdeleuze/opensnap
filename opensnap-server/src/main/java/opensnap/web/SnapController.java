@@ -12,6 +12,7 @@ import opensnap.service.SnapService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @MessageMapping("/snap")
@@ -37,12 +38,14 @@ public class SnapController extends AbstractStompController {
 
 	@SubscribeMapping("/received")
 	List<Snap> getReceivedSnaps(Principal principal) {
-		return snapService.getSnapsFromRecipient(principal.getName());
+		return snapService.getSnapsFromRecipient(principal.getName())
+				.stream().map((s -> s.withoutPhotoAndRecipients())).collect(Collectors.toList());
 	}
 
 	@SubscribeMapping("/sent")
 	List<Snap> getSentSnaps(Principal principal) {
-		return snapService.getSnapsFromAuthor(principal.getName());
+		return snapService.getSnapsFromAuthor(principal.getName())
+			.stream().map((s -> s.withoutPhoto())).collect(Collectors.toList());
 	}
 
 	@SubscribeMapping("/delete/{id}")

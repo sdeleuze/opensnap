@@ -1,13 +1,13 @@
 part of opensnap;
 
 @NgComponent(
-    selector: 'received-snaps',
-    templateUrl: 'packages/opensnap/component/received_snaps.html',
-    cssUrl: 'packages/opensnap/component/received_snaps.css',
+    selector: 'snaps-received',
+    templateUrl: 'packages/opensnap/component/snaps_received.html',
+    cssUrl: 'packages/opensnap/component/snaps_received.css',
     applyAuthorStyles: true,
     publishAs: 'ctrl'
 )
-class ReceivedSnapsComponent {
+class SnapsReceivedComponent {
   
   ImageElement photo;
   DivElement photoGroup;
@@ -23,11 +23,11 @@ class ReceivedSnapsComponent {
   bool displayPhoto = false;
   String imgData = "";
   
-  bool get hasSnaps => this._snapService.snapsReceived.isEmpty;
+  bool get hasSnaps => !this._snapService.snapsReceived.isEmpty;
   List<Snap> get snaps => this._snapService.snapsReceived;
-  bool get hasImgData => this.imgData.isEmpty;
+  bool get hasImgData => !this.imgData.isEmpty;
   
-  ReceivedSnapsComponent(this._snapService, this._userService, this._router) {
+  SnapsReceivedComponent(this._snapService, this._userService, this._router) {
     if(!_userService.isAuthenticated) {
       _router.go('signin', new Map());
       return;

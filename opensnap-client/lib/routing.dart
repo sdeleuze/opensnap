@@ -12,9 +12,13 @@ void opensnapRouteInitializer(Router router, RouteViewFactory view)  {
         path: '/photo',
         enter: view('view/photo.html'))
     ..addRoute(
-        name: 'snaps',
-        path: '/snaps',
-        enter: view('view/snaps.html'))
+        name: 'received',
+        path: '/received',
+        enter: view('view/snaps_received.html'))
+    ..addRoute(
+        name: 'sent',
+        path: '/sent',
+        enter: view('view/snaps_sent.html'))
     ..addRoute(
         name: 'admin',
         path: '/admin',

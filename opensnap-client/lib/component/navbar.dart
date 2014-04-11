@@ -12,7 +12,8 @@ class NavbarComponent {
   num snapsCount;
   UserService _userService;
   SnapService _snapService;
-  List<Snap> get snaps => _snapService.snapsReceived;
+  List<Snap> get snapsReceived => _snapService.snapsReceived;
+  List<Snap> get snapsSent => _snapService.snapsSent;
   Router _router;
 
   NavbarComponent(this._userService, this._snapService, this._router) {
@@ -26,10 +27,15 @@ class NavbarComponent {
     });
   }
   
-  void goToSnaps(MouseEvent e) {
-    _router.go('snaps', new Map());
+  void goToReceived(MouseEvent e) {
+    _router.go('received', new Map());
     e.preventDefault();
   }
+  
+  void goToSent(MouseEvent e) {
+      _router.go('sent', new Map());
+      e.preventDefault();
+    }
   
   void goToPhoto(MouseEvent e) {
       _router.go('photo', new Map());
@@ -49,16 +55,20 @@ class NavbarComponent {
     
   }
   
-  String photoClass() {
-    if(window.location.hash == '#/photo') return 'active'; else return '';
+  String get photoClass {
+    if(window.location.pathname.endsWith('/photo')) return 'active'; else return '';
   }
   
-  String snapsClass() {
-    if(window.location.hash == '#/snaps') return 'active'; else return '';
+  String get receivedClass {
+    if(window.location.pathname.endsWith('/received')) return 'active'; else return '';
   }
   
-  String adminClass() {
-      if(window.location.hash == '#/admin') return 'active'; else return '';
+  String get sentClass {
+      if(window.location.pathname.endsWith('/snaps')) return 'active'; else return '';
+    }
+  
+  String get adminClass {
+      if(window.location.pathname.endsWith('/admin')) return 'active'; else return '';
     }
 
 }
