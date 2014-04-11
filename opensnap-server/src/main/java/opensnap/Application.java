@@ -2,11 +2,11 @@ package opensnap;
 
 import opensnap.domain.User;
 import opensnap.service.UserService;
-import opensnap.web.SimpleCORSFilter;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
+
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,14 +23,6 @@ public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(new Object[]{Application.class}, args);
-	}
-
-	@Bean
-	public FilterRegistrationBean corsFilter() {
-		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		filterRegistration.setFilter(new SimpleCORSFilter());
-		filterRegistration.setOrder(0);
-		return filterRegistration;
 	}
 
 	@Bean

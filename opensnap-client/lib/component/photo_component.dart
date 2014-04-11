@@ -31,12 +31,12 @@ class PhotoComponent extends NgShadowRootAware {
     }
     _userService.getAllUsers().then((List<User> us) {
       users = us;
-      _userService.onEvent.listen((UserEvent e) {
-        if(e.type == UserEvent.CREATED) { 
+    });
+    _userService.onEvent.listen((UserEvent e) {
+      if(e.type == UserEvent.CREATED) {
           users.add(e.user);
         }
       });
-    });
   }
   
   void onShadowRoot(ShadowRoot shadowRoot) {

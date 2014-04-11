@@ -20,6 +20,8 @@ class NavbarComponent {
       if(event.type == UserEvent.LOGIN) {
         signedInUser=event.user;
         _snapService.getSnaps();
+      } else if(event.type == UserEvent.LOGOUT) {
+        signedInUser = null;
       }
     });
     _snapService.onEvent.listen((SnapEvent event) {

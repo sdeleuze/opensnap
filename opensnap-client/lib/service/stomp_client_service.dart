@@ -5,8 +5,10 @@ class StompClientService {
   int _connexionId = 0;
   Stream get onEvent => _eventController.stream;
   StreamController _eventController = new StreamController.broadcast();
-  
   Logger _logger = new Logger('StompClientService');
+  Router _router;
+  
+  StompClientService(this._router);
   
   String get _id => (_connexionId++).toString();
   
@@ -41,6 +43,7 @@ class StompClientService {
     onDisconnect(StompClient client) {
       _logger.info("Websocket connection has been closed.");
       _eventController.add(new StompClientEvent(StompClientEvent.DISCONNECTED));
+      _router.go('signin', new Map());
     }
     
     onError(StompClient client, String message, String detail, Map<String, String> headers) {

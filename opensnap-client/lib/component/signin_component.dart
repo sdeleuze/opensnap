@@ -17,9 +17,6 @@ class SigninComponent {
   
   SigninComponent(this._userService, this._router) {
     user = new User();
-    if(_userService.isAuthenticated) {
-      _router.go('snaps', new Map());
-    }
   }
 
   submit() {

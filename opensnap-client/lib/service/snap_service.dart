@@ -4,15 +4,15 @@ class SnapService {
   
   StompClientService _client;
   UserService _userService;
-  StreamController _evenController = new StreamController.broadcast();
+  StreamController _eventController = new StreamController.broadcast();
   
-  Stream get onEvent => _evenController.stream;
+  Stream get onEvent => _eventController.stream;
    
   SnapService(this._client, this._userService) {
-    _client.onEvent.listen((StompClientEvent event) {
-      if(event.type == StompClientEvent.CONNECTED && _userService.isAuthenticated) return _client._connectIfNeeded().then((_) {
+    _userService.onEvent.listen((UserEvent event) {
+      if(event.type == UserEvent.LOGIN) return _client._connectIfNeeded().then((_) {
         _client.subscribeJson("/user/queue/snap-received", (var headers, var message) {
-            _evenController.add(new SnapEvent(SnapEvent.RECEIVED, new Snap.fromJsonMap(message)));
+            _eventController.add(new SnapEvent(SnapEvent.RECEIVED, new Snap.fromJsonMap(message)));
           });
         });  
     });
@@ -32,13 +32,13 @@ class SnapService {
       for(Map map in _) {
         snaps.add(new Snap.fromJsonMap(map));  
       }
-      _evenController.add(new SnapEvent.fromSnaps(SnapEvent.RETREIVED, snaps));
+      _eventController.add(new SnapEvent.fromSnaps(SnapEvent.RETREIVED, snaps));
       return snaps;
     });
   }
       
   void deleteSnap(Snap snap) {
     _client.sendJsonSubscribe('/app/snap/delete-for-authenticated-user/${snap.id}');
-    _evenController.add(new SnapEvent(SnapEvent.DELETED, snap));
+    _eventController.add(new SnapEvent(SnapEvent.DELETED, snap));
   }
 }

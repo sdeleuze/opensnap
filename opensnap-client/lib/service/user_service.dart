@@ -3,20 +3,26 @@ part of opensnap;
 class UserService {
 
   StompClientService _client;
-  StreamController _evenController = new StreamController.broadcast();
+  StreamController _eventController = new StreamController.broadcast();
   Stream get onEvent => _eventController.stream;
   Http _http;
-  StreamController _eventController = new StreamController.broadcast();
   User _authenticatedUser;
 
   UserService(this._client, this._http) {
+    onEvent.listen((UserEvent event) {
+      if(event.type == UserEvent.LOGIN) return _client._connectIfNeeded().then((_) {
+        _client.subscribeJson("/topic/user-created", (var headers, var message) {
+          User user = new User.fromJsonMap(message);
+            _eventController.add(new UserEvent(UserEvent.CREATED, user));
+          });
+        });  
+    });
     _client.onEvent.listen((StompClientEvent event) {
-          if(event.type == StompClientEvent.CONNECTED && this.isAuthenticated) return _client._connectIfNeeded().then((_) {
-            _client.subscribeJson("/topic/user-created", (var headers, var message) {
-                _evenController.add(new UserEvent(UserEvent.CREATED, new User.fromJsonMap(message)));
-              });
-            });  
-        });
+      if(event.type == StompClientEvent.DISCONNECTED) {
+        _eventController.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
+        _authenticatedUser = null;
+      }
+    });
   }
 
   Future<User> getAuthenticatedUser() {
@@ -28,15 +34,13 @@ class UserService {
   }
   
   Future signin(User user) {
-      return _http.post('${window.location.origin}/login', 'username=${user.username}&password=${user.password}',
+      return signout().then((_) => _http.post('${window.location.origin}/login', 'username=${user.username}&password=${user.password}',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded'}).then((HttpResponse response) {
-          // User without the roles
-          _authenticatedUser = user;
           return getAuthenticatedUser().then((User u) {
             _authenticatedUser = u;
             _eventController.add(new UserEvent(UserEvent.LOGIN, u));
           });
-        });
+        }));
     }
     
     Future<User> signup(User user) {
@@ -48,7 +52,6 @@ class UserService {
       return _http.post('${window.location.origin}/logout', '').then((HttpResponse response) {
         _eventController.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
         _authenticatedUser = null;
-        return true;
       }).then((_) {
         _client.disconnect();
       });
