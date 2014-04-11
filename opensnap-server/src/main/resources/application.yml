@@ -3,9 +3,6 @@ spring:
     cache-period: 0
   jmx:
     enabled: false
-management:
-  security:
-    role: ADMIN
 broker:
   enabled: ${BROKER_ENABLED:false}
   host: ${BROKER_HOST:127.0.0.1}

@@ -1,4 +1,4 @@
-memory: 512M
+memory: 1G
 instances: 1
 buildpack: https://github.com/sdeleuze/java-buildpack.git
 applications:

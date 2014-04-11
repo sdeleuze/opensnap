@@ -2,4 +2,73 @@
   <h4>Statistics</h4>
   <p><b>Users created</b>: {{ctrl.userCount}}</p>
   <p><b>Snaps created</b>: {{ctrl.snapCount}}</p>
+  
+  <h4>Spring Boot endpoints</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Description</th>
+        <th>Sensitive</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="/autoconfig">autoconfig</a></td>
+        <td>Displays an auto-configuration report showing all auto-configuration candidates and the reason why they “were” or “were not” applied.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/beans">beans</a></td>
+        <td>Displays a complete list of all the Spring Beans in your application.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/configprops">configprops</a></td>
+        <td>Displays a collated list of all @ConfigurationProperties.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/dump">dump</a></td>
+        <td>Performs a thread dump.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/env">env</a></td>
+        <td>Exposes properties from Spring’s ConfigurableEnvironment.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/health">health</a></td>
+        <td>Shows application health information (defaulting to a simple “OK” message).</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td><a href="/info">info</a></td>
+        <td>Displays arbitrary application info.</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td><a href="/metrics">metrics</a></td>
+        <td>Shows “metrics” information for the current application.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/mappings">mappings</a></td>
+        <td>Displays a collated list of all @RequestMapping paths.</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/shutdown">shutdown</a></td>
+        <td>Allows the application to be gracefully shutdown (not enabled by default).</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td><a href="/trace">trace</a></td>
+        <td>Displays trace information (by default the last few HTTP requests).</td>
+        <td>true</td>
+      </tr>
+    </tbody>
+  </table>
+  
 </div> 
