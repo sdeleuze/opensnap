@@ -20,10 +20,15 @@ class NotifyComponent {
       new Timer(new Duration(seconds:5), () => notifications.remove(notification));
     });
   }
+  
+  void closeAlert(index) {
+    notifications.removeAt(index);
+  }
 }
 
 class Notification {
   String message;
+  String type;
 
-  Notification(this.message);
+  Notification(this.message, [this.type = 'success']);
 }

@@ -1,6 +1,5 @@
-<div ng-repeat="notification in ctrl.notifications" class="alert alert-warning alert-dismissable fade in col-xs-offset-7 col-xs-4">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  {{notification.message}}
+<div class="alert-container col-xs-offset-8 col-xs-4">
+  <alert ng-repeat="notification in ctrl.notifications" type="notification.type" close="ctrl.closeAlert($index)">
+    {{notification.message}}
+  </alert>
 </div>
-
-
