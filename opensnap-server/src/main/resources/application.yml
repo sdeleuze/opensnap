@@ -29,6 +29,13 @@ spring:
   profiles: cloud
 broker:
   enabled: false
+---
+spring:
+  profiles: ovh
+broker:
+  enabled: false
+server:
+  port: 80
 
 
 

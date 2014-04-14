@@ -8,34 +8,30 @@
       
       <video id="video" autoplay="true" class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-xs-6"></video>
       <canvas id="canvas"></canvas>
-      <img src="" id="photo" class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-xs-6" alt="photo">
+      <img src="{{ctrl.data}}" id="photo" class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-xs-6" alt="photo">
     </div>
   </div>
     
     <div class="form-group">
       <label for="duration" class="col-xs-offset-1 col-xs-2 control-label">Duration</label>
-      <div class="col-xs-6 col-md-3">
-        <select id="duration" class="form-control">
-              <option value="1">1s</option>
-              <option value="2">2s</option>
-              <option value="3">3s</option>
-              <option value="4">4s</option>
-              <option value="5">5s</option>
-              <option value="6">6s</option>
-              <option value="7">7s</option>
-              <option value="8">8s</option>
-              <option value="9">9s</option>
-              <option value="10">10s</option>
-        </select>
-      </div>
+      <select id="duration" class="col-xs-4 col-md-1 form-control">
+            <option value="1">1s</option>
+            <option value="2">2s</option>
+            <option value="3">3s</option>
+            <option value="4">4s</option>
+            <option value="5">5s</option>
+            <option value="6">6s</option>
+            <option value="7">7s</option>
+            <option value="8">8s</option>
+            <option value="9">9s</option>
+            <option value="10">10s</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="sendto" class="col-xs-offset-1 col-xs-2 control-label">To</label>
-      <div class="col-xs-6 col-md-3">
-        <select id="sendto" class="form-control">
-          <option ng-repeat="user in ctrl.users">{{user.username}}</option>
-        </select>
-      </div>
+      <select id="sendto" class="col-xs-4 col-md-1 form-control">
+        <option ng-repeat="user in ctrl.users">{{user.username}}</option>
+      </select>
     </div>
     <div class="form-group">
       <div class="col-xs-offset-1 col-xs-7">
