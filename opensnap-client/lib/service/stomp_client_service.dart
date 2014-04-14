@@ -2,7 +2,7 @@ part of opensnap;
 
 class StompClientService {
   
-  Stream get onEvent => _eventController.stream;
+  Stream get onEvent => _events.stream;
   String get url {
         String url = window.location.origin;
         if(url.startsWith("https")) {
@@ -18,14 +18,14 @@ class StompClientService {
   
   StompClient _stompClient;
   int _connexionId = 0;
-  StreamController _eventController = new StreamController.broadcast();
+  StreamController _events = new StreamController.broadcast();
   Logger _logger = new Logger('StompClientService');
   Router _router;  
   String get _id => (_connexionId++).toString();
   
   StompClientService(this._router);
   
-  Future<StompClient> _connectIfNeeded() {
+  Future<StompClient> connectWebsocket() {
       if(_stompClient == null || _stompClient.isDisconnected) {
         return connect(url, onConnect: onConnect, onDisconnect: onDisconnect, onError: onError, onFault: onFault);
       }
@@ -37,12 +37,12 @@ class StompClientService {
       _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
         window.alert(message);
       });
-      _eventController.add(new StompClientEvent(StompClientEvent.CONNECTED));
+      _events.add(new StompClientEvent(StompClientEvent.CONNECTED));
     }
     
     onDisconnect(StompClient client) {
       _logger.info("Websocket connection has been closed.");
-      _eventController.add(new StompClientEvent(StompClientEvent.DISCONNECTED));
+      _events.add(new StompClientEvent(StompClientEvent.DISCONNECTED));
       _router.go('signin', new Map());
     }
     
@@ -57,41 +57,29 @@ class StompClientService {
       _logger.finer("Unknown error", error, stackTrace);
     }
     
-    Future sendJsonMessage(String sendDestination, var object, String subscribeDestination, [var convert = null]) {
-        return _connectIfNeeded().then((_) {
-          var completer = new Completer();
-          String id = _id;
-          _stompClient.subscribeJson(id, subscribeDestination, (var headers, var message) {
-            if(convert == null) {
-              completer.complete(message);
-            } else {
-              completer.complete(convert(message));
-            }
-            _stompClient.unsubscribe(id);
-          }, matcher: ALL);
-          var json = (object == null) ? {} : (object is String || object is int) ? object : object.toJson();
-          _stompClient.sendJson(sendDestination, json);
-          return completer.future;
-        });
-      }
-      
-    Future sendJsonSubscribe(String destination, [var convert = null]) {
-      return this._connectIfNeeded().then((_) {
-          var completer = new Completer();
-          _stompClient.subscribeJson(_id, destination, (var headers, var message) {
-            if(convert == null) {
-              completer.complete(message);
-            } else {
-              completer.complete(convert(message));
-            }
-          }, matcher: ALL);
-          return completer.future;
-        });
-      }
-    
-    String subscribeJson(String destination, void onMessage(Map<String, String> headers, message)) {
+    Future jsonMessageRequest(String sendDestination, var object, String subscribeDestination, [var convert = null]) {
+      var c = new Completer();
       String id = _id;
-      _stompClient.subscribeJson(id, destination, onMessage, matcher: ALL);
+      _stompClient.subscribeJson(id, subscribeDestination, (var headers, var message) {
+        _stompClient.unsubscribe(id);
+        convert == null ? c.complete(message) : c.complete(convert(message));
+      }, matcher: ALL);
+      var json = (object == null) ? {} : (object is String || object is int) ? object : object.toJson();
+      _stompClient.sendJson(sendDestination, json);
+      return c.future;
+    }
+      
+    Future jsonSubscribeRequest(String destination, [var convert = null]) {
+      var c = new Completer();
+      _stompClient.subscribeJson(_id, destination, (var headers, var message) {
+        convert == null ? c.complete(message) : c.complete(convert(message));
+      }, matcher: ALL);
+      return c.future;
+    }
+    
+    String jsonSubscribe(String destination, void onMessage(var message)) {
+      String id = _id;
+      _stompClient.subscribeJson(_id, destination, (var headers, var message) => onMessage(message), matcher: ALL);
       return id;
     }
     
