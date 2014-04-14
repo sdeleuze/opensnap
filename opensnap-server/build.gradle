@@ -15,16 +15,11 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
-
-war {
-    baseName = 'opensnap'
-}
+archivesBaseName = 'opensnap'
 
 repositories {
     mavenCentral()
@@ -44,7 +39,6 @@ dependencies {
     compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-websocket:' + springVersion
     compile 'org.projectreactor:reactor-tcp:1.0.1.RELEASE'
-    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
 
     compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
     compile 'org.springframework.security:spring-security-config:' + springSecurityVersion

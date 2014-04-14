@@ -4,7 +4,7 @@ task clean(dependsOn: [':opensnap-client:clean', ':opensnap-server:clean', 'clea
 
 }
 
-task build(dependsOn: [':opensnap-client:build', ':opensnap-server:build', 'copyWarTask']) << {
+task build(dependsOn: [':opensnap-client:build', ':opensnap-server:build', 'copyJar']) << {
 	
 }
 
@@ -17,10 +17,10 @@ task run() << {
 	}
 } 
 
-task copyWarTask(type: Copy, dependsOn: ':opensnap-server:build') {
+task copyJar(type: Copy, dependsOn: ':opensnap-server:build') {
     from('opensnap-server/build/libs') {
-    	include '**/*.war'
-    	rename 'opensnap-(.*).war', 'opensnap.jar'
+    	include '**/*.jar'
+    	rename 'opensnap-(.*).jar', 'opensnap.jar'
     }
     into 'build'
 }

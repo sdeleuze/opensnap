@@ -16,6 +16,8 @@
 
 package opensnap.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -33,6 +35,8 @@ class StaticFilesDevConfig extends WebMvcConfigurerAdapter {
 	@Value("${client.path:}")
 	private String relativePath;
 
+	private static final Logger logger = LoggerFactory.getLogger(StaticFilesDevConfig.class);
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		try {
@@ -40,10 +44,8 @@ class StaticFilesDevConfig extends WebMvcConfigurerAdapter {
 			registry.addResourceHandler("/**")
 					.addResourceLocations("file:" + fs.getPath(this.relativePath).toFile().getCanonicalPath() + "/")
 					.setCachePeriod(0);
-
-
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Error while adding static files handler", e);
 		}
 	}
 

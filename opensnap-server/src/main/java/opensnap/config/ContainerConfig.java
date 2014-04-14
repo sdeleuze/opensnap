@@ -16,12 +16,13 @@
 
 package opensnap.config;
 
-import org.apache.catalina.connector.Connector;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class ContainerConfig implements EmbeddedServletContainerCustomizer {
@@ -31,13 +32,14 @@ public class ContainerConfig implements EmbeddedServletContainerCustomizer {
 
 		if(container instanceof TomcatEmbeddedServletContainerFactory) {
 			TomcatEmbeddedServletContainerFactory factory = (TomcatEmbeddedServletContainerFactory) container;
+			factory.setSessionTimeout(1, TimeUnit.DAYS);
 			factory.addContextCustomizers((context) -> {
 				context.addMimeMapping("dart", "application/dart");
 			});
 			factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
-					connector.setProperty("compression", "on");
-					connector.setProperty("compressionMinSize", "2048");
-					connector.setProperty("compressableMimeType", "text/html,text/css,application/javascript,application/dart");
+				connector.setProperty("compression", "on");
+				connector.setProperty("compressionMinSize", "2048");
+				connector.setProperty("compressableMimeType", "text/html,text/css,application/javascript,application/dart");
 			});
 		}
 	}
