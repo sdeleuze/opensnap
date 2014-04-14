@@ -1,12 +1,6 @@
 part of opensnap;
 
-@NgComponent(
-    selector: 'signin',
-    templateUrl: 'packages/opensnap/component/signin.html',
-    cssUrl: 'packages/opensnap/component/signin.css',
-    applyAuthorStyles: true,
-    publishAs: 'ctrl'
-)
+@NgComponent(selector: 'signin', templateUrl: 'packages/opensnap/component/signin.html', cssUrl: 'packages/opensnap/component/signin.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class SigninComponent {
 
   User user;
@@ -14,18 +8,17 @@ class SigninComponent {
   UserService _userService;
   Router _router;
   bool isNewUser = false;
-  
+
   SigninComponent(this._userService, this._router) {
     user = new User();
   }
 
   submit() {
-    if (isNewUser) _signup();
-    else _authenticate();
+    if (isNewUser) _signup(); else _authenticate();
   }
 
   _signup() {
-    if(user.password != passwordToVerify) {
+    if (user.password != passwordToVerify) {
       window.alert("Password mismatch");
       return;
     }
@@ -36,9 +29,7 @@ class SigninComponent {
   }
 
   Future _authenticate() {
-    return _userService.signin(user)
-        .then((bool status) => _router.go('photo', new Map())
-    ).catchError((_) => window.alert('Error during login'));
+    return _userService.signin(user).then((bool status) => _router.go('photo', new Map())).catchError((_) => window.alert('Error during login'));
   }
 
   signupMode(MouseEvent e) {

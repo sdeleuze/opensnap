@@ -30,7 +30,7 @@ main() {
   Logger.root.onRecord.listen((LogRecord r) {
     window.console.log('${r.loggerName}(${r.level}): ${r.message}');
   });
-  
+
   ngBootstrap(module: new OpenSnapModule());
-  
+
 }
