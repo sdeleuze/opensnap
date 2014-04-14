@@ -20,7 +20,6 @@ part "service/snap_service.dart";
 part "service/user_service.dart";
 part "service/stomp_client_service.dart";
 part "domain.dart";
-part "events.dart";
 part "routing.dart";
 
 Function listEq = const ListEquality().equals;

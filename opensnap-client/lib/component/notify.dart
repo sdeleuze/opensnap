@@ -8,17 +8,16 @@ class NotifyComponent {
 
   NotifyComponent(this._snapService) {
     notifications = new List<Notification>();
-    _snapService.onEvent.listen((SnapEvent event) {
-      if (event.type == SnapEvent.RECEIVED) {
-        Notification notification = new Notification("New snap ${event.snap.id} received!");
-        notifications.add(notification);
-        new Timer(new Duration(seconds:5), () => notifications.remove(notification));
-      } else if (event.type == SnapEvent.SENT) {
-        // TODO Handle multiple recipients
-        Notification notification = new Notification("Snap ${event.snap.id} sent to ${event.snap.recipients.first.username}!");
-        notifications.add(notification);
-        new Timer(new Duration(seconds:5), () => notifications.remove(notification));
-      }
+    _snapService.onReceived.listen((Snap snap) {
+      Notification notification = new Notification("New snap ${snap.id} received!");
+      notifications.add(notification);
+      new Timer(new Duration(seconds:5), () => notifications.remove(notification));
+    });
+    _snapService.onSent.listen((Snap snap) {
+      // TODO Handle multiple recipients
+      Notification notification = new Notification("Snap ${snap.id} sent to ${snap.recipients.first.username}!");
+      notifications.add(notification);
+      new Timer(new Duration(seconds:5), () => notifications.remove(notification));
     });
   }
 }

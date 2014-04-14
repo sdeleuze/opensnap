@@ -16,13 +16,8 @@ class NavbarComponent {
 
   NavbarComponent(this._userService, this._snapService, this._router) {
     snapsCount = 0;
-    _userService.onEvent.listen((UserEvent event) {
-      if (event.type == UserEvent.LOGIN) {
-        signedInUser = event.user;
-      } else if (event.type == UserEvent.LOGOUT) {
-        signedInUser = null;
-      }
-    });
+    _userService.onLogin.listen((User u) => signedInUser = u);
+    _userService.onLogout.listen((_) => signedInUser = null);
   }
 
   void goToReceived(MouseEvent e) {

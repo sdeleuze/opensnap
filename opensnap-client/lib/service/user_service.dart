@@ -2,9 +2,15 @@ part of opensnap;
 
 class UserService {
 
+  Stream get onCreated => _createdEvents.stream;
+  Stream get onLogin => _loginEvents.stream;
+  Stream get onLogout => _logoutEvents.stream;
+  
   List<User> get users => _users;
-
-  Stream get onEvent => _events.stream;
+  
+  StreamController _createdEvents = new StreamController.broadcast();
+  StreamController _loginEvents = new StreamController.broadcast();
+  StreamController _logoutEvents = new StreamController.broadcast();
 
   int get createdUserCount => _createdUserCount;
 
@@ -13,31 +19,26 @@ class UserService {
   bool get isAuthenticated => _authenticatedUser != null;
 
   StompClientService _client;
-  StreamController _events = new StreamController.broadcast();
   Http _http;
   User _authenticatedUser;
   int _createdUserCount = 0;
   List<User> _users = new List();
 
   UserService(this._client, this._http) {
-    onEvent.listen((UserEvent event) {
-      if (event.type == UserEvent.LOGIN) {
-        _client.jsonSubscribe("/topic/user-created", (_) {
-          User user = new User.fromJsonMap(_);
-          _createdUserCount++;
-          _users.add(user);
-          _events.add(new UserEvent(UserEvent.CREATED, user));
-        });
-        getAllUsers().then((List<User> users) {
-          _users = users;
-        });
-      }
+    onLogin.listen((_) {      
+      _client.jsonSubscribe("/topic/user-created", (_) {
+        User user = new User.fromJsonMap(_);
+        _createdUserCount++;
+        _users.add(user);
+        _createdEvents.add(user);
+      });
+      getAllUsers().then((List<User> users) {
+        _users = users;
+      });
     });
-    _client.onEvent.listen((StompClientEvent event) {
-      if (event.type == StompClientEvent.DISCONNECTED) {
-        _events.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
-        _authenticatedUser = null;
-      }
+    _client.onDisconnected.listen((_) {
+      _logoutEvents.add(_authenticatedUser);
+      _authenticatedUser = null;
     });
   }
 
@@ -54,7 +55,7 @@ class UserService {
         'Content-Type' : 'application/x-www-form-urlencoded'
     }).then((HttpResponse response) => _client.connectWebsocket().then((_) => getAuthenticatedUser().then((User u) {
       _authenticatedUser = u;
-      _events.add(new UserEvent(UserEvent.LOGIN, u));
+      _loginEvents.add(u);
     }))));
   }
 
@@ -64,7 +65,6 @@ class UserService {
 
   Future signout() {
     return _http.post('${window.location.origin}/logout', '').then((HttpResponse response) {
-      _events.add(new UserEvent(UserEvent.LOGOUT, _authenticatedUser));
       _authenticatedUser = null;
     }).then((_) {
       _client.disconnect();

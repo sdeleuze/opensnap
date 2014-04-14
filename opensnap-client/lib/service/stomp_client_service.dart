@@ -2,7 +2,8 @@ part of opensnap;
 
 class StompClientService {
 
-  Stream get onEvent => _events.stream;
+  Stream get onConnected => _connectedEvents.stream;
+  Stream get onDisconnected => _disconnectedEvents.stream;
 
   String get url {
     String url = window.location.origin;
@@ -17,9 +18,11 @@ class StompClientService {
     return "$url/websocket";
   }
 
+  StreamController _connectedEvents = new StreamController.broadcast();
+  StreamController _disconnectedEvents = new StreamController.broadcast();
+  
   StompClient _stompClient;
   int _connexionId = 0;
-  StreamController _events = new StreamController.broadcast();
   Logger _logger = new Logger('StompClientService');
   Router _router;
 
@@ -39,12 +42,12 @@ class StompClientService {
     _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
       window.alert(message);
     });
-    _events.add(new StompClientEvent(StompClientEvent.CONNECTED));
+    _connectedEvents.add(this._stompClient);
   }
 
   onDisconnect(StompClient client) {
     _logger.info("Websocket connection has been closed.");
-    _events.add(new StompClientEvent(StompClientEvent.DISCONNECTED));
+    _disconnectedEvents.add(this._stompClient);
     _router.go('signin', new Map());
   }
 
