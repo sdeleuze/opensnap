@@ -57,7 +57,7 @@ class NavbarComponent {
   }
 
   String get sentClass {
-    if (window.location.pathname.endsWith('/snaps')) return 'active'; else return '';
+    if (window.location.pathname.endsWith('/sent')) return 'active'; else return '';
   }
 
   String get adminClass {
