@@ -3,6 +3,11 @@ body {
     padding-top: 70px;
 }
 
+.navbar-nav > li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 a:link {color:#f0ad4e;}
 a:visited {color:#f0ad4e;}
 a:hover {color:#f0ad4e;}
