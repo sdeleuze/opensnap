@@ -3,9 +3,11 @@ body {
     padding-top: 70px;
 }
 
-.navbar-nav > li > a {
-  padding-top: 10px;
-  padding-bottom: 10px;
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 a:link {color:#f0ad4e;}

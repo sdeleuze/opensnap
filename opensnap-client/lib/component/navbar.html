@@ -7,6 +7,6 @@
     <li ng-class="ctrl.adminClass" ng-if="ctrl.signedInUser.roles.contains('ADMIN')"><a href="#" ng-click="ctrl.goToAdmin($event)">Admin</a></li>
   </ul>
   <ul class="nav navbar-nav navbar-right" ng-if="ctrl.signedInUser != null">
-    <li><a href="#" ng-click="ctrl.signout()">Logout {{ctrl.signedInUser.username}} &nbsp;</a></li>
+    <li><a href="#" ng-click="ctrl.signout()" title="Logout {{ctrl.signedInUser.username}}">Logout &nbsp;</a></li>
   </ul>
 </nav>
