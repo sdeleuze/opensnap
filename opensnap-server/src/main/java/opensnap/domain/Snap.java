@@ -11,7 +11,7 @@ public class Snap {
 	private String photo;
 	private int duration;
 
-	Snap() {
+	public Snap() {
 
 	}
 
