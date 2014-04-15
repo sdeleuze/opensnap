@@ -10,16 +10,14 @@ class PhotoComponent extends NgShadowRootAware {
   DivElement photoComponent;
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
-  String data;
-
-  UserService _userService;
-
   List<User> get users => _userService.users;
-
+  bool isUploading = false;
+  
+  UserService _userService;
   SnapService _snapService;
   Router _router;
-
-  bool isUploading = false;
+  String _data;
+  
 
   PhotoComponent(this._userService, this._snapService, this._router) {
     if (!_userService.isAuthenticated) {
@@ -51,14 +49,15 @@ class PhotoComponent extends NgShadowRootAware {
 
   void takePicture() {
     canvas.context2D.drawImage(video, 0, 0);
-    data = canvas.toDataUrl('image/png');
+    _data = canvas.toDataUrl('image/png');
+    photo.src = _data;  
     video.hidden = true;
     photo.hidden = false;
     send.disabled = false;
   }
 
   void sendSnap() {
-    Snap snap = new Snap(_userService.authenticatedUser, [new User(sendTo.value)], data, int.parse(duration.value));
+    Snap snap = new Snap(_userService.authenticatedUser, [new User(sendTo.value)], _data, int.parse(duration.value));
     isUploading = true;
     _snapService.createSnap(snap).then((Snap snap) {
       isUploading = false;
