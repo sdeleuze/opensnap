@@ -1,27 +1,19 @@
 part of opensnap;
 
 @NgComponent(selector: 'snaps-received', templateUrl: 'packages/opensnap/component/snaps_received.html', cssUrl: 'packages/opensnap/component/snaps_received.css', applyAuthorStyles: true, publishAs: 'ctrl')
-class SnapsReceivedComponent {
+class SnapsReceivedComponent extends NgShadowRootAware {
 
   ImageElement photo;
-  DivElement photoGroup;
-  DivElement progress;
 
   SnapService _snapService;
   UserService _userService;
   Router _router;
 
-  int progressValue;
-  int maxValue;
-
+  int progressValue = 0;
+  int maxValue = 100;
   bool displayPhoto = false;
-  String imgData = "";
-
-  bool get hasSnaps => !this._snapService.snapsReceived.isEmpty;
-
   List<Snap> get snaps => this._snapService.snapsReceived;
-
-  bool get hasImgData => !this.imgData.isEmpty;
+  bool get hasSnaps => !this._snapService.snapsReceived.isEmpty;
 
   SnapsReceivedComponent(this._snapService, this._userService, this._router) {
     if (!_userService.isAuthenticated) {
@@ -29,11 +21,15 @@ class SnapsReceivedComponent {
       return;
     }
   }
+  
+  void onShadowRoot(ShadowRoot shadowRoot) {
+    photo = shadowRoot.querySelector("#photo");
+  }
 
   void viewSnap(Snap partialSnap) {
     // Retreive full snap with photo
     _snapService.getSnapById(partialSnap.id).then((Snap s) {
-      imgData = s.photo;
+      photo.src = s.photo;
       maxValue = s.duration * 1000;
       progressValue = 10;
       displayPhoto = true;
@@ -42,12 +38,14 @@ class SnapsReceivedComponent {
           _snapService.deleteSnap(s);
           snaps.remove(s);
           displayPhoto = false;
-          imgData = "";
+          photo.src = "";
           t.cancel();
         }
         progressValue = progressValue + 10;
       });
     });
   }
-
+  
+  String get photoClass => displayPhoto ? "" : "hide";   
+  
 }

@@ -1,3 +1,7 @@
 .list-group-item {
   cursor: pointer;
 }
+
+.hide {
+  display: none;
+}

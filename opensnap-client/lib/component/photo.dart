@@ -7,7 +7,6 @@ class PhotoComponent extends NgShadowRootAware {
   CanvasElement canvas;
   ImageElement photo;
   MediaStream stream;
-  DivElement photoComponent;
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
   List<User> get users => _userService.users;
@@ -27,7 +26,6 @@ class PhotoComponent extends NgShadowRootAware {
   }
 
   void onShadowRoot(ShadowRoot shadowRoot) {
-    photoComponent = shadowRoot.querySelector("#photo-component");
     video = shadowRoot.querySelector("#video");
     canvas = shadowRoot.querySelector("#canvas");
     photo = shadowRoot.querySelector("#photo");
@@ -38,11 +36,11 @@ class PhotoComponent extends NgShadowRootAware {
     photo.hidden = true;
     window.navigator.getUserMedia(audio: false, video: true).then((s) {
       stream = s;
-      video.src = Url.createObjectUrlFromStream(s);
       video.onCanPlay.listen((e) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
       });
+      video.src = Url.createObjectUrlFromStream(s);
     });
 
   }
