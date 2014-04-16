@@ -6,7 +6,6 @@ class PhotoComponent extends NgShadowRootAware {
   VideoElement video;
   CanvasElement canvas;
   ImageElement photo;
-  MediaStream stream;
   ButtonElement takePhoto, send;
   SelectElement sendTo, duration;
   List<User> get users => _userService.users;
@@ -36,15 +35,19 @@ class PhotoComponent extends NgShadowRootAware {
     send = shadowRoot.querySelector("#send");
     photo.hidden = true;
     window.navigator.getUserMedia(audio: false, video: true).then((s) {
-      stream = s;
-      video.onCanPlay.listen((e) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        isReady = true;
-      });
       video.src = Url.createObjectUrlFromStream(s);
+      if (video.readyState >= 3) {
+        canPlay();
+      } else {
+        video.onCanPlay.listen((e) => canPlay()).onError((_) => window.alert("Unknown error while getting the webcam stream!"));
+      }
     });
-
+  }
+    
+  void canPlay() {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    isReady = true;
   }
 
   void takePicture() {
