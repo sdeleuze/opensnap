@@ -11,6 +11,7 @@ class PhotoComponent extends NgShadowRootAware {
   SelectElement sendTo, duration;
   List<User> get users => _userService.users;
   bool isUploading = false;
+  bool isReady = false;
   
   UserService _userService;
   SnapService _snapService;
@@ -39,6 +40,7 @@ class PhotoComponent extends NgShadowRootAware {
       video.onCanPlay.listen((e) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
+        isReady = true;
       });
       video.src = Url.createObjectUrlFromStream(s);
     });
@@ -46,6 +48,10 @@ class PhotoComponent extends NgShadowRootAware {
   }
 
   void takePicture() {
+    if(!isReady) {
+      window.alert("Please authorize OpenSnap to use you webcam before taking a photo ...");
+      return;
+    }
     canvas.context2D.drawImage(video, 0, 0);
     _data = canvas.toDataUrl('image/png');
     photo.src = _data;  
