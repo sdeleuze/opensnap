@@ -19,7 +19,7 @@ class SigninComponent {
 
   _signup() {
     if (user.password != passwordToVerify) {
-      window.alert("Password mismatch");
+      window.alert('Password mismatch');
       return;
     }
     this._userService.signup(user).then((_) {

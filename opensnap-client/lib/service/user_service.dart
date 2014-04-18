@@ -26,7 +26,7 @@ class UserService {
 
   UserService(this._client, this._http) {
     onLogin.listen((_) {      
-      _client.jsonSubscribe("/topic/user-created", (_) {
+      _client.jsonSubscribe('/topic/user-created', (_) {
         User user = new User.fromJsonMap(_);
         _createdUserCount++;
         _users.add(user);
@@ -43,11 +43,11 @@ class UserService {
   }
 
   Future<User> getAuthenticatedUser() {
-    return _client.jsonSubscribeRequest("/app/usr/authenticated", (_) => new User.fromJsonMap(_));
+    return _client.jsonSubscribeRequest('/app/usr/authenticated', (_) => new User.fromJsonMap(_));
   }
 
   Future<List<User>> getAllUsers() {
-    return _client.jsonSubscribeRequest("/app/usr/all");
+    return _client.jsonSubscribeRequest('/app/usr/all');
   }
 
   Future signin(User user) {

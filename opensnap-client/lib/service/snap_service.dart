@@ -24,16 +24,16 @@ class SnapService {
 
   SnapService(this._client, this._userService) {
     _userService.onLogin.listen((_) {
-      _client.jsonSubscribe("/user/queue/snap-received", (_) {
+      _client.jsonSubscribe('/user/queue/snap-received', (_) {
         Snap snap = new Snap.fromJsonMap(_);
         _snapsReceived.add(snap);
         _receivedEvents.add(snap);
       });
-      _client.jsonSubscribe("/topic/snap-created", (_) {
+      _client.jsonSubscribe('/topic/snap-created', (_) {
         _createdSnapCount++;
         _createdEvents.add(new Snap.fromJsonMap(_));
       });
-      _client.jsonSubscribe("/user/queue/snap-deleted", (_) {
+      _client.jsonSubscribe('/user/queue/snap-deleted', (_) {
         Snap snap = new Snap.fromJsonMap(_);
         _snapsSent.remove(snap);
         _deletedEvents.add(snap);
@@ -48,18 +48,18 @@ class SnapService {
   }
 
   Future<Snap> createSnap(Snap snap) {
-    return _client.jsonMessageRequest("/app/snap/create", snap, "/user/queue/snap-created", (_) => new Snap.fromJsonMap(_)).then((Snap snap) {
+    return _client.jsonMessageRequest('/app/snap/create', snap, '/user/queue/snap-created', (_) => new Snap.fromJsonMap(_)).then((Snap snap) {
       _snapsSent.add(snap);
       _sentEvents.add(snap);
     });
   }
 
   Future<Snap> getSnapById(int id) {
-    return _client.jsonSubscribeRequest("/app/snap/id/$id", (_) => new Snap.fromJsonMap(_));
+    return _client.jsonSubscribeRequest('/app/snap/id/$id', (_) => new Snap.fromJsonMap(_));
   }
 
   Future<List<Snap>> getReceivedSnaps() {
-    return _client.jsonSubscribeRequest("/app/snap/received", (_) {
+    return _client.jsonSubscribeRequest('/app/snap/received', (_) {
       List<Snap> snaps = new List<Snap>();
       for (Map map in _)
         snaps.add(new Snap.fromJsonMap(map));
@@ -68,7 +68,7 @@ class SnapService {
   }
 
   Future<List<Snap>> getSentSnaps() {
-    return _client.jsonSubscribeRequest("/app/snap/sent", (_) {
+    return _client.jsonSubscribeRequest('/app/snap/sent', (_) {
       List<Snap> snaps = new List<Snap>();
       for (Map map in _)
         snaps.add(new Snap.fromJsonMap(map));

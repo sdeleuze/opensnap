@@ -9,7 +9,7 @@ class NotifyComponent {
   NotifyComponent(this._snapService) {
     notifications = new List<Notification>();
     _snapService.onReceived.listen((Snap snap) {
-      Notification notification = new Notification("New snap ${snap.id} received!");
+      Notification notification = new Notification('New snap ${snap.id} received!');
       notifications.add(notification);
       new Timer(new Duration(seconds:5), () => notifications.remove(notification));
     });

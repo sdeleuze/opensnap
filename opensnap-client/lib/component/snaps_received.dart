@@ -23,7 +23,7 @@ class SnapsReceivedComponent extends NgShadowRootAware {
   }
   
   void onShadowRoot(ShadowRoot shadowRoot) {
-    photo = shadowRoot.querySelector("#photo");
+    photo = shadowRoot.querySelector('#photo');
   }
 
   void viewSnap(Snap partialSnap) {
@@ -46,6 +46,6 @@ class SnapsReceivedComponent extends NgShadowRootAware {
     });
   }
   
-  String get photoClass => displayPhoto ? "" : "hide";   
+  String get photoClass => displayPhoto ? '' : 'hide';   
   
 }

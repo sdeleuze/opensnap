@@ -3,14 +3,11 @@ part of opensnap;
 @NgComponent(selector: 'admin', templateUrl: 'packages/opensnap/component/admin.html', applyAuthorStyles: true, publishAs: 'ctrl')
 class AdminComponent {
 
-  UserService _userService;
-
   int get userCount => _userService.createdUserCount;
-
-  SnapService _snapService;
-
   int get snapCount => _snapService.createdSnapCount;
-
+  
+  UserService _userService;
+  SnapService _snapService;
   Router _router;
 
   AdminComponent(this._userService, this._snapService, this._router) {

@@ -26,20 +26,20 @@ class PhotoComponent extends NgShadowRootAware {
   }
 
   void onShadowRoot(ShadowRoot shadowRoot) {
-    video = shadowRoot.querySelector("#video");
-    canvas = shadowRoot.querySelector("#canvas");
-    photo = shadowRoot.querySelector("#photo");
-    sendTo = shadowRoot.querySelector("#sendto");
-    duration = shadowRoot.querySelector("#duration");
-    takePhoto = shadowRoot.querySelector("#take-photo");
-    send = shadowRoot.querySelector("#send");
+    video = shadowRoot.querySelector('#video');
+    canvas = shadowRoot.querySelector('#canvas');
+    photo = shadowRoot.querySelector('#photo');
+    sendTo = shadowRoot.querySelector('#sendto');
+    duration = shadowRoot.querySelector('#duration');
+    takePhoto = shadowRoot.querySelector('#take-photo');
+    send = shadowRoot.querySelector('#send');
     photo.hidden = true;
     window.navigator.getUserMedia(audio: false, video: true).then((s) {
       video.src = Url.createObjectUrlFromStream(s);
       if (video.readyState >= 3) {
         canPlay();
       } else {
-        video.onCanPlay.listen((e) => canPlay()).onError((_) => window.alert("Unknown error while getting the webcam stream!"));
+        video.onCanPlay.listen((e) => canPlay()).onError((_) => window.alert('Unknown error while getting the webcam stream!'));
       }
     });
   }
@@ -52,7 +52,7 @@ class PhotoComponent extends NgShadowRootAware {
 
   void takePicture() {
     if(!isReady) {
-      window.alert("Please authorize OpenSnap to use you webcam before taking a photo ...");
+      window.alert('Please authorize OpenSnap to use you webcam before taking a photo ...');
       return;
     }
     canvas.context2D.drawImage(video, 0, 0);

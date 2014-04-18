@@ -7,15 +7,15 @@ class StompClientService {
 
   String get url {
     String url = window.location.origin;
-    if (url.startsWith("https")) {
-      url = url.replaceFirst("https", "wss");
+    if (url.startsWith('https')) {
+      url = url.replaceFirst('https', 'wss');
     } else {
-      url = url.replaceFirst("http", "ws");
+      url = url.replaceFirst('http', 'ws');
     }
-    if (url.contains("cfapps.io")) {
+    if (url.contains('cfapps.io')) {
       url = "$url:4443";
     }
-    return "$url/websocket";
+    return '$url/websocket';
   }
 
   StreamController _connectedEvents = new StreamController.broadcast();
@@ -39,27 +39,27 @@ class StompClientService {
 
   onConnect(StompClient client, Map<String, String> headers) {
     _stompClient = client;
-    _stompClient.subscribeString(_id, "/user/queue/error", (Map<String, String> headers, String message) {
+    _stompClient.subscribeString(_id, '/user/queue/error', (Map<String, String> headers, String message) {
       window.alert(message);
     });
     _connectedEvents.add(this._stompClient);
   }
 
   onDisconnect(StompClient client) {
-    _logger.info("Websocket connection has been closed.");
+    _logger.info('Websocket connection has been closed.');
     _disconnectedEvents.add(this._stompClient);
     _router.go('signin', new Map());
   }
 
   onError(StompClient client, String message, String detail, Map<String, String> headers) {
-    window.alert("Error: $message");
+    window.alert('Error: $message');
     _logger.fine(message, detail);
 
   }
 
   onFault(StompClient client, error, stackTrace) {
-    window.alert("Unknown error: $error");
-    _logger.finer("Unknown error", error, stackTrace);
+    window.alert('Unknown error: $error');
+    _logger.finer('Unknown error', error, stackTrace);
   }
 
   Future jsonMessageRequest(String sendDestination, var object, String subscribeDestination, [var convert = null]) {
