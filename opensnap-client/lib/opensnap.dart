@@ -3,6 +3,7 @@ library opensnap;
 import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:stomp/stomp.dart';
 import 'package:stomp/websocket.dart' show connect;
 import 'package:angular/angular.dart';

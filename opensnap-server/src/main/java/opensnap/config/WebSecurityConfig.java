@@ -81,11 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
 				.authorizeRequests()
-					.antMatchers("/packages/**", "/css/**", "/fonts/**", "/index.html",
-							"/main.dart", "/main.dart.js", "main.dart.js.map", "main.dart.precompiled.js", "/view/*").permitAll()
 					.antMatchers("/autoconfig**", "/beans**", "/configprops**", "/dump**", "/env**", "/metrics**", "/mappings**", "/shutdown**", "/trace**").hasAuthority("ADMIN")
-					.antMatchers("/websocket").permitAll()
-					.anyRequest().authenticated();
+					.anyRequest().permitAll();
 	}
 
 	@Override
