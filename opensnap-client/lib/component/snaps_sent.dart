@@ -1,6 +1,6 @@
 part of opensnap;
 
-@NgComponent(selector: 'snaps-sent', templateUrl: 'packages/opensnap/component/snaps_sent.html', cssUrl: 'packages/opensnap/component/snaps_sent.css', applyAuthorStyles: true, publishAs: 'ctrl')
+@Component(selector: 'snaps-sent', templateUrl: 'packages/opensnap/component/snaps_sent.html', cssUrl: 'packages/opensnap/component/snaps_sent.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class SnapsSentComponent {
 
   SnapService _snapService;

@@ -1,6 +1,6 @@
 part of opensnap;
 
-@NgComponent(selector: 'navbar', templateUrl: 'packages/opensnap/component/navbar.html', applyAuthorStyles: true, publishAs: 'ctrl')
+@Component(selector: 'navbar', templateUrl: 'packages/opensnap/component/navbar.html', applyAuthorStyles: true, publishAs: 'ctrl')
 class NavbarComponent {
 
   User signedInUser;

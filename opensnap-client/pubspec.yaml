@@ -1,13 +1,17 @@
 name: opensnap
-version: 0.3.0
+version: 0.4.0
 dependencies:
-  angular: 0.9.10
+  angular: 0.10.0
   browser: any
   js: any
-  unittest: any
-  angular_ui: '>=0.2.2 <0.3.0'
+  angular_ui:
+    git: https://github.com/akserg/angular.dart.ui.git
   stomp: 0.7.2
   collection: any
   logging: any
   route_hierarchical: '>=0.4.17 <0.5.0'
+dev_dependencies:
+  unittest: any
+transformers:
+- angular
  

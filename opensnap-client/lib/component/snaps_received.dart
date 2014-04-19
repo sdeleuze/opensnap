@@ -1,7 +1,7 @@
 part of opensnap;
 
-@NgComponent(selector: 'snaps-received', templateUrl: 'packages/opensnap/component/snaps_received.html', cssUrl: 'packages/opensnap/component/snaps_received.css', applyAuthorStyles: true, publishAs: 'ctrl')
-class SnapsReceivedComponent extends NgShadowRootAware {
+@Component(selector: 'snaps-received', templateUrl: 'packages/opensnap/component/snaps_received.html', cssUrl: 'packages/opensnap/component/snaps_received.css', applyAuthorStyles: true, publishAs: 'ctrl')
+class SnapsReceivedComponent extends ShadowRootAware {
 
   ImageElement photo;
 
