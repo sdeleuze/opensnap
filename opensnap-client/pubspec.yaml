@@ -10,6 +10,7 @@ dependencies:
   collection: any
   logging: any
   route_hierarchical: '>=0.4.17 <0.5.0'
+  inject: any
 dev_dependencies:
   unittest: any
 transformers:

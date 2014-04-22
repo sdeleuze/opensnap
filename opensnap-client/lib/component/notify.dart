@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 @Component(selector: 'notify', templateUrl: 'packages/opensnap/component/notify.html', cssUrl: 'packages/opensnap/component/notify.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class NotifyComponent {
 

@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 @Component(selector: 'photo', templateUrl: 'packages/opensnap/component/photo.html', cssUrl: 'packages/opensnap/component/photo.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class PhotoComponent extends ShadowRootAware {
 

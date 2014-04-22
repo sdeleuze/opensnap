@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 @Component(selector: 'snaps-sent', templateUrl: 'packages/opensnap/component/snaps_sent.html', cssUrl: 'packages/opensnap/component/snaps_sent.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class SnapsSentComponent {
 

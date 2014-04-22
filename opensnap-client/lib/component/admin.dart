@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 @Component(selector: 'admin', templateUrl: 'packages/opensnap/component/admin.html', applyAuthorStyles: true, publishAs: 'ctrl')
 class AdminComponent {
 

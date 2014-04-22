@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 class SnapService {
 
   Stream get onCreated => _createdEvents.stream;

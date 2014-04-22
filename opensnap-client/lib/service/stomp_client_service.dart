@@ -1,5 +1,6 @@
 part of opensnap;
 
+@inject
 class StompClientService {
 
   Stream get onConnected => _connectedEvents.stream;
