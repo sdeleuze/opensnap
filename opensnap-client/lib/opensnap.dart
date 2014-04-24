@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:stomp/stomp.dart';
 import 'package:stomp/websocket.dart' show connect;
 import 'package:angular/angular.dart';
-import 'package:inject/inject.dart';
 import 'package:collection/equality.dart';
 import 'package:logging/logging.dart';
 

@@ -1,6 +1,6 @@
 part of opensnap;
 
-@inject
+@Injectable()
 @Component(selector: 'navbar', templateUrl: 'packages/opensnap/component/navbar.html', applyAuthorStyles: true, publishAs: 'ctrl')
 class NavbarComponent {
 

@@ -1,6 +1,6 @@
 part of opensnap;
 
-@inject
+@Injectable()
 class UserService {
 
   Stream get onCreated => _createdEvents.stream;
