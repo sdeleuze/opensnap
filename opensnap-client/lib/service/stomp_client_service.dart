@@ -69,7 +69,7 @@ class StompClientService {
     _stompClient.subscribeJson(id, subscribeDestination, (var headers, var message) {
       _stompClient.unsubscribe(id);
       convert == null ? c.complete(message) : c.complete(convert(message));
-    }, matcher: ALL);
+    });
     var json = (object == null) ? {
     } : (object is String || object is int) ? object : object.toJson();
     _stompClient.sendJson(sendDestination, json);
@@ -80,13 +80,13 @@ class StompClientService {
     var c = new Completer();
     _stompClient.subscribeJson(_id, destination, (var headers, var message) {
       convert == null ? c.complete(message) : c.complete(convert(message));
-    }, matcher: ALL);
+    });
     return c.future;
   }
 
   String jsonSubscribe(String destination, void onMessage(var message)) {
     String id = _id;
-    _stompClient.subscribeJson(_id, destination, (var headers, var message) => onMessage(message), matcher: ALL);
+    _stompClient.subscribeJson(_id, destination, (var headers, var message) => onMessage(message));
     return id;
   }
 

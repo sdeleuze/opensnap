@@ -1,6 +1,6 @@
 ext {
     javaVersion = '1.8';
-    springVersion = '4.0.3.RELEASE'
+    springVersion = '4.0.4.BUILD-SNAPSHOT'
     springSecurityVersion = '3.2.3.RELEASE'
     tomcatVersion = '8.0.5'
 }
@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE'
     }
 }
 
@@ -23,6 +23,8 @@ archivesBaseName = 'opensnap'
 
 repositories {
     mavenCentral()
+    maven { url 'http://repo.spring.io/snapshot' }
+
 }
 
 configurations {
