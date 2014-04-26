@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class SecurityChannelInterceptor extends ChannelInterceptorAdapter {
@@ -64,13 +65,18 @@ public class SecurityChannelInterceptor extends ChannelInterceptorAdapter {
 	}
 
 	protected boolean isAllowed(String destination, String username) {
-		User user = this.userService.getByUsername(username);
-		if(user == null) {
+		try {
+			User  user = this.userService.getByUsername(username).get();
+			if(user == null) {
+				return false;
+			}
+			List<String> userRoles = user.getRoles();
+			return browseMap(this.securityDefinitions, "/", destination, userRoles);
+		} catch (ExecutionException|InterruptedException e) {
+			logger.error(e.getMessage());
 			return false;
 		}
-		List<String> userRoles = user.getRoles();
 
-		return browseMap(this.securityDefinitions, "/", destination, userRoles);
 	}
 
 	private boolean browseMap(Map<String, Object> map, String destinationRoot, String destination, List<String> userRoles) {

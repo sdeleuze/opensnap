@@ -24,6 +24,7 @@ archivesBaseName = 'opensnap'
 repositories {
     mavenCentral()
     maven { url 'http://repo.spring.io/snapshot' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 
 }
 
@@ -37,7 +38,7 @@ dependencies {
     compile project(':opensnap-client')
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-remote-shell'
+    compile 'org.mongodb:mongo-java-driver:3.0.0-SNAPSHOT'
     compile 'org.springframework:spring-messaging:' + springVersion
     compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-websocket:' + springVersion

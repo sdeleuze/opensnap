@@ -44,11 +44,11 @@ class UserService {
   }
 
   Future<User> getAuthenticatedUser() {
-    return _client.jsonSubscribeRequest('/app/usr/authenticated', (_) => new User.fromJsonMap(_));
+    return _client.jsonMessageRequest('/app/usr/authenticated', null, '/user/queue/user-authenticated', (_) => new User.fromJsonMap(_));
   }
 
   Future<List<User>> getAllUsers() {
-    return _client.jsonSubscribeRequest('/app/usr/all');
+    return _client.jsonMessageRequest('/app/usr/all', null, '/user/queue/user-all');
   }
 
   Future signin(User user) {

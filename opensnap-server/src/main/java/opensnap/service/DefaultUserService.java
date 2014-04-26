@@ -1,7 +1,9 @@
 package opensnap.service;
 
 import opensnap.*;
+import opensnap.domain.Snap;
 import opensnap.domain.User;
+import opensnap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -9,17 +11,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class DefaultUserService implements UserService {
 
-	private List<User> users;
+	private UserRepository userRepository;
 	private SimpMessagingTemplate template;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public DefaultUserService(PasswordEncoder passwordEncoder) {
-		users = Collections.synchronizedList(new ArrayList<User>());
+	public DefaultUserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -29,38 +32,34 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Override
-	public User create(User user) {
+	public CompletableFuture<User> create(User user) {
 		Assert.hasLength(user.getUsername());
 		Assert.hasLength(user.getPassword());
-		Assert.isTrue(users.stream().noneMatch((u) -> u.getUsername().equals(user.getUsername())), "User " + user.getUsername() + " already exists!");
+		Assert.isTrue(userRepository.count("username", user.getUsername()) == 0, "User " + user.getUsername() + " already exists!");
 		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
-		users.add(user);
-		template.convertAndSend(Topic.USER_CREATED, user.withoutPasswordAndRoles());
-		return user;
+		CompletableFuture<User> futureUser = userRepository.insert(user);
+		futureUser.thenAccept(createdUser -> template.convertAndSend(Topic.USER_CREATED, createdUser.withoutPasswordAndRoles()));
+		return futureUser;
 	}
 
 	@Override
-	public User signup(User user) {
+	public CompletableFuture<User> signup(User user) {
 		user.setRoles(Arrays.asList("USER"));
 		return create(user);
 	}
 
 	@Override
-	public Boolean authenticate(User user) {
-		return users.contains(user);
+	public CompletableFuture<List<User>> getAllUsers() {
+		return userRepository.getAll();
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		return users;
+	public CompletableFuture<User> getByUsername(String username) {
+		return userRepository.getOne("username", username);
 	}
 
 	@Override
-	public User getByUsername(String username) {
-		synchronized (users) {
-			return users.stream().filter((s) -> s.getUsername().equals(username)).findFirst()
-					.orElseThrow(() -> new IllegalArgumentException("No user with username " + username + " found!"));
-		}
+	public Boolean exists(String username) {
+		return userRepository.count("username", username) > 0;
 	}
-
 }

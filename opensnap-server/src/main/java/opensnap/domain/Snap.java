@@ -1,21 +1,25 @@
 package opensnap.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.List;
 
 /** A snap is a photo + duration taken by an author, intended to be viewed by list of recipients **/
 public class Snap {
 
-	private int id;
+	private ObjectId objectId;
+	private Long id;
 	private User author;
 	private List<User> recipients;
 	private String photo;
-	private int duration;
+	private Integer duration;
 
 	public Snap() {
 
 	}
 
-	public Snap(int id, User author, List<User> recipients, String photo, int duration) {
+	public Snap(long id, User author, List<User> recipients, String photo, int duration) {
 		this.id = id;
 		this.author = author;
 		this.recipients = recipients;
@@ -56,9 +60,18 @@ public class Snap {
 		this.duration = duration;
 	}
 
-	public int getId() { return id; }
+	public long getId() { return id; }
 
-	public void setId(int id) { this.id = id; }
+	public void setId(long id) { this.id = id; }
+
+	@JsonProperty("_id")
+	public ObjectId getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(ObjectId objectId) {
+		this.objectId = objectId;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -78,7 +91,7 @@ public class Snap {
 
 	@Override
 	public int hashCode() {
-		int result = id;
+		int result = Long.valueOf(id).hashCode();;
 		result = 31 * result + (author != null ? author.hashCode() : 0);
 		result = 31 * result + (recipients != null ? recipients.hashCode() : 0);
 		result = 31 * result + (photo != null ? photo.hashCode() : 0);

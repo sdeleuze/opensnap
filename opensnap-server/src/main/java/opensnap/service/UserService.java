@@ -3,11 +3,12 @@ package opensnap.service;
 import opensnap.domain.User;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface UserService {
-	User create(User user);
-	User signup(User user);
-	Boolean authenticate(User user);
-	User getByUsername(String username);
-	List<User> getAllUsers();
+	CompletableFuture<User> create(User user);
+	CompletableFuture<User> signup(User user);
+	Boolean exists(String username);
+	CompletableFuture<User> getByUsername(String username);
+	CompletableFuture<List<User>> getAllUsers();
 }

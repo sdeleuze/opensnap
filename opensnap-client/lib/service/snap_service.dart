@@ -56,11 +56,11 @@ class SnapService {
   }
 
   Future<Snap> getSnapById(int id) {
-    return _client.jsonSubscribeRequest('/app/snap/id/$id', (_) => new Snap.fromJsonMap(_));
+    return _client.jsonMessageRequest('/app/snap/id/$id', null, '/user/queue/snap-by-id', (_) => new Snap.fromJsonMap(_));
   }
 
   Future<List<Snap>> getReceivedSnaps() {
-    return _client.jsonSubscribeRequest('/app/snap/received', (_) {
+    return _client.jsonMessageRequest('/app/snap/received', null, '/user/queue/snaps-received', (_) {
       List<Snap> snaps = new List<Snap>();
       for (Map map in _)
         snaps.add(new Snap.fromJsonMap(map));
@@ -69,7 +69,7 @@ class SnapService {
   }
 
   Future<List<Snap>> getSentSnaps() {
-    return _client.jsonSubscribeRequest('/app/snap/sent', (_) {
+    return _client.jsonMessageRequest('/app/snap/sent', null, '/user/queue/snaps-sent', (_) {
       List<Snap> snaps = new List<Snap>();
       for (Map map in _)
         snaps.add(new Snap.fromJsonMap(map));

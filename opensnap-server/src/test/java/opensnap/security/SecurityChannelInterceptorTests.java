@@ -24,6 +24,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 import static org.fest.assertions.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -38,8 +39,12 @@ public class SecurityChannelInterceptorTests {
 	@BeforeTest
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		when(userService.getByUsername("eric")).thenReturn(new User("eric", "3r1c", Arrays.asList("USER")));
-		when(userService.getByUsername("michel")).thenReturn(new User("michel", "m1ch3l", Arrays.asList("USER", "ADMIN")));
+		CompletableFuture<User> eric = new CompletableFuture<>();
+		eric.complete(new User("eric", "3r1c", Arrays.asList("USER")));
+		when(userService.getByUsername("eric")).thenReturn(eric);
+		CompletableFuture<User> michel = new CompletableFuture<>();
+		michel.complete(new User("michel", "m1ch3l", Arrays.asList("USER", "ADMIN")));
+		when(userService.getByUsername("michel")).thenReturn(michel);
 		this.interceptor = new SecurityChannelInterceptor(this.userService);
 		this.interceptor.loadConfiguration("test-security.yml");
 	}

@@ -5,6 +5,7 @@ import opensnap.domain.Snap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
@@ -19,42 +20,51 @@ import java.util.stream.Collectors;
 public class SnapController extends AbstractStompController {
 
 	private final SnapService snapService;
+	private final SimpMessagingTemplate template;
 
 	@Autowired
-	public SnapController(SnapService snapService) {
+	public SnapController(SnapService snapService, SimpMessagingTemplate template) {
 		this.snapService = snapService;
+		this.template = template;
 	}
 
 	@MessageMapping("/create")
-	@SendToUser(Queue.SNAP_CREATED)
-	Snap create(Snap snap) {
-		return snapService.create(snap);
+	void create(Snap snap, Principal principal) {
+		snapService.create(snap).thenAccept(createdSnap ->
+			template.convertAndSendToUser(principal.getName(), Queue.SNAP_CREATED, createdSnap)
+		);
 	}
 
-	@SubscribeMapping("/id/{id}")
-	Snap getById(@DestinationVariable int id) {
-		return snapService.getById(id);
+	@MessageMapping("/id/{id}")
+	void getById(@DestinationVariable Long id, Principal principal) {
+		snapService.getById(id).thenAccept(snap ->
+			template.convertAndSendToUser(principal.getName(), Queue.SNAP_BY_ID, snap)
+		);
 	}
 
-	@SubscribeMapping("/received")
-	List<Snap> getReceivedSnaps(Principal principal) {
-		return snapService.getSnapsFromRecipient(principal.getName())
-				.stream().map((s -> s.withoutPhotoAndRecipients())).collect(Collectors.toList());
+	@MessageMapping("/received")
+	void getReceivedSnaps(Principal principal) {
+		snapService.getSnapsFromRecipient(principal.getName()).thenAccept(snaps -> {
+			List<Snap> filteredSnaps = snaps.stream().map((s -> s.withoutPhotoAndRecipients())).collect(Collectors.toList());
+			template.convertAndSendToUser(principal.getName(), Queue.SNAPS_RECEIVED, filteredSnaps);
+		});
 	}
 
-	@SubscribeMapping("/sent")
-	List<Snap> getSentSnaps(Principal principal) {
-		return snapService.getSnapsFromAuthor(principal.getName())
-			.stream().map((s -> s.withoutPhoto())).collect(Collectors.toList());
+	@MessageMapping("/sent")
+	void getSentSnaps(Principal principal) {
+		snapService.getSnapsFromAuthor(principal.getName()).thenAccept(snaps -> {
+			List<Snap> filteredSnaps = snaps.stream().map((s -> s.withoutPhoto())).collect(Collectors.toList());
+			template.convertAndSendToUser(principal.getName(), Queue.SNAPS_SENT, filteredSnaps);
+		});
 	}
 
 	@SubscribeMapping("/delete/{id}")
-	void delete(@DestinationVariable int id) {
+	void delete(@DestinationVariable Long id) {
 		snapService.delete(id);
 	}
 
 	@SubscribeMapping("/delete-for-authenticated-user/{id}")
-	void deleteForUser(@DestinationVariable int id, Principal principal) {
+	void deleteForUser(@DestinationVariable Long id, Principal principal) {
 		snapService.delete(id, principal.getName());
 	}
 

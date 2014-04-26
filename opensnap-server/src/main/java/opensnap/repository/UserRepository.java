@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package opensnap;
+package opensnap.repository;
 
-public interface Queue {
-	final static String SNAP_RECEIVED = "/queue/snap-received";
-	final static String SNAP_CREATED = "/queue/snap-created";
-	final static String SNAP_BY_ID = "/queue/snap-by-id";
-	final static String SNAPS_SENT = "/queue/snaps-sent";
-	final static String SNAPS_RECEIVED = "/queue/snaps-received";
-	final static String SNAP_DELETED = "/queue/snap-deleted";
-	final static String USER_CREATED = "/queue/user-created";
-	final static String USER_AUTHENTICATED = "/queue/user-authenticated";
-	final static String USER_ALL = "/queue/user-all";
-	final static String ERROR = "/queue/error";
+import com.fasterxml.jackson.databind.ObjectMapper;
+import opensnap.domain.Snap;
+import opensnap.domain.User;
+import org.mongodb.MongoDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserRepository extends MongoRepository<User> {
+
+	@Autowired
+	public UserRepository(MongoDatabase db, ObjectMapper mapper) {
+		super(db, mapper, "users", User.class);
+
+	}
 }

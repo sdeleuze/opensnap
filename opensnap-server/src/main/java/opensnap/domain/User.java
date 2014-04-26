@@ -1,9 +1,13 @@
 package opensnap.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
+
 import java.util.List;
 
 public class User {
 
+	private ObjectId objectId;
 	private String username;
 	private String password;
 	private List<String> roles;
@@ -51,6 +55,15 @@ public class User {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	@JsonProperty("_id")
+	public ObjectId getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(ObjectId objectId) {
+		this.objectId = objectId;
 	}
 
 	@Override
