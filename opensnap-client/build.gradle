@@ -20,7 +20,7 @@ task pubClean(type: Delete) {
 task pubBuild(type: Exec) {
     executable 'pub'
     args 'build'
-    args '--mode=debug'
+//    args '--mode=debug'
 }
 
 task copyDartFiles(type: Copy, dependsOn: 'pubBuild') {
@@ -32,5 +32,5 @@ task copyDartFiles(type: Copy, dependsOn: 'pubBuild') {
 }
 
 jar.dependsOn pubBuild
-//jar.dependsOn copyDartFiles
+jar.dependsOn copyDartFiles
 clean.dependsOn pubClean

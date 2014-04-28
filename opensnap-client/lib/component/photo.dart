@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'photo', templateUrl: './packages/opensnap/component/photo.html', cssUrl: './packages/opensnap/component/photo.css', applyAuthorStyles: true, publishAs: 'ctrl')
+@Component(selector: 'photo', templateUrl: 'packages/opensnap/component/photo.html', cssUrl: './packages/opensnap/component/photo.css', applyAuthorStyles: true, publishAs: 'ctrl')
 class PhotoComponent extends ShadowRootAware {
 
   VideoElement video;
