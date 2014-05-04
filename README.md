@@ -1,7 +1,13 @@
-# OpenSnap Spring and Dart demo
+OpenSnap is a sample reactive application based on:
+* Java 8, Spring Framework 4, Spring Boot and asynchronous MongoDB driver on serverside
+* Dart and AngularDart on client side
 
-Sample fullstack (client + server) Dart project.
-Based on : Spring Boot and Spring 4 on serverside and Dart and Angular.dart on client side
+STOMP messages over websocket are used for 2 ways communication between client and server.
+
+Slides of my Devoxx and MixIT talk "Reactive applications with Spring , AngularDart and Websocket"
+based on OpenSnap are available on [SpeakerDeck](https://speakerdeck.com/sdeleuze/reactive-applications-with-spring-angulardart-and-websocket).
+
+You can also try the [demo](http://opensnap.io/) (only Chrome supported for now).
 
 ## How to run it ?
 
@@ -25,7 +31,7 @@ Notes:
 
 Feel free to send pull requests !
 
-My reference development environnement is IntelliJ IDEA 13.1 + its Dart plugin.
+My reference development environment is IntelliJ IDEA 13.1 + its Dart plugin.
 You should :
  * import OpenSnap as a Gradle project
  * Open OpenSnap module settings and set Java project level to Java 8
