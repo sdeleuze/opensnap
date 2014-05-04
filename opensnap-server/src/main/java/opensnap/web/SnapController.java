@@ -36,7 +36,7 @@ public class SnapController extends AbstractStompController {
 	}
 
 	@MessageMapping("/id/{id}")
-	void getById(@DestinationVariable Long id, Principal principal) {
+	void getById(@DestinationVariable String id, Principal principal) {
 		snapService.getById(id).thenAccept(snap ->
 			template.convertAndSendToUser(principal.getName(), Queue.SNAP_BY_ID, snap)
 		);
@@ -59,12 +59,12 @@ public class SnapController extends AbstractStompController {
 	}
 
 	@SubscribeMapping("/delete/{id}")
-	void delete(@DestinationVariable Long id) {
+	void delete(@DestinationVariable String id) {
 		snapService.delete(id);
 	}
 
 	@SubscribeMapping("/delete-for-authenticated-user/{id}")
-	void deleteForUser(@DestinationVariable Long id, Principal principal) {
+	void deleteForUser(@DestinationVariable String id, Principal principal) {
 		snapService.delete(id, principal.getName());
 	}
 

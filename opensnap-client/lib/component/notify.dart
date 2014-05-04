@@ -10,13 +10,13 @@ class NotifyComponent {
   NotifyComponent(this._snapService) {
     notifications = new List<Notification>();
     _snapService.onReceived.listen((Snap snap) {
-      Notification notification = new Notification('New snap ${snap.id} received!');
+      Notification notification = new Notification('New snap received from ${snap.author.username}!');
       notifications.add(notification);
       new Timer(new Duration(seconds:5), () => notifications.remove(notification));
     });
     _snapService.onSent.listen((Snap snap) {
       // TODO Handle multiple recipients
-      Notification notification = new Notification("Snap ${snap.id} sent to ${snap.recipients.first.username}!");
+      Notification notification = new Notification("Snap sent to ${snap.recipients.first.username}!");
       notifications.add(notification);
       new Timer(new Duration(seconds:5), () => notifications.remove(notification));
     });

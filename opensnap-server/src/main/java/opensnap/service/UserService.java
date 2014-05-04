@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 public interface UserService {
 	CompletableFuture<User> create(User user);
 	CompletableFuture<User> signup(User user);
-	Boolean exists(String username);
+	CompletableFuture<Boolean> exists(String username);
 	CompletableFuture<User> getByUsername(String username);
 	CompletableFuture<List<User>> getAllUsers();
 }

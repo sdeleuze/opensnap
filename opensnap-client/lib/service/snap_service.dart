@@ -55,7 +55,7 @@ class SnapService {
     });
   }
 
-  Future<Snap> getSnapById(int id) {
+  Future<Snap> getSnapById(String id) {
     return _client.jsonMessageRequest('/app/snap/id/$id', null, '/user/queue/snap-by-id', (_) => new Snap.fromJsonMap(_));
   }
 

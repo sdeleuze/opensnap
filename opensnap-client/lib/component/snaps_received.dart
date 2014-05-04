@@ -37,7 +37,6 @@ class SnapsReceivedComponent extends ShadowRootAware {
       new Timer.periodic(new Duration(milliseconds: 10), (Timer t) {
         if (progressValue > s.duration * 1000) {
           _snapService.deleteSnap(s);
-          snaps.remove(s);
           displayPhoto = false;
           photo.src = "";
           t.cancel();

@@ -9,9 +9,9 @@ import java.util.concurrent.CompletableFuture;
 public interface SnapService {
 
 	CompletableFuture<Snap> create(Snap snap);
-	CompletableFuture<Snap> getById(Long id);
+	CompletableFuture<Snap> getById(String id);
 	CompletableFuture<List<Snap>> getSnapsFromRecipient(String username);
 	CompletableFuture<List<Snap>> getSnapsFromAuthor(String username);
-	void delete(Long id);
-	void delete(Long id, String username);
+	void delete(String id);
+	void delete(String id, String username);
 }

@@ -16,10 +16,14 @@
 
 package opensnap.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import opensnap.security.SecurityChannelInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.config.StompBrokerRelayRegistration;
@@ -28,11 +32,15 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	private SecurityChannelInterceptor interceptor;
+
+	private ObjectMapper mapper;
 
 	@Value("${broker.enabled}")
 	private boolean brokerEnabled;
@@ -56,6 +64,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Autowired
 	public void setInterceptor(SecurityChannelInterceptor interceptor) {
 		this.interceptor = interceptor;
+	}
+
+	@Autowired
+	public void setMapper(ObjectMapper mapper) {
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -96,4 +109,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.addEndpoint("/websocket").setHandshakeHandler(new CustomHandshakeHandler());
 	}
 
+	@Override
+	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		converter.setObjectMapper(mapper);
+		messageConverters.add(converter);
+		return false;
+	}
 }

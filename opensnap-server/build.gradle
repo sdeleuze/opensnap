@@ -1,6 +1,6 @@
 ext {
     javaVersion = '1.8';
-    springVersion = '4.0.4.BUILD-SNAPSHOT'
+    springVersion = '4.0.3.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
     tomcatVersion = '8.0.5'
 }
@@ -38,7 +38,7 @@ dependencies {
     compile project(':opensnap-client')
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.mongodb:mongo-java-driver:3.0.0-SNAPSHOT'
+    compile 'org.mongodb:async-driver:3.0.0-SNAPSHOT'
     compile 'org.springframework:spring-messaging:' + springVersion
     compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-websocket:' + springVersion

@@ -1,7 +1,6 @@
 package opensnap.service;
 
 import opensnap.*;
-import opensnap.domain.Snap;
 import opensnap.domain.User;
 import opensnap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,11 @@ public class DefaultUserService implements UserService {
 	public CompletableFuture<User> create(User user) {
 		Assert.hasLength(user.getUsername());
 		Assert.hasLength(user.getPassword());
-		Assert.isTrue(userRepository.count("username", user.getUsername()) == 0, "User " + user.getUsername() + " already exists!");
-		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
-		CompletableFuture<User> futureUser = userRepository.insert(user);
+		CompletableFuture<User> futureUser = userRepository.count("username", user.getUsername()).thenCompose((count) -> {
+			Assert.isTrue(count == 0, "User " + user.getUsername() + " already exists!");
+			user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
+			return userRepository.insert(user);
+		});
 		futureUser.thenAccept(createdUser -> template.convertAndSend(Topic.USER_CREATED, createdUser.withoutPasswordAndRoles()));
 		return futureUser;
 	}
@@ -59,7 +60,7 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Override
-	public Boolean exists(String username) {
-		return userRepository.count("username", username) > 0;
+	public CompletableFuture<Boolean> exists(String username) {
+		return userRepository.count("username", username).thenApply(count -> count > 0);
 	}
 }

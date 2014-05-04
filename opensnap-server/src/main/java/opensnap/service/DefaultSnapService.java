@@ -1,15 +1,13 @@
 package opensnap.service;
 
-import com.mongodb.DBObject;
-
 import opensnap.Queue;
 import opensnap.Topic;
 import opensnap.domain.Snap;
 
 import opensnap.domain.User;
 import opensnap.repository.SnapRepository;
+import org.bson.types.ObjectId;
 import org.mongodb.Document;
-import org.mongodb.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultSnapService implements SnapService {
@@ -34,7 +31,6 @@ public class DefaultSnapService implements SnapService {
 
 	@Override
 	public CompletableFuture<Snap> create(Snap snap) {
-		snap.setId(snapCounter.getAndIncrement());
 		CompletableFuture<Snap> futureSnap = snapRepository.insert(snap);
 		futureSnap.thenAccept(createdSnap -> {
 			template.convertAndSend(Topic.SNAP_CREATED, snap.withoutPhoto());
@@ -46,8 +42,8 @@ public class DefaultSnapService implements SnapService {
 	}
 
 	@Override
-	public CompletableFuture<Snap> getById(Long id) {
-		return snapRepository.getOne("id", id);
+	public CompletableFuture<Snap> getById(String id) {
+		return snapRepository.getById(id);
 	}
 
 	@Override
@@ -61,12 +57,12 @@ public class DefaultSnapService implements SnapService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		snapRepository.remove("id", id);
+	public void delete(String id) {
+		snapRepository.remove(id);
 	}
 
 	@Override
-	public void delete(Long id, String username) {
+	public void delete(String id, String username) {
 		snapRepository.getOne("id", id).thenAccept(snap -> {
 			snap.getRecipients().removeIf(u -> u.getUsername().equals(username));
 

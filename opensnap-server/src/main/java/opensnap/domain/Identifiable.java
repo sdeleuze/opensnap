@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-package opensnap;
+package opensnap.domain;
 
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
 
-public class WebXml extends SpringBootServletInitializer {
+public class Identifiable {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+	protected ObjectId id;
+
+	public Identifiable() {
 	}
 
+	public Identifiable(ObjectId id) {
+		this.id = id;
+	}
+
+	@JsonProperty("_id")
+	public ObjectId getId() {
+		return id;
+	}
+
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
 }

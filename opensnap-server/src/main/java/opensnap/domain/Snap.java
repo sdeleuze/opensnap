@@ -6,10 +6,8 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 /** A snap is a photo + duration taken by an author, intended to be viewed by list of recipients **/
-public class Snap {
+public class Snap extends Identifiable {
 
-	private ObjectId objectId;
-	private Long id;
 	private User author;
 	private List<User> recipients;
 	private String photo;
@@ -19,8 +17,8 @@ public class Snap {
 
 	}
 
-	public Snap(long id, User author, List<User> recipients, String photo, int duration) {
-		this.id = id;
+	public Snap(ObjectId id, User author, List<User> recipients, String photo, int duration) {
+		super(id);
 		this.author = author;
 		this.recipients = recipients;
 		this.photo = photo;
@@ -60,19 +58,6 @@ public class Snap {
 		this.duration = duration;
 	}
 
-	public long getId() { return id; }
-
-	public void setId(long id) { this.id = id; }
-
-	@JsonProperty("_id")
-	public ObjectId getObjectId() {
-		return objectId;
-	}
-
-	public void setObjectId(ObjectId objectId) {
-		this.objectId = objectId;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -80,7 +65,7 @@ public class Snap {
 
 		Snap snap = (Snap) o;
 
-		if (id != snap.id) return false;
+		if (id != null ? !id.equals(snap.id) : snap.id != null) return false;
 		if (duration != snap.duration) return false;
 		if (author != null ? !author.equals(snap.author) : snap.author != null) return false;
 		if (photo != null ? !photo.equals(snap.photo) : snap.photo != null) return false;
@@ -91,12 +76,7 @@ public class Snap {
 
 	@Override
 	public int hashCode() {
-		int result = Long.valueOf(id).hashCode();;
-		result = 31 * result + (author != null ? author.hashCode() : 0);
-		result = 31 * result + (recipients != null ? recipients.hashCode() : 0);
-		result = 31 * result + (photo != null ? photo.hashCode() : 0);
-		result = 31 * result + duration;
-		return result;
+		return id.hashCode();
 	}
 
 	public Snap withoutPhoto() {
@@ -105,5 +85,15 @@ public class Snap {
 
 	public Snap withoutPhotoAndRecipients() {
 		return new Snap(this.id, author, null, null, duration);
+	}
+
+	@Override
+	public String toString() {
+		return "Snap{" +
+				"id=" + id +
+				", author=" + author +
+				", recipients=" + recipients +
+				", duration=" + duration +
+				'}';
 	}
 }
