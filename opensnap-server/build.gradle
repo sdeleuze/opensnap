@@ -1,6 +1,6 @@
 ext {
     javaVersion = '1.8';
-    springVersion = '4.1.0.BUILD-SNAPSHOT'
+    springVersion = '4.0.5.BUILD-SNAPSHOT'
     springSecurityVersion = '3.2.3.RELEASE'
     tomcatVersion = '8.0.5'
 }
@@ -42,7 +42,6 @@ dependencies {
     compile 'org.springframework:spring-messaging:' + springVersion
     compile 'org.springframework:spring-webmvc:' + springVersion
     compile 'org.springframework:spring-websocket:' + springVersion
-    compile 'org.projectreactor:reactor-tcp:1.0.1.RELEASE'
 
     compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
     compile 'org.springframework.security:spring-security-config:' + springSecurityVersion
