@@ -15,7 +15,7 @@
       
       <div class="form-group">
         <label for="duration" class="col-xs-offset-1 col-xs-3 control-label">Duration</label>
-        <select id="duration" class="col-xs-4 col-md-1 form-control">
+        <select id="duration" class="selectwidthauto form-control">
               <option value="1">1s</option>
               <option value="2">2s</option>
               <option value="3">3s</option>
@@ -30,7 +30,7 @@
       </div>
       <div class="form-group">
         <label for="sendto" class="col-xs-offset-1 col-xs-3 control-label">To</label>
-        <select id="sendto" class="col-xs-4 col-md-1 form-control">
+        <select id="sendto" class="selectwidthauto form-control">
           <option ng-repeat="user in ctrl.users">{{user.username}}</option>
         </select>
       </div>

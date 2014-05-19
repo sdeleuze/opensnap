@@ -35,6 +35,11 @@ a:active {color:#f0ad4e;}
   margin-bottom: 5px;
 }
 
+.selectwidthauto
+{
+     width:auto !important;
+}
+
 
 
 
