@@ -1,6 +1,6 @@
 ext {
     javaVersion = '1.8';
-    springVersion = '4.0.5.BUILD-SNAPSHOT'
+    springVersion = '4.0.5.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
     tomcatVersion = '8.0.5'
 }
