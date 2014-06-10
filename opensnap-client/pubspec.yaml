@@ -1,11 +1,10 @@
 name: opensnap
 version: 0.4.0
 dependencies:
-  angular: 0.11.0
+  angular: 0.12.0
   browser: any
   js: any
-  angular_ui:
-    git: https://github.com/akserg/angular.dart.ui.git
+  angular_ui: 0.5.1
   stomp: 0.7.2
   collection: any
   logging: any

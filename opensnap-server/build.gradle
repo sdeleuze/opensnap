@@ -8,9 +8,10 @@ ext {
 buildscript {
     repositories {
         mavenCentral()
+        maven { url 'http://repo.springsource.org/libs-staging-local' }
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.0.RELEASE'
     }
 }
 
@@ -24,6 +25,7 @@ archivesBaseName = 'opensnap'
 repositories {
     mavenCentral()
     maven { url 'http://repo.spring.io/snapshot' }
+    maven { url 'http://repo.springsource.org/libs-staging-local' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 
 }
