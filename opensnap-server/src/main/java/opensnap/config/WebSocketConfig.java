@@ -21,7 +21,6 @@ import opensnap.security.SecurityChannelInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -106,7 +105,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/websocket").setHandshakeHandler(new CustomHandshakeHandler());
+		registry.addEndpoint("/stomp").setHandshakeHandler(new CustomHandshakeHandler());
 	}
 
 	@Override
@@ -116,4 +115,5 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		messageConverters.add(converter);
 		return false;
 	}
+
 }

@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'navbar', templateUrl: 'packages/opensnap/component/navbar.html', applyAuthorStyles: true, publishAs: 'ctrl')
+@Component(selector: 'navbar', templateUrl: 'packages/opensnap/component/navbar.html', useShadowDom: false, publishAs: 'ctrl')
 class NavbarComponent {
 
   User signedInUser;

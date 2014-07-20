@@ -4,7 +4,7 @@ dependencies:
   angular: 0.12.0
   browser: any
   js: any
-  angular_ui: 0.5.1
+  angular_ui: 0.5.5
   stomp: 0.7.2
   collection: any
   logging: any

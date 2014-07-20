@@ -17,7 +17,6 @@
 package opensnap.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -34,4 +33,5 @@ public class PushStateConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/admin").setViewName("forward:/index.html");
 		registry.addViewController("/logout").setViewName("forward:/index.html");
 	}
+
 }

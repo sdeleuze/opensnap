@@ -40,6 +40,40 @@ a:active {color:#f0ad4e;}
      width:auto !important;
 }
 
+.alert-container {
+	position:absolute;
+    z-index:1;
+}
+
+#canvas {
+    display: none;
+}
+
+select {
+  width: 25%;
+}
+
+.pending {
+	position:absolute;
+    z-index:1;
+}
+
+input[type='text'], input[type='password'] {
+  width: 40%;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
 
 
 

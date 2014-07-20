@@ -16,7 +16,7 @@ class StompClientService {
     if (url.contains('cfapps.io')) {
       url = "$url:4443";
     }
-    return '$url/websocket';
+    return '$url/stomp';
   }
 
   StreamController _connectedEvents = new StreamController.broadcast();

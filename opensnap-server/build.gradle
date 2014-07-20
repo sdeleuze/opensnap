@@ -1,8 +1,8 @@
 ext {
     javaVersion = '1.8';
-    springVersion = '4.0.5.RELEASE'
+    springVersion = '4.0.6.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
-    tomcatVersion = '8.0.5'
+    tomcatVersion = '8.0.9'
 }
 
 buildscript {
@@ -11,7 +11,7 @@ buildscript {
         maven { url 'http://repo.springsource.org/libs-staging-local' }
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.0.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
     }
 }
 
