@@ -10,6 +10,13 @@ broker:
   login: ${BROKER_LOGIN:guest}
   password: ${BROKER_PASSWORD:guest}
   virtual-host: ${BROKER_VIRTUAL_HOST:}
+mongo:
+  host: ${MONGO_HOST:127.0.0.1}
+  port: ${MONGO_PORT:27017}
+  database: ${MONGO_DATABASE:opensnap}
+  user: ${MONGO_USER:}
+  password: ${MONGO_PASSWORD:}
+
 ---
 spring:
   profiles: default

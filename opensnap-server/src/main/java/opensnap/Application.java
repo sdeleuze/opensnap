@@ -16,6 +16,7 @@ import org.mongodb.async.MongoClient;
 import org.mongodb.async.MongoClients;
 import org.mongodb.async.MongoDatabase;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -35,6 +37,21 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "opensnap")
 public class Application extends SpringBootServletInitializer {
+
+	@Value("${mongo.host}")
+	private String mongoHost;
+
+	@Value("${mongo.port}")
+	private int mongoPort;
+
+	@Value("${mongo.database}")
+	private String mongoDatabase;
+
+	@Value("${mongo.user}")
+	private String mongoUser;
+
+	@Value("${mongo.password}")
+	private String mongoPassword;
 
 	public static void main(String[] args) {
 		SpringApplication.run(new Object[]{Application.class}, args);
@@ -60,12 +77,13 @@ public class Application extends SpringBootServletInitializer {
 
 	@Bean
 	public MongoClient mongoClient() throws UnknownHostException {
-		return MongoClients.create(new MongoClientURI("mongodb://localhost:27017/"), MongoClientOptions.builder().build());
+		String credentials = StringUtils.isEmpty(this.mongoUser) ? "" : this.mongoUser + ":" + this.mongoPassword + "@";
+		return MongoClients.create(new MongoClientURI("mongodb://" + credentials + this.mongoHost + ":" + this.mongoPort + "/" + this.mongoDatabase), MongoClientOptions.builder().build());
 	}
 
 	@Bean
 	public MongoDatabase mongoDatabase(MongoClient mongoClient) {
-		return mongoClient.getDatabase("opensnap");
+		return mongoClient.getDatabase(this.mongoDatabase);
 	}
 
 	@Primary
