@@ -105,7 +105,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/stomp").setHandshakeHandler(new CustomHandshakeHandler());
+		registry.addEndpoint("/sockjs").setHandshakeHandler(new CustomHandshakeHandler()).withSockJS();
 	}
 
 	@Override

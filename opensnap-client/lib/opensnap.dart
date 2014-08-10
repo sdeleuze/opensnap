@@ -5,10 +5,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:stomp/stomp.dart';
-import 'package:stomp/websocket.dart' show connect;
 import 'package:angular/angular.dart';
 import 'package:collection/equality.dart';
 import 'package:logging/logging.dart';
+import 'package:stomp_sockjs/stomp_sockjs.dart' as StompSockJs;
 
 part 'component/navbar.dart';
 part 'component/notify.dart';

@@ -6,6 +6,7 @@ dependencies:
   js: any
   angular_ui: 0.5.5
   stomp: 0.7.2
+  stomp_sockjs: 0.0.1
   collection: any
   logging: any
 dev_dependencies:
