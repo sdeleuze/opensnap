@@ -6,15 +6,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.mongodb.ConnectionString;
+import com.mongodb.async.client.MongoClient;
+import com.mongodb.async.client.MongoClients;
+import com.mongodb.async.client.MongoDatabase;
 import opensnap.domain.User;
 import opensnap.service.UserService;
 
 import org.bson.types.ObjectId;
-import org.mongodb.MongoClientOptions;
-import org.mongodb.MongoClientURI;
-import org.mongodb.async.MongoClient;
-import org.mongodb.async.MongoClients;
-import org.mongodb.async.MongoDatabase;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -78,7 +77,7 @@ public class Application extends SpringBootServletInitializer {
 	@Bean
 	public MongoClient mongoClient() throws UnknownHostException {
 		String credentials = StringUtils.isEmpty(this.mongoUser) ? "" : this.mongoUser + ":" + this.mongoPassword + "@";
-		return MongoClients.create(new MongoClientURI("mongodb://" + credentials + this.mongoHost + ":" + this.mongoPort + "/" + this.mongoDatabase), MongoClientOptions.builder().build());
+		return MongoClients.create(new ConnectionString("mongodb://" + credentials + this.mongoHost + ":" + this.mongoPort + "/" + this.mongoDatabase));
 	}
 
 	@Bean

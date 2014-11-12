@@ -2,8 +2,8 @@
   <form class="form-horizontal" ng-submit="">
     <fieldset>
     <div class="form-group">
-      <div id="photo-component" ng-click="ctrl.takePicture()">
-        <div ng-if="ctrl.isUploading" class="pending col-xs-offset-4 col-xs-4">
+      <div id="photo-component" ng-click="takePicture()">
+        <div ng-if="isUploading" class="pending col-xs-offset-4 col-xs-4">
           <progressbar animate="false" class="progress-striped active" max="100" value="100" type="danger"><i>Uploading ...</i></progressbar>
         </div>
         
@@ -31,13 +31,13 @@
       <div class="form-group">
         <label for="sendto" class="col-xs-offset-1 col-xs-3 control-label">To</label>
         <select id="sendto" class="selectwidthauto form-control">
-          <option ng-repeat="user in ctrl.users">{{user.username}}</option>
+          <option ng-repeat="user in users">{{user.username}}</option>
         </select>
       </div>
       <div class="form-group">
         <div class="col-xs-offset-1 col-xs-7">
-          <button id="take-photo" class="btn" ng-click="ctrl.takePicture()">Take photo</button>
-          <button id="send" class="btn" type="submit" disabled="disabled" ng-click="ctrl.sendSnap()">Send</button>
+          <button id="take-photo" class="btn" ng-click="takePicture()">Take photo</button>
+          <button id="send" class="btn" type="submit" disabled="disabled" ng-click="sendSnap()">Send</button>
         </div>
       </div>
     </fieldset>

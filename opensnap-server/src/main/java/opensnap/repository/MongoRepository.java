@@ -18,15 +18,19 @@ package opensnap.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.async.client.MongoCollection;
+import com.mongodb.async.client.MongoDatabase;
 import opensnap.domain.Identifiable;
+import org.bson.Document;
+import org.bson.codecs.DocumentCodec;
+import org.bson.codecs.EncoderContext;
+import org.bson.json.JsonWriter;
 import org.bson.types.ObjectId;
-import org.mongodb.Document;
-import org.mongodb.async.MongoCollection;
-import org.mongodb.async.MongoDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -70,7 +74,7 @@ public abstract class MongoRepository<T extends Identifiable> {
 		collection.find(new Document(key, value)).one().register((document, e) -> {
 				try {
 					if (document != null) {
-						future.complete(mapper.readValue(document.toString(), clazz));
+						future.complete(mapper.readValue(toJson(document), clazz));
 					} else {
 						logger.error("No document with attribute " + key + "=" + value + " found",  e);
 						future.cancel(true);
@@ -93,7 +97,7 @@ public abstract class MongoRepository<T extends Identifiable> {
 
 		collection.find(new Document(key, value)).forEach((document) -> {
 			try {
-				list.add(mapper.readValue(document.toString(), clazz));
+				list.add(mapper.readValue(toJson(document), clazz));
 			} catch (IOException e) {
 				logger.error("Error while parsing document in getSome() : " + document.toString(), e);
 			}
@@ -107,7 +111,7 @@ public abstract class MongoRepository<T extends Identifiable> {
 
 		collection.find(Document.valueOf("{_id:{ $exists: true }}")).forEach((document) -> {
 			try {
-				list.add(mapper.readValue(document.toString(), clazz));
+				list.add(mapper.readValue(toJson(document), clazz));
 			} catch (IOException e) {
 				logger.error("Error while parsing document in getAll() : " + document.toString(), e);
 			}
@@ -124,5 +128,11 @@ public abstract class MongoRepository<T extends Identifiable> {
 		CompletableFuture<Long> future = new CompletableFuture<>();
 		collection.find(new Document(key, value)).count().register((count, e) -> future.complete(count));
 		return future;
+	}
+
+	private String toJson(Document document) {
+		StringWriter writer = new StringWriter();
+		new DocumentCodec().encode(new JsonWriter(writer), document, EncoderContext.builder().build());
+		return writer.toString();
 	}
 }

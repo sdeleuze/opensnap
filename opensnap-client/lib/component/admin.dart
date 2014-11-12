@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'admin', templateUrl: 'packages/opensnap/component/admin.html', useShadowDom: false, publishAs: 'ctrl')
+@Component(selector: 'admin', templateUrl: 'packages/opensnap/component/admin.html', useShadowDom: false)
 class AdminComponent {
 
   int get userCount => _userService.createdUserCount;

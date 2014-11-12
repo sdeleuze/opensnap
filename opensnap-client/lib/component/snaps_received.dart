@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'snaps-received', templateUrl: 'packages/opensnap/component/snaps_received.html', useShadowDom: false, publishAs: 'ctrl')
+@Component(selector: 'snaps-received', templateUrl: 'packages/opensnap/component/snaps_received.html', useShadowDom: false)
 class SnapsReceivedComponent extends ShadowRootAware {
 
   ImageElement photo;
@@ -24,7 +24,7 @@ class SnapsReceivedComponent extends ShadowRootAware {
   }
   
   void onShadowRoot(var shadowRoot) {
-    photo = shadowRoot.querySelector('#photo');
+    photo = querySelector('#photo');
   }
 
   void viewSnap(Snap partialSnap) {

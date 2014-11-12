@@ -1,5 +1,5 @@
 <div class="alert-container col-xs-offset-8 col-xs-4">
-  <alert ng-repeat="notification in ctrl.notifications" type="notification.type" close="ctrl.closeAlert($index)">
+  <alert ng-repeat="notification in notifications" type="notification.type" close="closeAlert($index)">
     {{notification.message}}
   </alert>
 </div>

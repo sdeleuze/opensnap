@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'signin', templateUrl: 'packages/opensnap/component/signin.html', useShadowDom: false, publishAs: 'ctrl')
+@Component(selector: 'signin', templateUrl: 'packages/opensnap/component/signin.html', useShadowDom: false)
 class SigninComponent {
 
   User user;

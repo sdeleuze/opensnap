@@ -6,8 +6,8 @@ import opensnap.domain.Snap;
 
 import opensnap.domain.User;
 import opensnap.repository.SnapRepository;
-import org.bson.types.ObjectId;
-import org.mongodb.Document;
+import org.bson.Document;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

@@ -5,26 +5,26 @@
   based on <a href="http://projects.spring.io/spring-framework/">Spring</a>,
   <a href="https://angulardart.org/">AngularDart</a> and Websocket.</p>
   
-  <p>No account yet? <a href="#" ng-click="ctrl.signupMode($event)">Click here to signup</a>!</p>
+  <p>No account yet? <a href="#" ng-click="signupMode($event)">Click here to signup</a>!</p>
 </div>
 
 <div class="col-xs-offset-1 col-xs-11 col-md-5">
-    <form class="form-horizontal" ng-submit="ctrl.submit()">
-        <h4 ng-if="!ctrl.isNewUser">Please authenticate</h4>
-        <h4 ng-if="ctrl.isNewUser">Please signup</h4>
+    <form class="form-horizontal" ng-submit="submit()">
+        <h4 ng-if="!isNewUser">Please authenticate</h4>
+        <h4 ng-if="isNewUser">Please signup</h4>
         <fieldset>
         <div class="form-group">
-            <input id="inputUsername" type="text" ng-model="ctrl.user.username" class="form-control" placeholder="Username" />
+            <input id="inputUsername" type="text" ng-model="user.username" class="form-control" placeholder="Username" />
         </div>
         <div class="form-group">
-            <input id="inputPassword" type="password" ng-model="ctrl.user.password" class="form-control" placeholder="Password" />
+            <input id="inputPassword" type="password" ng-model="user.password" class="form-control" placeholder="Password" />
         </div>
-        <div class="form-group" ng-if="ctrl.isNewUser">
-            <input id="inputPasswordToVerify" type="password" ng-model="ctrl.passwordToVerify" class="form-control" placeholder="Password again please" />
+        <div class="form-group" ng-if="isNewUser">
+            <input id="inputPasswordToVerify" type="password" ng-model="passwordToVerify" class="form-control" placeholder="Password again please" />
         </div>
        <div class="form-group">
-          <button class="btn col-xs-offset-1 col-md-2 col-xs-3" type="submit" ng-if="!ctrl.isNewUser">Signin</button>
-          <button class="btn col-xs-offset-1 col-md-2 col-xs-3" type="submit" ng-if="ctrl.isNewUser">Signup</button>
+          <button class="btn col-xs-offset-1 col-md-2 col-xs-3" type="submit" ng-if="!isNewUser">Signin</button>
+          <button class="btn col-xs-offset-1 col-md-2 col-xs-3" type="submit" ng-if="isNewUser">Signup</button>
         </div>
       </div>
     </fieldset>

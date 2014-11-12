@@ -1,11 +1,11 @@
-<div ng-if="!ctrl.displayPhoto" class="list-group col-xs-offset-1 col-xs-5">
-  <span ng-if="!ctrl.hasSnaps">No Snap received yet!</span>
-  <a class="list-group-item" ng-repeat="snap in ctrl.snaps" ng-click="ctrl.viewSnap(snap)">
+<div ng-if="!displayPhoto" class="list-group col-xs-offset-1 col-xs-5">
+  <span ng-if="!hasSnaps">No Snap received yet!</span>
+  <a class="list-group-item" ng-repeat="snap in snaps" ng-click="viewSnap(snap)">
   <span class="badge">{{snap.duration}}s</span> View Snap {{snap.id}} from {{snap.author.username}}</a>
 </div>
-<div ng-class="ctrl.photoClass" class="col-xs-12">
+<div ng-class="photoClass" class="col-xs-12">
   <div class="col-xs-12">
-    <progressbar animate="false" type="danger" max="ctrl.maxValue" value="ctrl.progressValue" />
+    <progressbar animate="false" type="danger" max="maxValue" value="progressValue" />
   </div>
   <div>
     <img id="photo" src="" class="col-xs-12 col-md-offset-2 col-md-8"/>

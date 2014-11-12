@@ -17,8 +17,8 @@
 package opensnap.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.async.client.MongoDatabase;
 import opensnap.domain.Snap;
-import org.mongodb.async.MongoDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

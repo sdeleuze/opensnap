@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'notify', templateUrl: 'packages/opensnap/component/notify.html', useShadowDom: false, publishAs: 'ctrl')
+@Component(selector: 'notify', templateUrl: 'packages/opensnap/component/notify.html', useShadowDom: false)
 class NotifyComponent {
 
   SnapService _snapService;

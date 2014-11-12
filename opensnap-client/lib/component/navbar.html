@@ -1,12 +1,12 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <a ng-if="ctrl.signedInUser == null" class="navbar-brand">OpenSnap</a>
-  <ul class="nav navbar-nav" ng-if="ctrl.signedInUser != null">
-    <li ng-class="ctrl.photoClass"><a href="#" ng-click="ctrl.goToPhoto($event)">Photo</a></li>
-    <li ng-class="ctrl.sentClass"><a href="#" ng-click="ctrl.goToSent($event)">Sent ({{ctrl.snapsSent.length}})</a></li>
-    <li ng-class="ctrl.receivedClass"><a href="#" ng-click="ctrl.goToReceived($event)">Received ({{ctrl.snapsReceived.length}})</a></li>
-    <li ng-class="ctrl.adminClass" ng-if="ctrl.signedInUser.roles.contains('ADMIN')"><a href="#" ng-click="ctrl.goToAdmin($event)">Admin</a></li>
+  <a ng-if="signedInUser == null" class="navbar-brand">OpenSnap</a>
+  <ul class="nav navbar-nav" ng-if="signedInUser != null">
+    <li ng-class="photoClass"><a href="#" ng-click="goToPhoto($event)">Photo</a></li>
+    <li ng-class="sentClass"><a href="#" ng-click="goToSent($event)">Sent ({{snapsSent.length}})</a></li>
+    <li ng-class="receivedClass"><a href="#" ng-click="goToReceived($event)">Received ({{snapsReceived.length}})</a></li>
+    <li ng-class="adminClass" ng-if="signedInUser.roles.contains('ADMIN')"><a href="#" ng-click="goToAdmin($event)">Admin</a></li>
   </ul>
-  <ul class="nav navbar-nav navbar-right" ng-if="ctrl.signedInUser != null">
-    <li><a href="#" ng-click="ctrl.signout()" title="Logout {{ctrl.signedInUser.username}}">Logout &nbsp;</a></li>
+  <ul class="nav navbar-nav navbar-right" ng-if="signedInUser != null">
+    <li><a href="#" ng-click="signout()" title="Logout {{signedInUser.username}}">Logout &nbsp;</a></li>
   </ul>
 </nav>

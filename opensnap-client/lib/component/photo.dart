@@ -1,7 +1,7 @@
 part of opensnap;
 
 @Injectable()
-@Component(selector: 'photo', templateUrl: 'packages/opensnap/component/photo.html', useShadowDom: false, publishAs: 'ctrl')
+@Component(selector: 'photo', templateUrl: 'packages/opensnap/component/photo.html', useShadowDom: false)
 class PhotoComponent extends ShadowRootAware {
 
   VideoElement video;
@@ -27,13 +27,13 @@ class PhotoComponent extends ShadowRootAware {
   }
 
   void onShadowRoot(var shadowRoot) {
-    video = shadowRoot.querySelector('#video');
-    canvas = shadowRoot.querySelector('#canvas');
-    photo = shadowRoot.querySelector('#photo');
-    sendTo = shadowRoot.querySelector('#sendto');
-    duration = shadowRoot.querySelector('#duration');
-    takePhoto = shadowRoot.querySelector('#take-photo');
-    send = shadowRoot.querySelector('#send');
+    video = querySelector('#video');
+    canvas = querySelector('#canvas');
+    photo = querySelector('#photo');
+    sendTo = querySelector('#sendto');
+    duration = querySelector('#duration');
+    takePhoto = querySelector('#take-photo');
+    send = querySelector('#send');
     photo.hidden = true;
     window.navigator.getUserMedia(audio: false, video: true).then((s) {
       video.src = Url.createObjectUrlFromStream(s);
@@ -53,7 +53,7 @@ class PhotoComponent extends ShadowRootAware {
 
   void takePicture() {
     if(!isReady) {
-      window.alert('Please authorize OpenSnap to use you webcam before taking a photo ...');
+      window.alert('');
       return;
     }
     canvas.context2D.drawImage(video, 0, 0);
